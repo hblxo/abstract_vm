@@ -6,7 +6,7 @@
 /*   By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 10:35:50 by hbouchet          #+#    #+#             */
-/*   Updated: 2019/02/20 13:07:39 by hbouchet         ###   ########.fr       */
+/*   Updated: 2019/02/23 14:55:19 by hbouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 class Lexer {
 public: 
-    class BadArgumentsException;
+    // class BadArgumentsException;
 
     Lexer(void); 
     Lexer(int argc, char **argv);
@@ -34,15 +34,15 @@ private:
 
 };
 
-class Lexer::BadArgumentsException : public std::exception {
-public:
-    BadArgumentsException(void);
-    BadArgumentsException(BadArgumentsException const & src);
-    ~BadArgumentsException(void) throw();
-    virtual const char* what() const throw();
+// class Lexer::BadArgumentsException : public std::exception {
+// public:
+//     BadArgumentsException(void);
+//     BadArgumentsException(BadArgumentsException const & src);
+//     ~BadArgumentsException(void) throw();
+//     virtual const char* what() const throw();
 
-	BadArgumentsException &		operator=(BadArgumentsException const &);
-};
+// 	BadArgumentsException &		operator=(BadArgumentsException const &);
+// };
 
 
 std::ostream &	operator<< (std::ostream & o, Lexer const & rhs);
