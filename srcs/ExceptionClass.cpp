@@ -42,12 +42,3 @@ Exception &	Exception::operator=(Exception const & rhs)
         *this = rhs;
     return *this;
 }
-
-/*
-** LEXER EXCEPTION : Bad arguments
-*/
-
-void BadArgumentsException()
-{
-
-}

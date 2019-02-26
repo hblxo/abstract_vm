@@ -24,7 +24,7 @@ public:
     ~Exception(void) throw(); 
     virtual const char* what() const throw();
 
-    void BadArgumentsException();
+    // void BadArgumentsException();
 
 	Exception &		operator=(Exception const & rhs);
 

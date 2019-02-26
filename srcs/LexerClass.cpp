@@ -19,13 +19,20 @@ Lexer::Lexer(int argc, char **argv)
 {
     std::ifstream file;
     std::string filename;
+    instruct    lexerInstruct;
 
-    if (argc != 2)
+    if (argc > 2)
         throw Exception("usage : ./avm");
-        // throw BadArgumentsException();
-        // std::cout << "usage : ./avm" << std::endl;
-    filename = argv[1];
-    file.open(filename);
+    else if (argc == 2)
+    {
+        filename = argv[1];
+        file.open(filename);
+        if (!file)
+            throw Exception("Fail to open file");
+        
+    }
+    else
+        ;
     return;
 }
 

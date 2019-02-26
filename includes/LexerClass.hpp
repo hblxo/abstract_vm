@@ -15,6 +15,21 @@
 
 # include <iostream>
 
+enum instructions {
+    COMMENT,
+    PUSH,
+    POP,
+    DUMP,
+    ASSERT,
+    ADD,
+    SUB,
+    MUL,
+    DIV,
+    MOD,
+    PRINT,
+    EXIT
+}
+
 class Lexer {
 public: 
     // class BadArgumentsException;
@@ -31,7 +46,10 @@ public:
 
 
 private:
-
+    struct  instruct {
+        int         type;
+        std::string value;
+    };
 };
 
 // class Lexer::BadArgumentsException : public std::exception {
