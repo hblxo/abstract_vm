@@ -1,36 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ExceptionClass.hpp                                 :+:      :+:    :+:   */
+/*   CalculatorClass.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/23 14:34:25 by hbouchet          #+#    #+#             */
-/*   Updated: 2019/03/04 11:23:30 by hbouchet         ###   ########.fr       */
+/*   Created: 2019/03/03 14:13:05 by hbouchet          #+#    #+#             */
+/*   Updated: 2019/03/03 16:08:49 by hbouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXCEPTIONCLASS_HPP
-# define EXCEPTIONCLASS_HPP
+#ifndef CALCULATORCLASS_HPP
+# define CALCULATORCLASS_HPP
 
 # include <iostream>
 
-class Exception : public std::exception {
+class Calculator {
 
 public: 
-    
-    Exception(const std::string& msg); 
-    Exception(Exception const & src); 
-    ~Exception(void) throw(); 
-    virtual const char* what() const throw();
 
-	Exception &		operator=(Exception const & rhs);
+    Calculator(void); 
+    Calculator(Calculator const & src); 
+    ~Calculator(void); 
+
+	Calculator &		operator=(Calculator const & rhs);
+
+    std::string const	toString(void) const;
+
+    static void doOperation(int type, std::string value);
+    static void doOperation(int type);
 
 private:
-    const std::string _msg;
+
 
 };
 
-std::ostream &	operator<< (std::ostream & o, Exception const & rhs);
+std::ostream &	operator<< (std::ostream & o, Calculator const & rhs);
 
 #endif

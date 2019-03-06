@@ -6,7 +6,7 @@
 /*   By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 10:35:50 by hbouchet          #+#    #+#             */
-/*   Updated: 2019/02/23 14:55:19 by hbouchet         ###   ########.fr       */
+/*   Updated: 2019/03/04 11:22:57 by hbouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,54 +14,45 @@
 # define LEXERCLASS_HPP
 
 # include <iostream>
+# include <list>
+# include "MatcherClass.hpp"
 
-enum instructions {
-    COMMENT,
-    PUSH,
-    POP,
-    DUMP,
-    ASSERT,
-    ADD,
-    SUB,
-    MUL,
-    DIV,
-    MOD,
-    PRINT,
-    EXIT
-}
 
 class Lexer {
-public: 
-    // class BadArgumentsException;
+    public: 
 
-    Lexer(void); 
-    Lexer(int argc, char **argv);
-    // Lexer(std::string filename); 
-    Lexer(Lexer const & src); 
-    ~Lexer(void); 
+        Lexer(void); 
+        Lexer(int argc, char **argv);
+        Lexer(Lexer const & src); 
+        ~Lexer(void); 
 
-	Lexer &		operator=(Lexer const & rhs);
+        Lexer &		operator=(Lexer const & rhs);
 
-    std::string const	toString(void) const;
+        std::string const	toString(void) const;
 
+        enum instructions {
+            COMMENT,
+            PUSH,
+            POP,
+            DUMP,
+            ASSERT,
+            ADD,
+            SUB,
+            MUL,
+            DIV,
+            MOD,
+            PRINT,
+            EXIT
+        };
 
-private:
-    struct  instruct {
-        int         type;
-        std::string value;
-    };
+        void    run(void);
+        void    defineLexerInstruct(std::string string);
+
+    private:
+        std::list<Matcher*>  *_matchList;
+
+        std::list<Matcher*> *InitializeMatchList();
 };
-
-// class Lexer::BadArgumentsException : public std::exception {
-// public:
-//     BadArgumentsException(void);
-//     BadArgumentsException(BadArgumentsException const & src);
-//     ~BadArgumentsException(void) throw();
-//     virtual const char* what() const throw();
-
-// 	BadArgumentsException &		operator=(BadArgumentsException const &);
-// };
-
 
 std::ostream &	operator<< (std::ostream & o, Lexer const & rhs);
 

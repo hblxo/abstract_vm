@@ -6,20 +6,24 @@
 /*   By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 10:36:26 by hbouchet          #+#    #+#             */
-/*   Updated: 2019/02/23 14:48:47 by hbouchet         ###   ########.fr       */
+/*   Updated: 2019/03/04 12:32:52 by hbouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/LexerClass.hpp"
 #include "../includes/ExceptionClass.hpp"
+#include "../includes/MatcherClass.hpp"
+#include "../includes/CalculatorClass.hpp"
 #include <iostream>
+#include <list>
+#include <cstring>
+#include <algorithm>
 #include <fstream>
 
 Lexer::Lexer(int argc, char **argv)
 {
     std::ifstream file;
     std::string filename;
-    instruct    lexerInstruct;
 
     if (argc > 2)
         throw Exception("usage : ./avm");
@@ -29,11 +33,78 @@ Lexer::Lexer(int argc, char **argv)
         file.open(filename);
         if (!file)
             throw Exception("Fail to open file");
-        
+        // Lexer::run();
     }
     else
-        ;
+        {
+            Lexer::run();
+            // while ()
+            // {
+//TODO : Stocker entree standard comme un fichier
+                
+            // }
+            ;
+        }
     return;
+}
+
+//TODO : Lire les instructions depuis un fichier
+void    Lexer::run(void)
+{
+    std::string     cmd;
+
+    getline(std::cin, cmd);
+    this->_matchList = InitializeMatchList();
+    while (cmd != ";;")
+    //TODO : gestion keyword "EXIT"
+    //TODO : gestion ";;" sur l'entree standard
+    {
+        if (cmd[0] != ';')
+            defineLexerInstruct(cmd);
+        cmd.clear();
+        getline(std::cin, cmd);
+    }
+}
+
+void    Lexer::defineLexerInstruct(std::string string)
+{
+    std::list<Matcher*>::iterator ite;
+    std::size_t pos;
+
+    pos = string.find(" ");
+    std::string value = string.substr(0, pos);
+    for(ite = _matchList->begin(); ite != _matchList->end(); ite++)
+    {
+        if (!(*ite)->matchSearch(value))
+        {
+            //TO-DO : parser commentaire en fin d'instruction
+            if (pos != std::string::npos)
+                Calculator::doOperation((*ite)->getType(), string.substr(pos + 1));
+            else
+                Calculator::doOperation((*ite)->getType());
+            return ;
+        }
+    }
+    throw Exception("\"" + string + "\" does not contain a valid operation");
+}
+
+//http://onoffswitch.net/building-a-custom-lexer/
+std::list<Matcher*> *Lexer::InitializeMatchList()
+{
+    std::list<Matcher*> *keywordMatchers = new std::list<Matcher*>;
+    keywordMatchers->push_back(new Matcher(PUSH, "push"));
+    keywordMatchers->push_back(new Matcher(POP, "pop"));
+    keywordMatchers->push_back(new Matcher(DUMP, "dump"));
+    keywordMatchers->push_back(new Matcher(ASSERT, "assert"));
+    keywordMatchers->push_back(new Matcher(ADD, "add"));
+    keywordMatchers->push_back(new Matcher(SUB, "sub"));
+    keywordMatchers->push_back(new Matcher(MUL, "mul"));
+    keywordMatchers->push_back(new Matcher(DIV, "div"));
+    keywordMatchers->push_back(new Matcher(MOD, "mod"));
+    keywordMatchers->push_back(new Matcher(PRINT, "print"));
+    keywordMatchers->push_back(new Matcher(EXIT, "exit"));
+    // keywordMatchers->push_back(Matcher(COMMENT, ""));
+    return keywordMatchers;
 }
 
 Lexer::Lexer(void)
@@ -50,6 +121,7 @@ Lexer::Lexer(Lexer const & src)
 
 Lexer::~Lexer(void)
 {
+    delete _matchList;
     return;
 }
 
