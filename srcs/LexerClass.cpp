@@ -31,8 +31,8 @@ Lexer::Lexer(int argc, char **argv)
     {
         filename = argv[1];
         file.open(filename);
-        if (!file)
-            throw Exception("Fail to open file");
+        if (file.fail())
+        	throw Exception("Fail to open file");
         // Lexer::run();
     }
     else
@@ -77,7 +77,7 @@ void    Lexer::defineLexerInstruct(std::string string)
     {
         if (!(*ite)->matchSearch(value))
         {
-            //TO-DO : parser commentaire en fin d'instruction
+            //TODO : parser commentaire en fin d'instruction
             if (pos != std::string::npos)
                 Calculator::doOperation((*ite)->getType(), string.substr(pos + 1));
             else
@@ -88,7 +88,7 @@ void    Lexer::defineLexerInstruct(std::string string)
     throw Exception("\"" + string + "\" does not contain a valid operation");
 }
 
-//http://onoffswitch.net/building-a-custom-lexer/
+//cf : http://onoffswitch.net/building-a-custom-lexer/
 std::list<Matcher*> *Lexer::InitializeMatchList()
 {
     std::list<Matcher*> *keywordMatchers = new std::list<Matcher*>;
