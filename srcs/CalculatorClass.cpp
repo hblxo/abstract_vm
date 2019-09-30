@@ -53,7 +53,6 @@ std::ostream &	operator<< (std::ostream & o, Calculator const & rhs)
 void Calculator::doOperation(int type, std::string value)
 {
     (void) type;
-    // (void) value;
     std::cout << "OK LA : " << value << std::endl;
     return ;
 }
@@ -61,7 +60,6 @@ void Calculator::doOperation(int type, std::string value)
 void Calculator::doOperation(int type)
 {
     (void) type;
-    // (void) value;
     std::cout << "OK !" << std::endl;
     return ;
 }

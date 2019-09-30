@@ -42,3 +42,5 @@ Exception &	Exception::operator=(Exception const & rhs)
         *this = rhs;
     return *this;
 }
+
+//Todo : gestion des erreurs

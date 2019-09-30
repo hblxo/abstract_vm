@@ -33,36 +33,27 @@ Lexer::Lexer(int argc, char **argv)
         file.open(filename);
         if (file.fail())
         	throw Exception("Fail to open file");
-        // Lexer::run();
+         Lexer::run(file);
     }
     else
-        {
-            Lexer::run();
-            // while ()
-            // {
-//TODO : Stocker entree standard comme un fichier
-                
-            // }
-            ;
-        }
+	{
+		Lexer::run(std::cin);
+	}
     return;
 }
 
-//TODO : Lire les instructions depuis un fichier
-void    Lexer::run(void)
+void    Lexer::run(std::istream &file)
 {
     std::string     cmd;
 
-    getline(std::cin, cmd);
+    getline(file, cmd);
     this->_matchList = InitializeMatchList();
-    while (cmd != ";;")
-    //TODO : gestion keyword "EXIT"
-    //TODO : gestion ";;" sur l'entree standard
+    while (cmd != ";;" && cmd != "exit")
     {
-        if (cmd[0] != ';')
+        if (cmd.size() != 0 && cmd[0] != ';' && cmd[0] != '\n')
             defineLexerInstruct(cmd);
         cmd.clear();
-        getline(std::cin, cmd);
+        getline(file, cmd);
     }
 }
 
@@ -102,8 +93,8 @@ std::list<Matcher*> *Lexer::InitializeMatchList()
     keywordMatchers->push_back(new Matcher(DIV, "div"));
     keywordMatchers->push_back(new Matcher(MOD, "mod"));
     keywordMatchers->push_back(new Matcher(PRINT, "print"));
-    keywordMatchers->push_back(new Matcher(EXIT, "exit"));
-    // keywordMatchers->push_back(Matcher(COMMENT, ""));
+//    keywordMatchers->push_back(new Matcher(EXIT, "exit"));
+     keywordMatchers->push_back(new Matcher(COMMENT, ";"));
     return keywordMatchers;
 }
 

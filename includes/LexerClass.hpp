@@ -45,12 +45,12 @@ class Lexer {
             EXIT
         };
 
-        void    run(void);
         void    defineLexerInstruct(std::string string);
 
     private:
-        std::list<Matcher*>  *_matchList;
+        void	run(std::istream &file);
 
+        std::list<Matcher*>  *_matchList;
         std::list<Matcher*> *InitializeMatchList();
 };
 
