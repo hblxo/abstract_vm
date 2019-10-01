@@ -28,3 +28,6 @@ int     main(int argc, char **argv)
 
     return 0;
 }
+
+//todo : ajouter config clion github - autre branche ?
+//todo : exporter settings
