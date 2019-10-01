@@ -13,6 +13,7 @@
 #include "CalculatorClass.hpp"
 #include <iostream>
 
+
 Calculator::Calculator(void)
 {
     return;

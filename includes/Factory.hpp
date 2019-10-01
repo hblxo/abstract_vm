@@ -13,6 +13,8 @@
 #ifndef ABSTRACT_VM_FACTORY_HPP
 #define ABSTRACT_VM_FACTORY_HPP
 
+# include <iostream>
+
 
 class Factory
 {
@@ -22,6 +24,12 @@ private:
 public:
 	Factory();
 	Factory(int nbr_ptr);
+	Factory(Factory const & src);
+	~Factory(void);
+
+	Factory &operator=(Factory const & rhs);
+	std::string const toString(void) const;
+
 };
 
 

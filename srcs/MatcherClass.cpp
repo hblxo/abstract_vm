@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MatcherClass.hpp"
+#include  "MatcherClass.hpp"
 #include <iostream>
 
 Matcher::Matcher(int type, std::string token) : _type(type), _token(token)
