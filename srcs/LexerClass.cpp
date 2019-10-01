@@ -50,11 +50,25 @@ void    Lexer::run(std::istream &file)
     this->_matchList = InitializeMatchList();
     while (cmd != ";;" && cmd != "exit")
     {
-        if (cmd.size() != 0 && cmd[0] != ';' && cmd[0] != '\n')
+    	if (cmd[0] == ';')
+    		;//TODO : traiter commentaire debut de ligne
+        else if (cmd.size() != 0 && cmd[0] != '\n')
             defineLexerInstruct(cmd);
         cmd.clear();
         getline(file, cmd);
     }
+}
+
+std::string	Lexer::parseLine(std::string line)
+{
+	std::size_t commentPos;
+
+	commentPos = line.find(";");
+
+//	std::string comment = line.substr(commentPos + 1);
+	//TODO : traiter commentaire en fin de ligne
+	std::string value = line.substr(0, commentPos);
+	return value;
 }
 
 void    Lexer::defineLexerInstruct(std::string string)
@@ -62,15 +76,17 @@ void    Lexer::defineLexerInstruct(std::string string)
     std::list<Matcher*>::iterator ite;
     std::size_t pos;
 
-    pos = string.find(" ");
-    std::string value = string.substr(0, pos);
+    std::string line = Lexer::parseLine(string);
+    pos = line.find(" ");
+	std::string value = line.substr(0, pos);
+      //TODO : parser commentaire en fin d'instruction
+
     for(ite = _matchList->begin(); ite != _matchList->end(); ite++)
     {
-        if (!(*ite)->matchSearch(value))
+        if ((*ite)->matchSearch(value))
         {
-            //TODO : parser commentaire en fin d'instruction
             if (pos != std::string::npos)
-                Calculator::doOperation((*ite)->getType(), string.substr(pos + 1));
+                Calculator::doOperation((*ite)->getType(), line.substr(pos + 1));
             else
                 Calculator::doOperation((*ite)->getType());
             return ;

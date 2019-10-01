@@ -63,5 +63,5 @@ void	Matcher::setToken (std::string token) { this->_token = token; }
 
 int     Matcher::matchSearch(std::string value)
 {
-    return _token.compare(value);
+	return _token.compare(value) == 0 ? 1 : 0;
 }

@@ -48,7 +48,9 @@ class Lexer {
         void    defineLexerInstruct(std::string string);
 
     private:
-        void	run(std::istream &file);
+		std::string parseLine(std::string line);
+
+		void	run(std::istream &file);
 
         std::list<Matcher*>  *_matchList;
         std::list<Matcher*> *InitializeMatchList();
