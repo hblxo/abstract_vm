@@ -33,7 +33,7 @@ public:
 	std::string         getToken(void) const;
     void	            setToken(std::string token);
 
-    int                 matchSearch(std::string value);
+    int                 matchSearch(const std::string& value);
 
 private:
     int                 _type;

@@ -27,7 +27,7 @@ public:
 
     std::string const	toString(void) const;
 
-    static void doOperation(int type, std::string value);
+    static void doOperation(int type, const std::string& value);
     static void doOperation(int type);
 
 private:

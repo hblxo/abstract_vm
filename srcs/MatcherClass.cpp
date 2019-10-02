@@ -61,7 +61,7 @@ void	Matcher::setType (int type) { this->_type = type; }
 std::string	Matcher::getToken (void) const { return (this->_token); }
 void	Matcher::setToken (std::string token) { this->_token = token; }
 
-int     Matcher::matchSearch(std::string value)
+int     Matcher::matchSearch(const std::string& value)
 {
-	return _token.compare(value) == 0 ? 1 : 0;
+	return _token == value ? 1 : 0;
 }

@@ -16,19 +16,16 @@
 
 Exception::Exception(const std::string& msg) : _msg(msg)
 {
-    return ;
 }
 
 Exception::Exception(Exception const & src) 
 {
     //Do whatever needs to be done
     *this = src;
-    return;
 }
 
 Exception::~Exception(void) throw()
 {
-    return;
 }
 
 const char* Exception::what() const throw()

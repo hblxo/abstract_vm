@@ -12,7 +12,6 @@
 
 #include "../includes/LexerClass.hpp"
 #include "../includes/ExceptionClass.hpp"
-#include "../includes/MatcherClass.hpp"
 #include "../includes/CalculatorClass.hpp"
 #include <iostream>
 #include <list>
@@ -22,6 +21,7 @@
 
 Lexer::Lexer(int argc, char **argv)
 {
+//TODO : check EOF
     std::ifstream file;
     std::string filename;
 
