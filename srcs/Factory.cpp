@@ -22,7 +22,7 @@ Factory::ptrfnc Factory::_create = {
 	&Factory::createDouble
 };
 
-Factory::Factory()
+Factory::Factory(void)
 {
 	return ;
 }

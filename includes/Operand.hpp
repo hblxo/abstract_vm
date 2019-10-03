@@ -46,6 +46,7 @@ public:
 
 	Operand<T> (eOperandType type, std::string const & value) : _type(type) {
 		this->_value = stod(value, NULL);
+		//todo : erreur overflow / underflow
 	}
 
 	std::string const	toString(void) const {
@@ -68,31 +69,28 @@ public:
 	}
 
 	IOperand const *operator+(IOperand const & src) const {
-		(void)src;
-		return nullptr;
+		return Factory().createOperand(src.getType(), src.toString()); //todo l'addition ???
 	}
+
 	IOperand const *operator-(IOperand const & src) const {
 		(void)src;
 		return nullptr;
 	}
+
 	IOperand const *operator*(IOperand const & src) const {
 		(void)src;
 		return nullptr;
 	}
+
 	IOperand const *operator/(IOperand const & src) const {
 		(void)src;
 		return nullptr;
 	}
+
 	IOperand const *operator%(IOperand const & src) const {
 		(void)src;
 		return nullptr;
 	}
-
-
 };
-
-
-
-
 
 #endif //AVM_OPERAND_HPP
