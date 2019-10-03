@@ -29,6 +29,9 @@ private:
 	IOperand const *createFloat( std::string const & value ) const;
 	IOperand const *createDouble( std::string const & value ) const;
 
+	typedef IOperand const * (Factory::*ptrfnc[5]) (std::string const & value) const;
+	static ptrfnc _create;
+
 public:
 	Factory();
 //	Factory(int nbr_ptr);

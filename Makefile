@@ -6,7 +6,7 @@
 #    By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/19 22:14:00 by lgiacalo          #+#    #+#              #
-#    Updated: 2019/03/03 14:13:46 by hbouchet         ###   ########.fr        #
+#    Updated: 2019/10/03 14:12:39 by hbouchet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ INC_PATH	=	includes
 OBJ_PATH	=	obj
 
 
-SRC_NAME	=   main.cpp LexerClass.cpp ExceptionClass.cpp MatcherClass.cpp CalculatorClass.cpp
+SRC_NAME	=   main.cpp LexerClass.cpp ExceptionClass.cpp MatcherClass.cpp CalculatorClass.cpp\
+				Factory.cpp
 
 INC_NAME	=	LexerClass.hpp
 

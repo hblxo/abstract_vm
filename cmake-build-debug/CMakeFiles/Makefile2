@@ -102,34 +102,34 @@ clean: CMakeFiles/includes.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/mytest.dir
+# Target rules for target CMakeFiles/avm.dir
 
 # All Build rule for target.
-CMakeFiles/mytest.dir/all:
-	$(MAKE) -f CMakeFiles/mytest.dir/build.make CMakeFiles/mytest.dir/depend
-	$(MAKE) -f CMakeFiles/mytest.dir/build.make CMakeFiles/mytest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hbouchet/abstract_vm/cmake-build-debug/CMakeFiles --progress-num= "Built target mytest"
-.PHONY : CMakeFiles/mytest.dir/all
+CMakeFiles/avm.dir/all:
+	$(MAKE) -f CMakeFiles/avm.dir/build.make CMakeFiles/avm.dir/depend
+	$(MAKE) -f CMakeFiles/avm.dir/build.make CMakeFiles/avm.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hbouchet/abstract_vm/cmake-build-debug/CMakeFiles --progress-num= "Built target avm"
+.PHONY : CMakeFiles/avm.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/mytest.dir/rule: cmake_check_build_system
+CMakeFiles/avm.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hbouchet/abstract_vm/cmake-build-debug/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/mytest.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/avm.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hbouchet/abstract_vm/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/mytest.dir/rule
+.PHONY : CMakeFiles/avm.dir/rule
 
 # Convenience name for target.
-mytest: CMakeFiles/mytest.dir/rule
+avm: CMakeFiles/avm.dir/rule
 
-.PHONY : mytest
-
-# clean rule for target.
-CMakeFiles/mytest.dir/clean:
-	$(MAKE) -f CMakeFiles/mytest.dir/build.make CMakeFiles/mytest.dir/clean
-.PHONY : CMakeFiles/mytest.dir/clean
+.PHONY : avm
 
 # clean rule for target.
-clean: CMakeFiles/mytest.dir/clean
+CMakeFiles/avm.dir/clean:
+	$(MAKE) -f CMakeFiles/avm.dir/build.make CMakeFiles/avm.dir/clean
+.PHONY : CMakeFiles/avm.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/avm.dir/clean
 
 .PHONY : clean
 

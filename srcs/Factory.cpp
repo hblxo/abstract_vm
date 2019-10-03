@@ -10,7 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <Operand.hpp>
 #include "../includes/Factory.hpp"
+#include <iostream>
+
+Factory::ptrfnc Factory::_create = {
+	&Factory::createInt8,
+	&Factory::createInt16,
+	&Factory::createInt32,
+	&Factory::createFloat,
+	&Factory::createDouble
+};
 
 Factory::Factory()
 {
@@ -20,32 +30,32 @@ Factory::Factory()
 IOperand const *
 Factory::createOperand(eOperandType type, std::string const &value) const
 {
-	return nullptr;
+	return (this->*_create[type])(value);
 }
 
 IOperand const *Factory::createInt8(std::string const &value) const
 {
-	return nullptr;
+	return new Operand<int8_t>(Int8, value);
 }
 
 IOperand const *Factory::createInt16(std::string const &value) const
 {
-	return nullptr;
+	return new Operand<int8_t>(Int16, value);
 }
 
 IOperand const *Factory::createInt32(std::string const &value) const
 {
-	return nullptr;
+	return new Operand<int32_t>(Int32, value);
 }
 
 IOperand const *Factory::createFloat(std::string const &value) const
 {
-	return nullptr;
+	return new Operand<float>(Float, value);
 }
 
 IOperand const *Factory::createDouble(std::string const &value) const
 {
-	return nullptr;
+	return new Operand<double >(Double, value);
 }
 
 Factory::Factory(Factory const &src)
@@ -55,7 +65,7 @@ Factory::Factory(Factory const &src)
 
 Factory::~Factory(void)
 {
-
+	return;
 }
 
 Factory &Factory::operator=(Factory const &rhs)

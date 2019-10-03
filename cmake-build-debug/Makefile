@@ -124,17 +124,17 @@ includes/fast:
 .PHONY : includes/fast
 
 #=============================================================================
-# Target rules for targets named mytest
+# Target rules for targets named avm
 
 # Build rule for target.
-mytest: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 mytest
-.PHONY : mytest
+avm: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 avm
+.PHONY : avm
 
 # fast build rule for target.
-mytest/fast:
-	$(MAKE) -f CMakeFiles/mytest.dir/build.make CMakeFiles/mytest.dir/build
-.PHONY : mytest/fast
+avm/fast:
+	$(MAKE) -f CMakeFiles/avm.dir/build.make CMakeFiles/avm.dir/build
+.PHONY : avm/fast
 
 srcs/main.o: srcs/main.cpp.o
 
@@ -172,7 +172,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... includes"
-	@echo "... mytest"
+	@echo "... avm"
 	@echo "... srcs/main.o"
 	@echo "... srcs/main.i"
 	@echo "... srcs/main.s"

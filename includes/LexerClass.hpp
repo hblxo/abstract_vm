@@ -52,7 +52,7 @@ class Lexer {
 
 		void	run(std::istream &file);
 
-        std::list<Matcher*>  *_matchList{};
+        std::list<Matcher*>  *_matchList;
         static std::list<Matcher*> *InitializeMatchList();
 };
 

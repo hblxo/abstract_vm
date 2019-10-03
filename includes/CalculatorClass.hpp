@@ -25,7 +25,7 @@ public:
 
 	Calculator &		operator=(Calculator const & rhs);
 
-    std::string const	toString(void) const;
+    std::string toString() const;
 
     static void doOperation(int type, const std::string& value);
     static void doOperation(int type);

@@ -1,2 +1,2 @@
 # Hashes of file build rules.
-181e17d872b2ab33f3798a2b5ad8f4de CMakeFiles/mytest
+181e17d872b2ab33f3798a2b5ad8f4de CMakeFiles/avm

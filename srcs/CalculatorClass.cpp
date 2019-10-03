@@ -37,7 +37,7 @@ Calculator &	Calculator::operator=(Calculator const & rhs)
     return *this;
 }
 
-std::string const Calculator::toString(void) const
+std::string Calculator::toString() const
 {
     // Return whatever needs to be returned
     return "Operation OK";

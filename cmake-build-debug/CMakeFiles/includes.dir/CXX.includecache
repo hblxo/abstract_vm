@@ -6,29 +6,3 @@
 
 #IncludeRegexTransform: 
 
-/Users/hbouchet/abstract_vm/includes/ExceptionClass.hpp
-iostream
--
-
-/Users/hbouchet/abstract_vm/includes/LexerClass.hpp
-iostream
--
-list
--
-MatcherClass.hpp
-/Users/hbouchet/abstract_vm/includes/MatcherClass.hpp
-
-/Users/hbouchet/abstract_vm/includes/MatcherClass.hpp
-iostream
--
-list
--
-
-/Users/hbouchet/abstract_vm/srcs/main.cpp
-iostream
--
-../includes/LexerClass.hpp
-/Users/hbouchet/abstract_vm/includes/LexerClass.hpp
-../includes/ExceptionClass.hpp
-/Users/hbouchet/abstract_vm/includes/ExceptionClass.hpp
-
