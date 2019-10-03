@@ -14,16 +14,14 @@
 #include <iostream>
 
 
-Calculator::Calculator(void)
+Calculator::Calculator()
 {
-    return;
-}
+    }
 
 Calculator::Calculator(Calculator const & src) 
 {
     //Do whatever needs to be done
     *this = src;
-    return;
 }
 
 Calculator::~Calculator(void)
@@ -51,16 +49,14 @@ std::ostream &	operator<< (std::ostream & o, Calculator const & rhs)
     return o;
 }
 
-void Calculator::doOperation(int type, std::string value)
+void Calculator::doOperation(int type, const std::string& value)
 {
     (void) type;
     std::cout << "OK LA : " << value << std::endl;
-    return ;
 }
 
 void Calculator::doOperation(int type)
 {
     (void) type;
     std::cout << "OK !" << std::endl;
-    return ;
 }

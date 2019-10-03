@@ -14,21 +14,29 @@
 #define ABSTRACT_VM_FACTORY_HPP
 
 # include <iostream>
+#include "IOperand.hpp"
 
 
 class Factory
 {
 private:
-	typedef IOperand* (Factory::*createFunc)(const std::string& value);
-	IOperand* createInt8(const std::string& value);
+//	typedef IOperand* (Factory::*createFunc)(const std::string& value);
+
+	IOperand const * createOperand( eOperandType type, std::string const & value ) const;
+	IOperand const *createInt8( std::string const & value ) const;
+	IOperand const *createInt16( std::string const & value ) const;
+	IOperand const *createInt32( std::string const & value ) const;
+	IOperand const *createFloat( std::string const & value ) const;
+	IOperand const *createDouble( std::string const & value ) const;
+
 public:
 	Factory();
-	Factory(int nbr_ptr);
+//	Factory(int nbr_ptr);
 	Factory(Factory const & src);
 	~Factory(void);
 
 	Factory &operator=(Factory const & rhs);
-	std::string const toString(void) const;
+	std::string toString(void) const;
 
 };
 

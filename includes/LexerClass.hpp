@@ -48,12 +48,12 @@ class Lexer {
         void    defineLexerInstruct(std::string string);
 
     private:
-		std::string parseLine(std::string line);
+		static std::string parseLine(std::string line);
 
 		void	run(std::istream &file);
 
-        std::list<Matcher*>  *_matchList;
-        std::list<Matcher*> *InitializeMatchList();
+        std::list<Matcher*>  *_matchList{};
+        static std::list<Matcher*> *InitializeMatchList();
 };
 
 std::ostream &	operator<< (std::ostream & o, Lexer const & rhs);
