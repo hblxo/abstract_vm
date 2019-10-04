@@ -26,7 +26,7 @@ public:
 
 	Matcher &		operator=(Matcher const & rhs);
 
-    std::string const	toString(void) const;
+    std::string 	toString(void) const;
 
 	int                 getType(void) const;
     void                setType(int type);
@@ -36,7 +36,7 @@ public:
     int                 matchSearch(const std::string& value);
 
 private:
-    int                 _type;
+    int                 _type{};
     std::string         _token;
 
 };

@@ -19,9 +19,9 @@ class Calculator {
 
 public: 
 
-    Calculator(void); 
+    Calculator();
     Calculator(Calculator const & src); 
-    ~Calculator(void); 
+    ~Calculator();
 
 	Calculator &		operator=(Calculator const & rhs);
 
@@ -31,7 +31,6 @@ public:
     static void doOperation(int type);
 
 private:
-
 
 };
 

@@ -33,11 +33,11 @@ public:
 	Factory();
 //	Factory(int nbr_ptr);
 	Factory(Factory const & src);
-	~Factory(void);
+	~Factory();
 
 	IOperand const * createOperand( eOperandType type, std::string const & value ) const;
 	Factory &operator=(Factory const & rhs);
-	std::string toString(void) const;
+	std::string toString() const;
 
 	typedef IOperand const * (Factory::*ptrfnc[5]) (std::string const & value) const;
 	static ptrfnc _create;

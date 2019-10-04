@@ -12,28 +12,24 @@
 
 #include  "MatcherClass.hpp"
 #include <iostream>
+#include <utility>
 
-Matcher::Matcher(int type, std::string token) : _type(type), _token(token)
+Matcher::Matcher(int type, std::string token) : _type(type), _token(std::move(token))
 {
-    return;
 }
 
-Matcher::Matcher(void)
-{
-    return;
-}
+Matcher::Matcher()
+= default;
 
-Matcher::Matcher(Matcher const & src) 
+Matcher::Matcher(Matcher const & src)
 {
-    //Do whatever needs to be done
     *this = src;
-    return;
+	this->_type = src.getType();
+	this->_token = src.getToken();
 }
 
-Matcher::~Matcher(void)
-{
-    return;
-}
+Matcher::~Matcher()
+= default;
 
 Matcher &	Matcher::operator=(Matcher const & rhs)
 {
@@ -43,7 +39,7 @@ Matcher &	Matcher::operator=(Matcher const & rhs)
     return *this;
 }
 
-std::string const Matcher::toString(void) const
+std::string Matcher::toString() const
 {
     return "OK";
     // Return whatever needs to be returned
@@ -56,10 +52,10 @@ std::ostream &	operator<< (std::ostream & o, Matcher const & rhs)
 }
 
 
-int	Matcher::getType (void) const { return (this->_type); }
+int	Matcher::getType () const { return (this->_type); }
 void	Matcher::setType (int type) { this->_type = type; }
-std::string	Matcher::getToken (void) const { return (this->_token); }
-void	Matcher::setToken (std::string token) { this->_token = token; }
+std::string	Matcher::getToken () const { return (this->_token); }
+void	Matcher::setToken (std::string token) { this->_token = std::move(token); }
 
 int     Matcher::matchSearch(const std::string& value)
 {

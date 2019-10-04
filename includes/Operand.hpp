@@ -22,7 +22,7 @@ class Operand : public IOperand {
 private:
 	eOperandType	_type;
 	T			 	_value;
-	int 			_precision;
+	int 			_precision{};
 
 public:
 	Operand<T>(void){
@@ -34,8 +34,10 @@ public:
 	}
 
 	Operand<T>(Operand<T> const & src){
+		_type = src.getType();
+		_value = src.getValue();
+		_precision = src.getPrecision();
 		*this = src;
-		return ;
 	}
 
 	Operand<T> &operator=(Operand<T> const & rhs){
@@ -45,11 +47,12 @@ public:
 	}
 
 	Operand<T> (eOperandType type, std::string const & value) : _type(type) {
+		this->_precision = static_cast<int>(type);
 		this->_value = stod(value, NULL);
 		//todo : erreur overflow / underflow
 	}
 
-	std::string const	toString(void) const {
+	std::string 	toString(void) const {
 		return "";
 	}
 

@@ -22,10 +22,8 @@ Factory::ptrfnc Factory::_create = {
 	&Factory::createDouble
 };
 
-Factory::Factory(void)
-{
-	return ;
-}
+Factory::Factory()
+= default;
 
 IOperand const *
 Factory::createOperand(eOperandType type, std::string const &value) const
@@ -63,9 +61,9 @@ Factory::Factory(Factory const &src)
 	*this = src;
 }
 
-Factory::~Factory(void)
+Factory::~Factory()
 {
-	return;
+	;
 }
 
 Factory &Factory::operator=(Factory const &rhs)
