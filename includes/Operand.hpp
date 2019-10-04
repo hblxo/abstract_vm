@@ -25,13 +25,10 @@ private:
 	int 			_precision{};
 
 public:
-	Operand<T>(void){
-		return ;
+	Operand<T>(){
 	}
 
-	~Operand<T>(){
-		return;
-	}
+	~Operand<T>()= default;
 
 	Operand<T>(Operand<T> const & src){
 		_type = src.getType();
@@ -48,11 +45,11 @@ public:
 
 	Operand<T> (eOperandType type, std::string const & value) : _type(type) {
 		this->_precision = static_cast<int>(type);
-		this->_value = stod(value, NULL);
+		this->_value = stod(value, nullptr);
 		//todo : erreur overflow / underflow
 	}
 
-	std::string 	toString(void) const {
+	std::string 	toString() const {
 		return "";
 	}
 
@@ -71,6 +68,8 @@ public:
 		return _precision;
 	}
 
+
+	//TODO : implement operator
 	IOperand const *operator+(IOperand const & src) const {
 		return Factory().createOperand(src.getType(), src.toString()); //todo l'addition ???
 	}

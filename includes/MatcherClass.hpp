@@ -20,23 +20,23 @@ class Matcher {
 public: 
 
     Matcher(int type, std::string token);
-    Matcher(void); 
+    Matcher();
     Matcher(Matcher const & src); 
-    ~Matcher(void);
+    ~Matcher();
 
 	Matcher &		operator=(Matcher const & rhs);
 
-    std::string 	toString(void) const;
+    std::string 	toString() const;
 
-	int                 getType(void) const;
+	int                 getType() const;
     void                setType(int type);
-	std::string         getToken(void) const;
+	std::string         getToken() const;
     void	            setToken(std::string token);
 
     int                 matchSearch(const std::string& value);
 
 private:
-    int                 _type{};
+    int                 _type;
     std::string         _token;
 
 };

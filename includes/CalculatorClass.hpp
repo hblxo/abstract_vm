@@ -14,6 +14,9 @@
 # define CALCULATORCLASS_HPP
 
 # include <iostream>
+# include <stack>
+
+# include "IOperand.hpp"
 
 class Calculator {
 
@@ -30,8 +33,23 @@ public:
     static void doOperation(int type, const std::string& value);
     static void doOperation(int type);
 
-private:
 
+
+private:
+    void	push(IOperand *Op);
+    void	pop();
+    void	dump();
+    void	asert(IOperand *Op); //Todo rename asert to assert
+    void	add();
+    void	sub();
+    void	mul();
+    void	div();
+    void	mod();
+    void	print();
+    void	exit();
+	std::stack<IOperand *>	_operands;
+
+	//todo implement this instructions
 };
 
 std::ostream &	operator<< (std::ostream & o, Calculator const & rhs);

@@ -60,3 +60,13 @@ void Calculator::doOperation(int type)
     (void) type;
     std::cout << "OK !" << std::endl;
 }
+
+void Calculator::__builtin_expect()
+{
+
+}
+
+void Calculator::assert(IOperand *Op)
+{
+
+}

@@ -13,8 +13,9 @@
 #include "../includes/LexerClass.hpp"
 #include "../includes/ExceptionClass.hpp"
 #include <iostream>
+#include <utility>
 
-Exception::Exception(const std::string& msg) : _msg(msg)
+Exception::Exception(std::string  msg) : _msg(std::move(msg))
 {
 }
 
@@ -24,11 +25,10 @@ Exception::Exception(Exception const & src)
     *this = src;
 }
 
-Exception::~Exception(void) throw()
-{
-}
+Exception::~Exception() noexcept
+= default;
 
-const char* Exception::what() const throw()
+const char* Exception::what() const noexcept
 {
     return _msg.c_str();
 }
