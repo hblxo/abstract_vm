@@ -40,7 +40,7 @@ private:
     void	push(IOperand *Op);
     void	pop();
     void	dump();
-    void	asert(IOperand *Op); //Todo rename asert to assert
+    void	assertion(IOperand *Op);
     void	add();
     void	sub();
     void	mul();
@@ -48,10 +48,12 @@ private:
     void	mod();
     void	print();
     void	exit();
+	//todo implement this instructions
 
 	std::stack<IOperand *>	_operands;
 
-	//todo implement this instructions
+//	IOperand *findOperand(std::string str);
+// TODO : Instruct Class ? getType / getValue (parsing/regex)
 };
 
 std::ostream &	operator<< (std::ostream & o, Calculator const & rhs);

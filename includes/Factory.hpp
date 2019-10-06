@@ -34,7 +34,7 @@ public:
 	Factory(Factory const & src);
 	~Factory();
 
-	IOperand const * createOperand( eOperandType type, std::string const & value ) const;
+	IOperand const * createOperand(eOperandType type, std::string const & value ) const;
 	Factory &operator=(Factory const & rhs);
 	std::string toString() const;
 

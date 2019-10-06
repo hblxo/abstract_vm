@@ -13,6 +13,7 @@
 #include  "MatcherClass.hpp"
 #include <iostream>
 #include <utility>
+#include <LexerClass.hpp>
 
 Matcher::Matcher(int type, std::string token) : _type(type), _token(std::move(token))
 {
@@ -41,8 +42,7 @@ Matcher &	Matcher::operator=(Matcher const & rhs)
 
 std::string Matcher::toString() const
 {
-    return "OK";
-    // Return whatever needs to be returned
+    return(std::to_string(this->getType() ) + " - " + this->getToken() );
 }
 
 std::ostream &	operator<< (std::ostream & o, Matcher const & rhs)

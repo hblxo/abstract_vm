@@ -86,6 +86,8 @@ void    Lexer::defineLexerInstruct(std::string string)
         if ((*ite)->matchSearch(value))
         {
             if (pos != std::string::npos)
+//            && std::regex_match(line,
+//            		std::regex("^(\\s*)?(push|assert)(\\s+)(((int8|int16|int32)[(]-?[0-9]+[)])|((float|double)[(]-?[0-9]+(.?[0-9]+)?[)]))(\\s*)(;.*)?$")))
                 Calculator::doOperation((*ite)->getType(), line.substr(pos + 1));
             else
                 Calculator::doOperation((*ite)->getType());
@@ -94,6 +96,7 @@ void    Lexer::defineLexerInstruct(std::string string)
     }
     throw Exception("\"" + string + "\" does not contain a valid operation");
 }
+
 
 //cf : http://onoffswitch.net/building-a-custom-lexer/
 std::list<Matcher*> *Lexer::InitializeMatchList()
@@ -109,14 +112,13 @@ std::list<Matcher*> *Lexer::InitializeMatchList()
     keywordMatchers->push_back(new Matcher(DIV, "div"));
     keywordMatchers->push_back(new Matcher(MOD, "mod"));
     keywordMatchers->push_back(new Matcher(PRINT, "print"));
-//    keywordMatchers->push_back(new Matcher(EXIT, "exit"));
-     keywordMatchers->push_back(new Matcher(COMMENT, ";"));
+    keywordMatchers->push_back(new Matcher(EXIT, "exit"));
+    keywordMatchers->push_back(new Matcher(COMMENT, ";"));
     return keywordMatchers;
 }
 
-Lexer::Lexer(void)
+Lexer::Lexer()
 {
-    return;
 }
 
 Lexer::Lexer(Lexer const & src) 
@@ -126,10 +128,9 @@ Lexer::Lexer(Lexer const & src)
     return;
 }
 
-Lexer::~Lexer(void)
+Lexer::~Lexer()
 {
     delete _matchList;
-    return;
 }
 
 Lexer &	Lexer::operator=(Lexer const & rhs)
@@ -140,10 +141,17 @@ Lexer &	Lexer::operator=(Lexer const & rhs)
     return *this;
 }
 
-std::string const Lexer::toString(void) const
+std::string const Lexer::toString() const
 {
-    return "OK";
-    // Return whatever needs to be returned
+	std::string ret;
+	std::list<Matcher*>::iterator ite;
+
+	for (ite = this->_matchList->begin(); ite != this->_matchList.end(); ite++)
+	{
+		ret += (*ite)->toString();
+		ret += '\n';
+	}
+    return ret;
 }
 
 std::ostream &	operator<< (std::ostream & o, Lexer const & rhs)

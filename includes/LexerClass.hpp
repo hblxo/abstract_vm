@@ -16,6 +16,7 @@
 # include <iostream>
 # include <list>
 # include "MatcherClass.hpp"
+#include "IOperand.hpp"
 
 
 class Lexer {
@@ -45,15 +46,14 @@ class Lexer {
             EXIT
         };
 
-        void    defineLexerInstruct(std::string string);
 
     private:
+        void    defineLexerInstruct(std::string string);
 		static std::string parseLine(std::string line);
-
+        static std::list<Matcher*> *InitializeMatchList();
 		void	run(std::istream &file);
 
         std::list<Matcher*>  *_matchList;
-        static std::list<Matcher*> *InitializeMatchList();
 };
 
 std::ostream &	operator<< (std::ostream & o, Lexer const & rhs);

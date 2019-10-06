@@ -14,6 +14,8 @@
 #include "CalculatorClass.hpp"
 #include "ExceptionClass.hpp"
 #include <iostream>
+#include <regex>
+#include <Factory.hpp>
 
 Calculator::instructs Calculator::_instruct = {
 //		&Calculator::push,
@@ -63,6 +65,17 @@ std::ostream &	operator<< (std::ostream & o, Calculator const & rhs)
     o << rhs.toString();
     return o;
 }
+/*
+IOperand *Calculator::findOperand(std::string str){
+	std::regex reg = (const std::basic_regex<char> &) "^(\\s+)(int8|int16|int32|float|double)([)-?[0-9]+(.?[0-9]+)?[)])(\\s*)$";
+	if (std::regex_match(str, reg))
+	{
+		if (str.find("int8"))
+//			return Factory().createOperand(Int8, str.substr(3));
+			return nullptr;//todo : ??????
+	}
+}*/
+
 
 void Calculator::doOperation(int type, const std::string& value)
 {
@@ -105,7 +118,7 @@ one WITHOUT CHANGING the stack. Each value is separated from the next one
 by a newline.*/
 }
 
-void Calculator::asert(IOperand *Op)
+void Calculator::assertion(IOperand *Op)
 {
 	(void)Op;
 	//todo : assert() instruction
