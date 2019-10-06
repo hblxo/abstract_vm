@@ -71,27 +71,48 @@ public:
 
 	//TODO : implement operator
 	IOperand const *operator+(IOperand const & src) const {
-		return Factory().createOperand(src.getType(), src.toString()); //todo l'addition ???
+		eOperandType resType = (eOperandType) (src.getPrecision() > this->getPrecision()
+								  ? src.getPrecision() : this->getPrecision());
+
+		const IOperand *ret = Factory().createOperand(resType, toString(static_cast<double>(stod(src.toString())) +
+																				static_cast<double>(stod(this->toString()))));
+		return ret;
 	}
 
 	IOperand const *operator-(IOperand const & src) const {
-		(void)src;
-		return nullptr;
+		eOperandType resType = (eOperandType) (src.getPrecision() > this->getPrecision()
+											   ? src.getPrecision() : this->getPrecision());
+
+		const IOperand *ret = Factory().createOperand(resType, toString(static_cast<double>(stod(src.toString())) -
+																		static_cast<double>(stod(this->toString()))));
+		return ret;
 	}
 
 	IOperand const *operator*(IOperand const & src) const {
-		(void)src;
-		return nullptr;
+		eOperandType resType = (eOperandType) (src.getPrecision() > this->getPrecision()
+											   ? src.getPrecision() : this->getPrecision());
+
+		const IOperand *ret = Factory().createOperand(resType, toString(static_cast<double>(stod(src.toString())) *
+																		static_cast<double>(stod(this->toString()))));
+		return ret;
 	}
 
 	IOperand const *operator/(IOperand const & src) const {
-		(void)src;
-		return nullptr;
+		eOperandType resType = (eOperandType) (src.getPrecision() > this->getPrecision()
+											   ? src.getPrecision() : this->getPrecision());
+
+		const IOperand *ret = Factory().createOperand(resType, toString(static_cast<double>(stod(src.toString())) /
+																		static_cast<double>(stod(this->toString()))));
+		return ret;
 	}
 
 	IOperand const *operator%(IOperand const & src) const {
-		(void)src;
-		return nullptr;
+		eOperandType resType = (eOperandType) (src.getPrecision() > this->getPrecision()
+											   ? src.getPrecision() : this->getPrecision());
+
+		const IOperand *ret = Factory().createOperand(resType, toString(fmod(static_cast<double>(stod(src.toString())),
+																		static_cast<double>(stod(this->toString())))));
+		return ret;
 	}
 };
 
