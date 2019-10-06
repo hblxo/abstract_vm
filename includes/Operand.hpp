@@ -15,7 +15,8 @@
 
 # include "IOperand.hpp"
 #include "Factory.hpp"
-# include <math.h>
+# include <cmath>
+#include <tclDecls.h>
 
 template <typename T>
 class Operand : public IOperand {
@@ -70,29 +71,29 @@ public:
 
 
 	//TODO : implement operator
-	IOperand const *operator+(IOperand const & src) const {
-		eOperandType resType = (eOperandType) (src.getPrecision() > this->getPrecision()
-								  ? src.getPrecision() : this->getPrecision());
+	IOperand const *operator+(IOperand const & rhs) const override {
+		eOperandType resType = (eOperandType) (rhs.getPrecision() > this->getPrecision()
+								  ? rhs.getPrecision() : this->getPrecision());
 
-		const IOperand *ret = Factory().createOperand(resType, toString(static_cast<double>(stod(src.toString())) +
+		const IOperand *ret = Factory().createOperand(resType, toString(static_cast<double>(stod(rhs.toString())) +
 																				static_cast<double>(stod(this->toString()))));
 		return ret;
 	}
 
-	IOperand const *operator-(IOperand const & src) const {
-		eOperandType resType = (eOperandType) (src.getPrecision() > this->getPrecision()
-											   ? src.getPrecision() : this->getPrecision());
+	IOperand const *operator-(IOperand const & rhs) const {
+		eOperandType resType = (eOperandType) (rhs.getPrecision() > this->getPrecision()
+											   ? rhs.getPrecision() : this->getPrecision());
 
-		const IOperand *ret = Factory().createOperand(resType, toString(static_cast<double>(stod(src.toString())) -
+		const IOperand *ret = Factory().createOperand(resType, toString(static_cast<double>(stod(rhs.toString())) -
 																		static_cast<double>(stod(this->toString()))));
 		return ret;
 	}
 
-	IOperand const *operator*(IOperand const & src) const {
-		eOperandType resType = (eOperandType) (src.getPrecision() > this->getPrecision()
-											   ? src.getPrecision() : this->getPrecision());
+	IOperand const *operator*(IOperand const & rhs) const {
+		eOperandType resType = (eOperandType) (rhs.getPrecision() > this->getPrecision()
+											   ? rhs.getPrecision() : this->getPrecision());
 
-		const IOperand *ret = Factory().createOperand(resType, toString(static_cast<double>(stod(src.toString())) *
+		const IOperand *ret = Factory().createOperand(resType, toString(static_cast<double>(stod(rhs.toString())) *
 																		static_cast<double>(stod(this->toString()))));
 		return ret;
 	}

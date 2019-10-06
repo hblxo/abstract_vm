@@ -10,13 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "LexerClass.hpp"
 #include "CalculatorClass.hpp"
+#include "ExceptionClass.hpp"
 #include <iostream>
 
+Calculator::instructs Calculator::_instruct = {
+//		&Calculator::push,
+		&Calculator::pop,
+		&Calculator::dump,
+//		&Calculator::asert,
+		&Calculator::add,
+		&Calculator::sub,
+		&Calculator::mul,
+		&Calculator::div,
+		&Calculator::mod,
+		&Calculator::print,
+		&Calculator::exit,
+};
 
 Calculator::Calculator()
 {
-    }
+}
 
 Calculator::Calculator(Calculator const & src) 
 {
@@ -51,22 +66,132 @@ std::ostream &	operator<< (std::ostream & o, Calculator const & rhs)
 
 void Calculator::doOperation(int type, const std::string& value)
 {
-    (void) type;
-    std::cout << "OK LA : " << value << std::endl;
+	if (type == Lexer::PUSH)
+		;
+	else if (type == Lexer::ASSERT)
+    	std::cout << "OK LA : " << value << std::endl;
+	else
+		throw Exception("");
 }
 
 void Calculator::doOperation(int type)
 {
-    (void) type;
-    std::cout << "OK !" << std::endl;
+	if (type != Lexer::PUSH && type != Lexer::ASSERT)
+    	std::cout << "OK !" << std::endl;
+	else
+		throw Exception("");
 }
 
-void Calculator::__builtin_expect()
+void Calculator::push(IOperand *Op)
 {
-
+	_operands.push(Op);
 }
 
-void Calculator::assert(IOperand *Op)
+void Calculator::pop()
 {
-
+	if (_operands.empty())
+		throw Exception("Empty stack");
+	else
+		_operands.pop();
 }
+
+void Calculator::dump()
+{
+//	_operands.dump();
+//Todo : dump() instruction
+/*Displays each value of the stack, from the most recent one to the oldest
+one WITHOUT CHANGING the stack. Each value is separated from the next one
+by a newline.*/
+}
+
+void Calculator::asert(IOperand *Op)
+{
+	//todo : assert() instruction
+	/* Asserts that the value at the top of the stack is equal to the one passed
+as parameter for this instruction. If it is not the case, the program execution must
+stop with an error. The value v has the same form that those passed as parameters
+to the instruction push.*/
+}
+
+void Calculator::add()
+{
+	IOperand *a = _operands.top();
+	_operands.pop();
+	IOperand *b = _operands.top();
+	_operands.pop();
+	_operands.push(const_cast<IOperand *>(*a + *b));
+	delete a;
+	delete b;
+	//todo : stack < 2 Exception
+}
+
+void Calculator::sub()
+{
+	IOperand *a = _operands.top();
+	_operands.pop();
+	IOperand *b = _operands.top();
+	_operands.pop();
+	_operands.push(const_cast<IOperand *>(*a - *b));
+	delete a;
+	delete b;
+	//todo : stack < 2 Exception
+}
+
+void Calculator::mul()
+{
+	IOperand *a = _operands.top();
+	_operands.pop();
+	IOperand *b = _operands.top();
+	_operands.pop();
+	_operands.push(const_cast<IOperand *>(*a * *b));
+	delete a;
+	delete b;
+	//todo : stack < 2 Exception
+}
+
+void Calculator::div()
+{
+	IOperand *a = _operands.top();
+	_operands.pop();
+	IOperand *b = _operands.top();
+	_operands.pop();
+	_operands.push(const_cast<IOperand *>(*a / *b));
+	delete a;
+	delete b;
+	//todo : stack < 2 Exception
+	//Todo : /0 Exception
+
+	//Todo : floating point value ?
+}
+
+void Calculator::mod()
+{
+	IOperand *a = _operands.top();
+	_operands.pop();
+	IOperand *b = _operands.top();
+	_operands.pop();
+	_operands.push(const_cast<IOperand *>(*a % *b));
+	delete a;
+	delete b;
+	//todo : stack < 2 Exception
+	//Todo : /0 Exception
+}
+
+void Calculator::print()
+{
+	//todo : print() instruction
+	/*Asserts that the value at the top of the stack is an 8-bit integer.
+	 *(If not,see the instruction assert), then interprets it as an ASCII value
+	 * and displays the corresponding character on the standard output
+	 * */
+}
+
+void Calculator::exit()
+{
+/*
+ * Terminate the execution of the current program.
+ * If this instruction does not appears while all others instruction has been processed,
+ * the execution must stop with an error.
+ */
+}
+

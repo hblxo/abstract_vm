@@ -31,7 +31,6 @@ private:
 
 public:
 	Factory();
-//	Factory(int nbr_ptr);
 	Factory(Factory const & src);
 	~Factory();
 

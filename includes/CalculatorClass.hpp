@@ -33,7 +33,8 @@ public:
     static void doOperation(int type, const std::string& value);
     static void doOperation(int type);
 
-
+    typedef	void	(Calculator::*instructs[9])();
+    static instructs _instruct;
 
 private:
     void	push(IOperand *Op);
@@ -47,6 +48,7 @@ private:
     void	mod();
     void	print();
     void	exit();
+
 	std::stack<IOperand *>	_operands;
 
 	//todo implement this instructions
