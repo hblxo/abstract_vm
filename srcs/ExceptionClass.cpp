@@ -41,3 +41,34 @@ Exception &	Exception::operator=(Exception const & rhs)
 }
 
 //Todo : gestion des erreurs
+
+/*
+ * Nested Class : DivideByZeroException
+ */
+
+Exception::DivideByZeroException::DivideByZeroException()
+{
+	_msg = "Divide by zero exception";
+}
+
+Exception::DivideByZeroException::DivideByZeroException(
+		const Exception::DivideByZeroException &src)
+{
+	*this = src;
+}
+
+Exception::DivideByZeroException::~DivideByZeroException()= default;
+
+const char *Exception::DivideByZeroException::what() const throw()
+{
+	return _msg.c_str();
+}
+
+Exception::DivideByZeroException &Exception::DivideByZeroException::operator=(Exception::DivideByZeroException const &rhs)
+{
+	if (this != &rhs)
+		*this = rhs;
+	return *this;
+}
+
+

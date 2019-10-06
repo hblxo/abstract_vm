@@ -71,7 +71,8 @@ void Calculator::doOperation(int type, const std::string& value)
 	else if (type == Lexer::ASSERT)
     	std::cout << "OK LA : " << value << std::endl;
 	else
-		throw Exception("");
+		std::throw_with_nested(Exception::DivideByZeroException());
+//		throw Exception("");
 }
 
 void Calculator::doOperation(int type)
@@ -106,6 +107,7 @@ by a newline.*/
 
 void Calculator::asert(IOperand *Op)
 {
+	(void)Op;
 	//todo : assert() instruction
 	/* Asserts that the value at the top of the stack is equal to the one passed
 as parameter for this instruction. If it is not the case, the program execution must

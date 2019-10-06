@@ -16,7 +16,7 @@
 # include "IOperand.hpp"
 #include "Factory.hpp"
 # include <cmath>
-#include <tclDecls.h>
+//#include <tclDecls.h>
 
 template <typename T>
 class Operand : public IOperand {
@@ -50,11 +50,11 @@ public:
 		//todo : erreur overflow / underflow
 	}
 
-	std::string 	toString() const {
+	std::string 	toString() const override {
 		return "";
 	}
 
-	eOperandType getType() const
+	eOperandType getType() const override
 	{
 		return _type;
 	}
@@ -64,7 +64,7 @@ public:
 		return _value;
 	}
 
-	int getPrecision() const
+	int getPrecision() const override
 	{
 		return _precision;
 	}
@@ -75,43 +75,43 @@ public:
 		eOperandType resType = (eOperandType) (rhs.getPrecision() > this->getPrecision()
 								  ? rhs.getPrecision() : this->getPrecision());
 
-		const IOperand *ret = Factory().createOperand(resType, toString(static_cast<double>(stod(rhs.toString())) +
+		const IOperand *ret = Factory().createOperand(resType, std::to_string(static_cast<double>(stod(rhs.toString())) +
 																				static_cast<double>(stod(this->toString()))));
 		return ret;
 	}
 
-	IOperand const *operator-(IOperand const & rhs) const {
+	IOperand const *operator-(IOperand const & rhs) const override {
 		eOperandType resType = (eOperandType) (rhs.getPrecision() > this->getPrecision()
 											   ? rhs.getPrecision() : this->getPrecision());
 
-		const IOperand *ret = Factory().createOperand(resType, toString(static_cast<double>(stod(rhs.toString())) -
+		const IOperand *ret = Factory().createOperand(resType, std::to_string(static_cast<double>(stod(rhs.toString())) -
 																		static_cast<double>(stod(this->toString()))));
 		return ret;
 	}
 
-	IOperand const *operator*(IOperand const & rhs) const {
+	IOperand const *operator*(IOperand const & rhs) const override {
 		eOperandType resType = (eOperandType) (rhs.getPrecision() > this->getPrecision()
 											   ? rhs.getPrecision() : this->getPrecision());
 
-		const IOperand *ret = Factory().createOperand(resType, toString(static_cast<double>(stod(rhs.toString())) *
+		const IOperand *ret = Factory().createOperand(resType, std::to_string(static_cast<double>(stod(rhs.toString())) *
 																		static_cast<double>(stod(this->toString()))));
 		return ret;
 	}
 
-	IOperand const *operator/(IOperand const & src) const {
+	IOperand const *operator/(IOperand const & src) const override {
 		eOperandType resType = (eOperandType) (src.getPrecision() > this->getPrecision()
 											   ? src.getPrecision() : this->getPrecision());
 
-		const IOperand *ret = Factory().createOperand(resType, toString(static_cast<double>(stod(src.toString())) /
+		const IOperand *ret = Factory().createOperand(resType, std::to_string(static_cast<double>(stod(src.toString())) /
 																		static_cast<double>(stod(this->toString()))));
 		return ret;
 	}
 
-	IOperand const *operator%(IOperand const & src) const {
+	IOperand const *operator%(IOperand const & src) const override {
 		eOperandType resType = (eOperandType) (src.getPrecision() > this->getPrecision()
 											   ? src.getPrecision() : this->getPrecision());
 
-		const IOperand *ret = Factory().createOperand(resType, toString(fmod(static_cast<double>(stod(src.toString())),
+		const IOperand *ret = Factory().createOperand(resType, std::to_string(fmod(static_cast<double>(stod(src.toString())),
 																		static_cast<double>(stod(this->toString())))));
 		return ret;
 	}

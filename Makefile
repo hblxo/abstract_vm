@@ -6,7 +6,7 @@
 #    By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/19 22:14:00 by lgiacalo          #+#    #+#              #
-#    Updated: 2019/10/04 19:25:14 by hbouchet         ###   ########.fr        #
+#    Updated: 2019/10/06 17:08:52 by hbouchet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ OBJ_PATH	=	obj
 
 
 SRC_NAME	=   main.cpp LexerClass.cpp ExceptionClass.cpp MatcherClass.cpp CalculatorClass.cpp\
-				Factory.cpp VmClass.cpp
+				Factory.cpp
 
 INC_NAME	=	LexerClass.hpp
 
