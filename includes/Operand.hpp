@@ -54,7 +54,8 @@ public:
 	}
 
 	std::string 	toString() const override {
-		return(std::to_string(this->getType() ) + " - " + std::to_string(this->getValue()));
+//		return(std::to_string(this->getType() ) + " - " + std::to_string(this->getValue()));
+		return(std::to_string(this->getValue()));
 	}
 
 	eOperandType getType() const override
@@ -117,6 +118,11 @@ public:
 		const IOperand *ret = Factory().createOperand(resType, std::to_string(fmod(static_cast<double>(stod(src.toString())),
 																		static_cast<double>(stod(this->toString())))));
 		return ret;
+	}
+
+	bool operator==(IOperand const & src) const{
+		return ((this->toString() == src.toString()) && (this->getType() == src.getType()) && (this->getPrecision() == src.getPrecision()));
+//		return cmp(lhs,rhs) == 0;
 	}
 };
 

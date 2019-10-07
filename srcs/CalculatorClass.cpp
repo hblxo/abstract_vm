@@ -66,17 +66,6 @@ std::ostream &	operator<< (std::ostream & o, Calculator const & rhs)
     o << rhs.toString();
     return o;
 }
-/*
-IOperand *Calculator::findOperand(std::string str){
-	std::regex reg = (const std::basic_regex<char> &) "^(\\s+)(int8|int16|int32|float|double)([)-?[0-9]+(.?[0-9]+)?[)])(\\s*)$";
-	if (std::regex_match(str, reg))
-	{
-		if (str.find("int8"))
-//			return Factory().createOperand(Int8, str.substr(3));
-			return nullptr;//todo : ??????
-	}
-}*/
-
 
 void Calculator::doOperation(int type, const std::string& value)
 {
@@ -85,7 +74,8 @@ void Calculator::doOperation(int type, const std::string& value)
 		Calculator::push(const_cast<IOperand *>(Factory().createOperand(
 				instruct.getType(), instruct.getValue())));
 	else if (type == Lexer::ASSERT)
-    	std::cout << "OK LA : " << value << std::endl;
+    	Calculator::assertion(const_cast<IOperand *>(Factory().createOperand(
+				instruct.getType(), instruct.getValue())));
 	else
 		std::throw_with_nested(Exception::DivideByZeroException());//todo : correct exception
 //		throw Exception("");
@@ -135,7 +125,9 @@ by a newline.*/
 
 void Calculator::assertion(IOperand *Op)
 {
-	(void)Op;
+	if ((_operands.top() == Op) != 0)
+		throw Exception("Assertion Error");
+
 	//todo : assert() instruction
 	/* Asserts that the value at the top of the stack is equal to the one passed
 as parameter for this instruction. If it is not the case, the program execution must
@@ -145,8 +137,12 @@ to the instruction push.*/
 
 void Calculator::add()
 {
+	if (_operands.empty())
+		throw Exception("Add - Empty stack");
 	IOperand *a = _operands.top();
 	_operands.pop();
+	if (_operands.empty())
+		throw Exception("Add - Less than 2 values on stack");
 	IOperand *b = _operands.top();
 	_operands.pop();
 	_operands.push(const_cast<IOperand *>(*a + *b));
@@ -157,8 +153,12 @@ void Calculator::add()
 
 void Calculator::sub()
 {
+	if (_operands.empty())
+		throw Exception("Sub - Empty stack");
 	IOperand *a = _operands.top();
 	_operands.pop();
+	if (_operands.empty())
+		throw Exception("Sub - Less than 2 values on stack");
 	IOperand *b = _operands.top();
 	_operands.pop();
 	_operands.push(const_cast<IOperand *>(*a - *b));
@@ -169,8 +169,12 @@ void Calculator::sub()
 
 void Calculator::mul()
 {
+	if (_operands.empty())
+		throw Exception("Mul - Empty stack");
 	IOperand *a = _operands.top();
 	_operands.pop();
+	if (_operands.empty())
+		throw Exception("Mul - Less than 2 values on stack");
 	IOperand *b = _operands.top();
 	_operands.pop();
 	_operands.push(const_cast<IOperand *>(*a * *b));
@@ -181,8 +185,12 @@ void Calculator::mul()
 
 void Calculator::div()
 {
+	if (_operands.empty())
+		throw Exception("Div - Empty stack");
 	IOperand *a = _operands.top();
 	_operands.pop();
+	if (_operands.empty())
+		throw Exception("Div - Less than 2 values on stack");
 	IOperand *b = _operands.top();
 	_operands.pop();
 	_operands.push(const_cast<IOperand *>(*a / *b));
@@ -196,8 +204,12 @@ void Calculator::div()
 
 void Calculator::mod()
 {
+	if (_operands.empty())
+		throw Exception("Mod - Empty stack");
 	IOperand *a = _operands.top();
 	_operands.pop();
+	if (_operands.empty())
+		throw Exception("Mod - Less than 2 values on stack");
 	IOperand *b = _operands.top();
 	_operands.pop();
 	_operands.push(const_cast<IOperand *>(*a % *b));
