@@ -16,6 +16,7 @@
 #include <iostream>
 #include <regex>
 #include <Factory.hpp>
+#include <InstructClass.hpp>
 
 Calculator::instructs Calculator::_instruct = {
 //		&Calculator::push,
@@ -79,21 +80,25 @@ IOperand *Calculator::findOperand(std::string str){
 
 void Calculator::doOperation(int type, const std::string& value)
 {
+	Instruct instruct = Instruct(value);
 	if (type == Lexer::PUSH)
-		;
+		push(const_cast<IOperand *>(Factory().createOperand(
+				instruct.getType(), instruct.getValue())));
 	else if (type == Lexer::ASSERT)
     	std::cout << "OK LA : " << value << std::endl;
 	else
-		std::throw_with_nested(Exception::DivideByZeroException());
+		std::throw_with_nested(Exception::DivideByZeroException());//todo : correct exception
 //		throw Exception("");
 }
 
 void Calculator::doOperation(int type)
 {
 	if (type != Lexer::PUSH && type != Lexer::ASSERT)
-    	std::cout << "OK !" << std::endl;
+	{
+		(this->*_instruct[type])();
+	}
 	else
-		throw Exception("");
+		throw Exception("Invalid Operation");
 }
 
 void Calculator::push(IOperand *Op)
@@ -109,6 +114,17 @@ void Calculator::pop()
 		_operands.pop();
 }
 
+void Calculator::printTop()
+{
+	if (_operands.empty())
+		return;
+	IOperand *Op = _operands.top();
+	_operands.pop();
+	printTop();
+	_operands.push(Op);
+	std::cout << Op->toString() << std::endl;
+}
+
 void Calculator::dump()
 {
 //	_operands.dump();
@@ -116,6 +132,7 @@ void Calculator::dump()
 /*Displays each value of the stack, from the most recent one to the oldest
 one WITHOUT CHANGING the stack. Each value is separated from the next one
 by a newline.*/
+	printTop();
 }
 
 void Calculator::assertion(IOperand *Op)

@@ -30,8 +30,8 @@ public:
 
     std::string toString() const;
 
-    static void doOperation(int type, const std::string& value);
-    static void doOperation(int type);
+    void doOperation(int type, const std::string& value);
+    void doOperation(int type);
 
     typedef	void	(Calculator::*instructs[9])();
     static instructs _instruct;
@@ -53,7 +53,8 @@ private:
 	std::stack<IOperand *>	_operands;
 
 //	IOperand *findOperand(std::string str);
-// TODO : Instruct Class ? getType / getValue (parsing/regex)
+// TODO : InstructClass Class ? getType / getValue (parsing/regex)
+	void printTop();
 };
 
 std::ostream &	operator<< (std::ostream & o, Calculator const & rhs);

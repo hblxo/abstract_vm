@@ -39,7 +39,7 @@ OBJ_PATH	=	obj
 
 
 SRC_NAME	=   main.cpp LexerClass.cpp ExceptionClass.cpp MatcherClass.cpp CalculatorClass.cpp\
-				Factory.cpp
+				Factory.cpp InstructClass.cpp
 
 INC_NAME	=	LexerClass.hpp
 

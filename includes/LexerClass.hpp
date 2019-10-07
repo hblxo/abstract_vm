@@ -33,16 +33,16 @@ class Lexer {
 
         enum instructions {
             COMMENT,
-            PUSH,
             POP,
             DUMP,
-            ASSERT,
             ADD,
             SUB,
             MUL,
             DIV,
             MOD,
             PRINT,
+            PUSH,
+            ASSERT,
             EXIT
         };
 

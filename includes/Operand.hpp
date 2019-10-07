@@ -51,7 +51,7 @@ public:
 	}
 
 	std::string 	toString() const override {
-		return "";
+		return(std::to_string(this->getType() ) + " - " + std::to_string(this->getValue()));
 	}
 
 	eOperandType getType() const override

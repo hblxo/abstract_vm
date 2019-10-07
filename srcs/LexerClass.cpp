@@ -75,6 +75,7 @@ void    Lexer::defineLexerInstruct(std::string string)
 {
     std::list<Matcher*>::iterator ite;
     std::size_t pos;
+	auto calc = new Calculator();
 
     std::string line = Lexer::parseLine(string);
     pos = line.find(" ");
@@ -88,9 +89,9 @@ void    Lexer::defineLexerInstruct(std::string string)
             if (pos != std::string::npos)
 //            && std::regex_match(line,
 //            		std::regex("^(\\s*)?(push|assert)(\\s+)(((int8|int16|int32)[(]-?[0-9]+[)])|((float|double)[(]-?[0-9]+(.?[0-9]+)?[)]))(\\s*)(;.*)?$")))
-                Calculator::doOperation((*ite)->getType(), line.substr(pos + 1));
+                calc->doOperation((*ite)->getType(), line.substr(pos + 1));
             else
-                Calculator::doOperation((*ite)->getType());
+                calc->doOperation((*ite)->getType());
             return ;
         }
     }
@@ -102,10 +103,8 @@ void    Lexer::defineLexerInstruct(std::string string)
 std::list<Matcher*> *Lexer::InitializeMatchList()
 {
     std::list<Matcher*> *keywordMatchers = new std::list<Matcher*>;
-    keywordMatchers->push_back(new Matcher(PUSH, "push"));
     keywordMatchers->push_back(new Matcher(POP, "pop"));
     keywordMatchers->push_back(new Matcher(DUMP, "dump"));
-    keywordMatchers->push_back(new Matcher(ASSERT, "assert"));
     keywordMatchers->push_back(new Matcher(ADD, "add"));
     keywordMatchers->push_back(new Matcher(SUB, "sub"));
     keywordMatchers->push_back(new Matcher(MUL, "mul"));
@@ -114,6 +113,8 @@ std::list<Matcher*> *Lexer::InitializeMatchList()
     keywordMatchers->push_back(new Matcher(PRINT, "print"));
     keywordMatchers->push_back(new Matcher(EXIT, "exit"));
     keywordMatchers->push_back(new Matcher(COMMENT, ";"));
+    keywordMatchers->push_back(new Matcher(PUSH, "push"));
+    keywordMatchers->push_back(new Matcher(ASSERT, "assert"));
     return keywordMatchers;
 }
 
@@ -146,7 +147,7 @@ std::string const Lexer::toString() const
 	std::string ret;
 	std::list<Matcher*>::iterator ite;
 
-	for (ite = this->_matchList->begin(); ite != this->_matchList.end(); ite++)
+	for (ite = this->_matchList->begin(); ite != this->_matchList->end(); ite++)
 	{
 		ret += (*ite)->toString();
 		ret += '\n';
