@@ -75,7 +75,7 @@ void    Lexer::defineLexerInstruct(std::string string)
 {
     std::list<Matcher*>::iterator ite;
     std::size_t pos;
-	auto calc = new Calculator();
+//	auto calc = new Calculator();
 
     std::string line = Lexer::parseLine(string);
     pos = line.find(" ");
@@ -89,9 +89,9 @@ void    Lexer::defineLexerInstruct(std::string string)
             if (pos != std::string::npos)
 //            && std::regex_match(line,
 //            		std::regex("^(\\s*)?(push|assert)(\\s+)(((int8|int16|int32)[(]-?[0-9]+[)])|((float|double)[(]-?[0-9]+(.?[0-9]+)?[)]))(\\s*)(;.*)?$")))
-                calc->doOperation((*ite)->getType(), line.substr(pos + 1));
+                _calc.doOperation((*ite)->getType(), line.substr(pos + 1));
             else
-                calc->doOperation((*ite)->getType());
+                _calc.doOperation((*ite)->getType());
             return ;
         }
     }

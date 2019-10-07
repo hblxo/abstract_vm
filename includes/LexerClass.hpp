@@ -17,6 +17,7 @@
 # include <list>
 # include "MatcherClass.hpp"
 #include "IOperand.hpp"
+#include "CalculatorClass.hpp"
 
 
 class Lexer {
@@ -32,7 +33,6 @@ class Lexer {
         std::string const	toString(void) const;
 
         enum instructions {
-            COMMENT,
             POP,
             DUMP,
             ADD,
@@ -43,6 +43,7 @@ class Lexer {
             PRINT,
             PUSH,
             ASSERT,
+            COMMENT,
             EXIT
         };
 
@@ -53,7 +54,8 @@ class Lexer {
         static std::list<Matcher*> *InitializeMatchList();
 		void	run(std::istream &file);
 
-        std::list<Matcher*>  *_matchList;
+        std::list<Matcher*> 	*_matchList;
+        Calculator				_calc;
 };
 
 std::ostream &	operator<< (std::ostream & o, Lexer const & rhs);

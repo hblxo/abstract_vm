@@ -82,7 +82,7 @@ void Calculator::doOperation(int type, const std::string& value)
 {
 	Instruct instruct = Instruct(value);
 	if (type == Lexer::PUSH)
-		push(const_cast<IOperand *>(Factory().createOperand(
+		Calculator::push(const_cast<IOperand *>(Factory().createOperand(
 				instruct.getType(), instruct.getValue())));
 	else if (type == Lexer::ASSERT)
     	std::cout << "OK LA : " << value << std::endl;
@@ -127,8 +127,6 @@ void Calculator::printTop()
 
 void Calculator::dump()
 {
-//	_operands.dump();
-//Todo : dump() instruction
 /*Displays each value of the stack, from the most recent one to the oldest
 one WITHOUT CHANGING the stack. Each value is separated from the next one
 by a newline.*/
