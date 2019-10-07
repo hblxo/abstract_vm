@@ -15,6 +15,7 @@
 
 # include "IOperand.hpp"
 #include "Factory.hpp"
+#include "ExceptionClass.hpp"
 # include <cmath>
 //#include <tclDecls.h>
 
@@ -45,6 +46,8 @@ public:
 	}
 
 	Operand<T> (eOperandType type, std::string const & value) : _type(type) {
+		if (stod(value) > std::numeric_limits<T>::max() || stod(value) < std::numeric_limits<T>::min())
+			throw Exception("Overflow/Underflow Exception");
 		this->_precision = static_cast<int>(type);
 		this->_value = stod(value, nullptr);
 		//todo : erreur overflow / underflow
