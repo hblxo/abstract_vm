@@ -75,7 +75,7 @@ void Instruct::findValue(std::string basicString)
 			this->_type = (eOperandType)Int32;
 		else if ((pos = basicString.find("float(")) != std::string::npos)
 			this->_type = (eOperandType)Float;
-		else if ((pos = basicString.find("int16(")) != std::string::npos)
+		else if ((pos = basicString.find("double(")) != std::string::npos)
 			this->_type = (eOperandType)Double;
 		else
 			throw Exception("Invalid operand");

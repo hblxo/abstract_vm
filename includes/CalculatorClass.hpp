@@ -46,14 +46,12 @@ private:
     void	mul();
     void	div();
     void	mod();
+	//todo implement this instructions
     void	print();
     void	exit();
-	//todo implement this instructions
 
 	std::stack<IOperand *>	_operands;
 
-//	IOperand *findOperand(std::string str);
-// TODO : InstructClass Class ? getType / getValue (parsing/regex)
 	void printTop();
 };
 

@@ -41,10 +41,10 @@ class Lexer {
             DIV,
             MOD,
             PRINT,
+            EXIT,
             PUSH,
             ASSERT,
             COMMENT,
-            EXIT
         };
 
 

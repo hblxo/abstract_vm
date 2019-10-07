@@ -128,7 +128,6 @@ void Calculator::assertion(IOperand *Op)
 	if ((_operands.top() == Op) != 0)
 		throw Exception("Assertion Error");
 
-	//todo : assert() instruction
 	/* Asserts that the value at the top of the stack is equal to the one passed
 as parameter for this instruction. If it is not the case, the program execution must
 stop with an error. The value v has the same form that those passed as parameters
@@ -148,7 +147,6 @@ void Calculator::add()
 	_operands.push(const_cast<IOperand *>(*a + *b));
 	delete a;
 	delete b;
-	//todo : stack < 2 Exception
 }
 
 void Calculator::sub()
@@ -164,7 +162,6 @@ void Calculator::sub()
 	_operands.push(const_cast<IOperand *>(*a - *b));
 	delete a;
 	delete b;
-	//todo : stack < 2 Exception
 }
 
 void Calculator::mul()
@@ -180,7 +177,6 @@ void Calculator::mul()
 	_operands.push(const_cast<IOperand *>(*a * *b));
 	delete a;
 	delete b;
-	//todo : stack < 2 Exception
 }
 
 void Calculator::div()
@@ -189,6 +185,8 @@ void Calculator::div()
 		throw Exception("Div - Empty stack");
 	IOperand *a = _operands.top();
 	_operands.pop();
+	if (std::stod(a->toString()) == 0)
+		throw Exception("Divide by Zero Exception");
 	if (_operands.empty())
 		throw Exception("Div - Less than 2 values on stack");
 	IOperand *b = _operands.top();
@@ -196,9 +194,6 @@ void Calculator::div()
 	_operands.push(const_cast<IOperand *>(*a / *b));
 	delete a;
 	delete b;
-	//todo : stack < 2 Exception
-	//Todo : /0 Exception
-
 	//Todo : floating point value ?
 }
 
@@ -208,6 +203,8 @@ void Calculator::mod()
 		throw Exception("Mod - Empty stack");
 	IOperand *a = _operands.top();
 	_operands.pop();
+	if (std::stod(a->toString()) == 0)
+		throw Exception("Divide by Zero Exception");
 	if (_operands.empty())
 		throw Exception("Mod - Less than 2 values on stack");
 	IOperand *b = _operands.top();
@@ -215,8 +212,6 @@ void Calculator::mod()
 	_operands.push(const_cast<IOperand *>(*a % *b));
 	delete a;
 	delete b;
-	//todo : stack < 2 Exception
-	//Todo : /0 Exception
 }
 
 void Calculator::print()

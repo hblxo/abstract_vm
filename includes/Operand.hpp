@@ -46,7 +46,7 @@ public:
 	}
 
 	Operand<T> (eOperandType type, std::string const & value) : _type(type) {
-		if (stod(value) > std::numeric_limits<T>::max() || stod(value) < std::numeric_limits<T>::min())
+		if (stod(value) > std::numeric_limits<T>::max() || stod(value) < std::numeric_limits<T>::lowest())
 			throw Exception("Overflow/Underflow Exception");
 		this->_precision = static_cast<int>(type);
 		this->_value = stod(value, nullptr);
@@ -73,14 +73,12 @@ public:
 		return _precision;
 	}
 
-
-	//TODO : implement operator
 	IOperand const *operator+(IOperand const & rhs) const override {
 		eOperandType resType = (eOperandType) (rhs.getPrecision() > this->getPrecision()
 								  ? rhs.getPrecision() : this->getPrecision());
 
-		const IOperand *ret = Factory().createOperand(resType, std::to_string(static_cast<double>(stod(rhs.toString())) +
-																				static_cast<double>(stod(this->toString()))));
+		const IOperand *ret = Factory().createOperand(resType,
+				std::to_string(static_cast<double>(stod(rhs.toString())) + static_cast<double>(stod(this->toString()))));
 		return ret;
 	}
 
