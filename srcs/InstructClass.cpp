@@ -63,7 +63,7 @@ void Instruct::findValue(std::string basicString)
 	std::regex reg;
 	reg = R"(^(\s*)(int8|int16|int32|float|double)(\()(-?[0-9]+(.?[0-9]+)?)(\))(\s*)?$)";
 	if (!std::regex_match(basicString, reg))
-		throw Exception("Invalid Value / RegExp");
+		throw InvalidValueException();
 	else
 	{
 		size_t pos;
@@ -78,7 +78,7 @@ void Instruct::findValue(std::string basicString)
 		else if ((pos = basicString.find("double(")) != std::string::npos)
 			this->_type = (eOperandType)Double;
 		else
-			throw Exception("Invalid operand");
+			throw InvalidTypeException();
 		this->_value = std::to_string(std::stod(basicString.substr(basicString.find('(') + 1, basicString.find(')'))));
 	}
 }

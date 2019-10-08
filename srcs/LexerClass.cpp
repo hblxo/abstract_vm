@@ -12,7 +12,6 @@
 
 #include "../includes/LexerClass.hpp"
 #include "../includes/ExceptionClass.hpp"
-#include "../includes/CalculatorClass.hpp"
 #include <iostream>
 #include <list>
 #include <cstring>
@@ -26,13 +25,13 @@ Lexer::Lexer(int argc, char **argv)
     std::string filename;
 
     if (argc > 2)
-        throw Exception("usage : ./avm");
+        throw InvalidArgumentsCountException();
     else if (argc == 2)
     {
         filename = argv[1];
         file.open(filename);
         if (file.fail())
-        	throw Exception("Fail to open file");
+        	throw OpenFailureException();
          Lexer::run(file);
     }
     else
@@ -95,14 +94,14 @@ void    Lexer::defineLexerInstruct(std::string string)
             return ;
         }
     }
-    throw Exception("\"" + string + "\" does not contain a valid operation");
+    throw InvalidInstructionException();
 }
 
 
 //cf : http://onoffswitch.net/building-a-custom-lexer/
 std::list<Matcher*> *Lexer::InitializeMatchList()
 {
-    std::list<Matcher*> *keywordMatchers = new std::list<Matcher*>;
+    auto *keywordMatchers = new std::list<Matcher*>;
     keywordMatchers->push_back(new Matcher(POP, "pop"));
     keywordMatchers->push_back(new Matcher(DUMP, "dump"));
     keywordMatchers->push_back(new Matcher(ADD, "add"));
@@ -119,14 +118,12 @@ std::list<Matcher*> *Lexer::InitializeMatchList()
 }
 
 Lexer::Lexer()
-{
-}
+= default;
 
 Lexer::Lexer(Lexer const & src) 
 {
     //Do whatever needs to be done
     *this = src;
-    return;
 }
 
 Lexer::~Lexer()
@@ -142,7 +139,7 @@ Lexer &	Lexer::operator=(Lexer const & rhs)
     return *this;
 }
 
-std::string const Lexer::toString() const
+std::string Lexer::toString() const
 {
 	std::string ret;
 	std::list<Matcher*>::iterator ite;

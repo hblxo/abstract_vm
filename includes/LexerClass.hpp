@@ -30,7 +30,7 @@ class Lexer {
 
         Lexer &		operator=(Lexer const & rhs);
 
-        std::string const	toString(void) const;
+        std::string 	toString(void) const;
 
         enum instructions {
             POP,
@@ -54,7 +54,7 @@ class Lexer {
         static std::list<Matcher*> *InitializeMatchList();
 		void	run(std::istream &file);
 
-        std::list<Matcher*> 	*_matchList;
+        std::list<Matcher*> 	*_matchList{};
         Calculator				_calc;
 };
 

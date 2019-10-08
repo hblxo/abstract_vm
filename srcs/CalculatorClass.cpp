@@ -19,10 +19,8 @@
 #include <InstructClass.hpp>
 
 Calculator::instructs Calculator::_instruct = {
-//		&Calculator::push,
 		&Calculator::pop,
 		&Calculator::dump,
-//		&Calculator::asert,
 		&Calculator::add,
 		&Calculator::sub,
 		&Calculator::mul,
@@ -33,8 +31,7 @@ Calculator::instructs Calculator::_instruct = {
 };
 
 Calculator::Calculator()
-{
-}
+= default;
 
 Calculator::Calculator(Calculator const & src) 
 {
@@ -42,10 +39,8 @@ Calculator::Calculator(Calculator const & src)
     *this = src;
 }
 
-Calculator::~Calculator(void)
-{
-    return;
-}
+Calculator::~Calculator()
+= default;
 
 Calculator &	Calculator::operator=(Calculator const & rhs)
 {
@@ -77,8 +72,7 @@ void Calculator::doOperation(int type, const std::string& value)
     	Calculator::assertion(const_cast<IOperand *>(Factory().createOperand(
 				instruct.getType(), instruct.getValue())));
 	else
-		std::throw_with_nested(Exception::DivideByZeroException());//todo : correct exception
-//		throw Exception("");
+		throw InvalidInstructionException();
 }
 
 void Calculator::doOperation(int type)
@@ -88,7 +82,7 @@ void Calculator::doOperation(int type)
 		(this->*_instruct[type])();
 	}
 	else
-		throw Exception("Invalid Operation");
+		throw InvalidInstructionException();
 }
 
 void Calculator::push(IOperand *Op)
@@ -99,7 +93,7 @@ void Calculator::push(IOperand *Op)
 void Calculator::pop()
 {
 	if (_operands.empty())
-		throw Exception("Empty stack");
+		throw EmptyStackException();
 	else
 		_operands.pop();
 }
@@ -137,11 +131,11 @@ to the instruction push.*/
 void Calculator::add()
 {
 	if (_operands.empty())
-		throw Exception("Add - Empty stack");
+		throw EmptyStackException();
 	IOperand *a = _operands.top();
 	_operands.pop();
 	if (_operands.empty())
-		throw Exception("Add - Less than 2 values on stack");
+		throw NotEnoughOnStackException();
 	IOperand *b = _operands.top();
 	_operands.pop();
 	_operands.push(const_cast<IOperand *>(*a + *b));
@@ -152,11 +146,11 @@ void Calculator::add()
 void Calculator::sub()
 {
 	if (_operands.empty())
-		throw Exception("Sub - Empty stack");
+		throw EmptyStackException();
 	IOperand *a = _operands.top();
 	_operands.pop();
 	if (_operands.empty())
-		throw Exception("Sub - Less than 2 values on stack");
+		throw NotEnoughOnStackException();
 	IOperand *b = _operands.top();
 	_operands.pop();
 	_operands.push(const_cast<IOperand *>(*a - *b));
@@ -167,11 +161,11 @@ void Calculator::sub()
 void Calculator::mul()
 {
 	if (_operands.empty())
-		throw Exception("Mul - Empty stack");
+		throw EmptyStackException();
 	IOperand *a = _operands.top();
 	_operands.pop();
 	if (_operands.empty())
-		throw Exception("Mul - Less than 2 values on stack");
+		throw NotEnoughOnStackException();
 	IOperand *b = _operands.top();
 	_operands.pop();
 	_operands.push(const_cast<IOperand *>(*a * *b));
@@ -182,13 +176,13 @@ void Calculator::mul()
 void Calculator::div()
 {
 	if (_operands.empty())
-		throw Exception("Div - Empty stack");
+		throw EmptyStackException();
 	IOperand *a = _operands.top();
 	_operands.pop();
 	if (std::stod(a->toString()) == 0)
-		throw Exception("Divide by Zero Exception");
+		throw DivideByZeroException();
 	if (_operands.empty())
-		throw Exception("Div - Less than 2 values on stack");
+		throw NotEnoughOnStackException();
 	IOperand *b = _operands.top();
 	_operands.pop();
 	_operands.push(const_cast<IOperand *>(*a / *b));
@@ -200,13 +194,13 @@ void Calculator::div()
 void Calculator::mod()
 {
 	if (_operands.empty())
-		throw Exception("Mod - Empty stack");
+		throw EmptyStackException();
 	IOperand *a = _operands.top();
 	_operands.pop();
 	if (std::stod(a->toString()) == 0)
-		throw Exception("Divide by Zero Exception");
+		throw DivideByZeroException();
 	if (_operands.empty())
-		throw Exception("Mod - Less than 2 values on stack");
+		throw NotEnoughOnStackException();
 	IOperand *b = _operands.top();
 	_operands.pop();
 	_operands.push(const_cast<IOperand *>(*a % *b));
@@ -216,11 +210,16 @@ void Calculator::mod()
 
 void Calculator::print()
 {
-	//todo : print() instruction
 	/*Asserts that the value at the top of the stack is an 8-bit integer.
 	 *(If not,see the instruction assert), then interprets it as an ASCII value
 	 * and displays the corresponding character on the standard output
 	 * */
+	if (_operands.empty())
+		throw EmptyStackException();
+	IOperand *a = _operands.top();
+	if (a->getType() != eOperandType::Int8)
+		throw Exception("The Value on top isn't a char");
+	std::cout << static_cast<char>(std::stod(a->toString())) << std::endl;
 }
 
 void Calculator::exit()
