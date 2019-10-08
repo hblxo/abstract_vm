@@ -17,11 +17,6 @@
 
 class Exception : public std::exception {
 public: 
-//	class DivideByZeroException;
-//	class OverflowException;
-//	class UnderflowException;
-//	class OpenFailureException;
-//	class InvalidArgumentsCountException;
 	Exception();
     explicit Exception(std::string  msg);
     Exception(Exception const & src);
@@ -197,5 +192,20 @@ private:
 	std::string _msg;
 };
 
+/*
+ * Nested Class NoExitInstructionException
+ */
+class NoExitInstructionException : public Exception{
+public:
+	NoExitInstructionException();
+	NoExitInstructionException(NoExitInstructionException const & src);
+	~NoExitInstructionException() override;
+	const char* what() const noexcept override;
+
+	NoExitInstructionException	&operator=(NoExitInstructionException const & rhs);
+
+private:
+	std::string _msg;
+};
+
 #endif
-//	class NotEnoughOnStackException;

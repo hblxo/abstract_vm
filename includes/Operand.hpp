@@ -17,7 +17,6 @@
 #include "Factory.hpp"
 #include "ExceptionClass.hpp"
 # include <cmath>
-//#include <tclDecls.h>
 
 template <typename T>
 class Operand : public IOperand {
@@ -46,15 +45,16 @@ public:
 	}
 
 	Operand<T> (eOperandType type, std::string const & value) : _type(type) {
-		if (stod(value) > std::numeric_limits<T>::max() || stod(value) < std::numeric_limits<T>::lowest())
-			throw Exception("Overflow/Underflow Exception");
+		if (stod(value) > std::numeric_limits<T>::max())
+			throw OverflowException();
+		if (stod(value) <= std::numeric_limits<T>::lowest())
+			throw UnderflowException();
+
 		this->_precision = static_cast<int>(type);
 		this->_value = stod(value, nullptr);
-		//todo : erreur overflow / underflow
 	}
 
 	std::string 	toString() const override {
-//		return(std::to_string(this->getType() ) + " - " + std::to_string(this->getValue()));
 		return(std::to_string(this->getValue()));
 	}
 
@@ -74,7 +74,7 @@ public:
 	}
 
 	IOperand const *operator+(IOperand const & rhs) const override {
-		eOperandType resType = (eOperandType) (rhs.getPrecision() > this->getPrecision()
+		auto resType = (eOperandType) (rhs.getPrecision() > this->getPrecision()
 								  ? rhs.getPrecision() : this->getPrecision());
 
 		const IOperand *ret = Factory().createOperand(resType,
@@ -83,7 +83,7 @@ public:
 	}
 
 	IOperand const *operator-(IOperand const & rhs) const override {
-		eOperandType resType = (eOperandType) (rhs.getPrecision() > this->getPrecision()
+		auto resType = (eOperandType) (rhs.getPrecision() > this->getPrecision()
 											   ? rhs.getPrecision() : this->getPrecision());
 
 		const IOperand *ret = Factory().createOperand(resType, std::to_string(static_cast<double>(stod(rhs.toString())) -
@@ -92,7 +92,7 @@ public:
 	}
 
 	IOperand const *operator*(IOperand const & rhs) const override {
-		eOperandType resType = (eOperandType) (rhs.getPrecision() > this->getPrecision()
+		auto resType = (eOperandType) (rhs.getPrecision() > this->getPrecision()
 											   ? rhs.getPrecision() : this->getPrecision());
 
 		const IOperand *ret = Factory().createOperand(resType, std::to_string(static_cast<double>(stod(rhs.toString())) *
@@ -101,7 +101,7 @@ public:
 	}
 
 	IOperand const *operator/(IOperand const & src) const override {
-		eOperandType resType = (eOperandType) (src.getPrecision() > this->getPrecision()
+		auto resType = (eOperandType) (src.getPrecision() > this->getPrecision()
 											   ? src.getPrecision() : this->getPrecision());
 
 		const IOperand *ret = Factory().createOperand(resType, std::to_string(static_cast<double>(stod(src.toString())) /
@@ -110,7 +110,7 @@ public:
 	}
 
 	IOperand const *operator%(IOperand const & src) const override {
-		eOperandType resType = (eOperandType) (src.getPrecision() > this->getPrecision()
+		auto resType = (eOperandType) (src.getPrecision() > this->getPrecision()
 											   ? src.getPrecision() : this->getPrecision());
 
 		const IOperand *ret = Factory().createOperand(resType, std::to_string(fmod(static_cast<double>(stod(src.toString())),
@@ -120,7 +120,6 @@ public:
 
 	bool operator==(IOperand const & src) const{
 		return ((this->toString() == src.toString()) && (this->getType() == src.getType()) && (this->getPrecision() == src.getPrecision()));
-//		return cmp(lhs,rhs) == 0;
 	}
 };
 

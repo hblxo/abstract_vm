@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include <iostream>
-#include "../includes/LexerClass.hpp"
-#include "../includes/ExceptionClass.hpp"
+#include "LexerClass.hpp"
+#include "ExceptionClass.hpp"
 
 int     main(int argc, char **argv)
 {
@@ -31,6 +31,3 @@ int     main(int argc, char **argv)
 	}
     return 0;
 }
-
-//todo : ajouter config clion github - autre branche ?
-//todo : exporter settings

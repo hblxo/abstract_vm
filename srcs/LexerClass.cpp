@@ -54,7 +54,9 @@ void    Lexer::run(std::istream &file)
         else if (cmd.size() != 0 && cmd[0] != '\n')
             defineLexerInstruct(cmd);
         cmd.clear();
-        getline(file, cmd);
+    	if (!getline(file, cmd))
+    		if ((file.eof()))
+				throw NoExitInstructionException();
     }
 }
 

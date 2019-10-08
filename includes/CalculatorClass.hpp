@@ -46,8 +46,8 @@ private:
     void	mul();
     void	div();
     void	mod();
-	//todo implement this instructions
     void	print();
+	//todo implement this instructions
     void	exit();
 
 	std::stack<IOperand *>	_operands;

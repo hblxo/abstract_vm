@@ -43,9 +43,6 @@ Exception &	Exception::operator=(Exception const & rhs)
     return *this;
 }
 
-
-//Todo : gestion des erreurs
-
 /*
  * Nested Class : DivideByZeroException
  */
@@ -304,8 +301,6 @@ InvalidValueException &InvalidValueException::operator=(InvalidValueException co
 InvalidValueException::~InvalidValueException()
 = default;
 
-
-
 /*
  * Nested Class NotEnoughOnStackException
  */
@@ -332,5 +327,33 @@ NotEnoughOnStackException &NotEnoughOnStackException::operator=(NotEnoughOnStack
 }
 
 NotEnoughOnStackException::~NotEnoughOnStackException()
+= default;
+
+/*
+ * Nested Class NotEnoughOnStackException
+ */
+NoExitInstructionException::NoExitInstructionException()
+{
+	_msg = "No Exit Instruction Exception";
+}
+
+NoExitInstructionException::NoExitInstructionException(NoExitInstructionException const &src)
+ : Exception(src) {
+	*this = src;
+}
+
+const char *NoExitInstructionException::what() const noexcept
+{
+	return _msg.c_str();
+}
+
+NoExitInstructionException &NoExitInstructionException::operator=(NoExitInstructionException const &rhs)
+{
+	if (this != &rhs)
+		*this = rhs;
+	return *this;
+}
+
+NoExitInstructionException::~NoExitInstructionException()
 = default;
 

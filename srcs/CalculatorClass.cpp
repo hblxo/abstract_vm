@@ -104,13 +104,15 @@ void Calculator::printTop()
 		return;
 	IOperand *Op = _operands.top();
 	_operands.pop();
+	std::cout << Op->toString() << std::endl;
 	printTop();
 	_operands.push(Op);
-	std::cout << Op->toString() << std::endl;
 }
 
 void Calculator::dump()
 {
+	if (_operands.empty())
+		throw EmptyStackException();
 /*Displays each value of the stack, from the most recent one to the oldest
 one WITHOUT CHANGING the stack. Each value is separated from the next one
 by a newline.*/
