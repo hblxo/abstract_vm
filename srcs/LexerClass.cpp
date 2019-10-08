@@ -32,32 +32,68 @@ Lexer::Lexer(int argc, char **argv)
         file.open(filename);
         if (file.fail())
         	throw OpenFailureException();
-         Lexer::run(file);
+        Lexer::readFile(file);
+		Lexer::run();
     }
     else
 	{
-		Lexer::run(std::cin);
+    	Lexer::readInput(std::cin);
+		Lexer::run();
 	}
     return;
 }
 
-void    Lexer::run(std::istream &file)
+void	Lexer::readInput(std::istream &input)
 {
-    std::string     cmd;
+	std::string							tmp;
 
-    getline(file, cmd);
+	getline(input, tmp);
+	while (tmp != ";;")
+	{
+		_input.push_back(tmp);
+		getline(input, tmp);
+	}
+}
+
+void 	Lexer::readFile(std::istream &file)
+{
+	std::string							tmp;
+
+	while (getline(file, tmp))
+		_input.push_back(tmp);
+	std::list<std::string>::iterator	it;
+	for (it = _input.begin(); it != _input.end() && (*it) != "exit" ; it++)
+		;
+//	if (it == _input.end())
+			if ((std::find(_input.begin(), _input.end(), "exit") == _input.end()))
+		throw NoExitInstructionException();
+}
+
+void Lexer::run()
+{
+	std::list<std::string>::iterator ite;
+
     this->_matchList = InitializeMatchList();
-    while (cmd != ";;" && cmd != "exit")
-    {
-    	if (cmd[0] == ';')
+
+    for (ite = _input.begin(); ite != _input.end() && (*ite) != "exit" && (*ite) != ";;" ; ite++)
+	{
+		if ((*ite)[0] == ';')
     		;//TODO : traiter commentaire debut de ligne
-        else if (cmd.size() != 0 && cmd[0] != '\n')
-            defineLexerInstruct(cmd);
-        cmd.clear();
-    	if (!getline(file, cmd))
-    		if ((file.eof()))
-				throw NoExitInstructionException();
-    }
+        else if ((*ite).size() != 0 && (*ite)[0] != '\n')
+            defineLexerInstruct((*ite));
+	}
+//    getline(file, cmd);
+//    while (cmd != ";;" && cmd != "exit")
+//    {
+//    	if (cmd[0] == ';')
+//    		;//TODO : traiter commentaire debut de ligne
+//        else if (cmd.size() != 0 && cmd[0] != '\n')
+//            defineLexerInstruct(cmd);
+//        cmd.clear();
+//    	if (!getline(file, cmd))
+//    		if ((file.eof()))
+//				throw NoExitInstructionException();
+//    }
 }
 
 std::string	Lexer::parseLine(std::string line)

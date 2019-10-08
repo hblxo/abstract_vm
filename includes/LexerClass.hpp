@@ -52,10 +52,15 @@ class Lexer {
         void    defineLexerInstruct(std::string string);
 		static std::string parseLine(std::string line);
         static std::list<Matcher*> *InitializeMatchList();
-		void	run(std::istream &file);
+		void run();
 
+		std::list<std::string>	_input;
         std::list<Matcher*> 	*_matchList{};
         Calculator				_calc;
+
+	void readFile(std::istream &file);
+
+	void readInput(std::istream &input);
 };
 
 std::ostream &	operator<< (std::ostream & o, Lexer const & rhs);
