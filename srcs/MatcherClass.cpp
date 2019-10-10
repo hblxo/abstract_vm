@@ -29,8 +29,10 @@ Matcher::Matcher(Matcher const & src)
 	this->_token = src.getToken();
 }
 
-Matcher::~Matcher()
-= default;
+Matcher::~Matcher(){
+//	std::cout << "destructor Matcher" << std::endl;
+	_token.clear();
+}
 
 Matcher &	Matcher::operator=(Matcher const & rhs)
 {

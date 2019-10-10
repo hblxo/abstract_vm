@@ -17,6 +17,7 @@
 #include <regex>
 #include <Factory.hpp>
 #include <InstructClass.hpp>
+#include <Operand.hpp>
 
 Calculator::instructs Calculator::_instruct = {
 		&Calculator::pop,
@@ -40,7 +41,14 @@ Calculator::Calculator(Calculator const & src)
 }
 
 Calculator::~Calculator()
-= default;
+{
+//	std::cout << "Calculator Destructor" << std::endl;
+	while (!_operands.empty())
+	{
+		delete(_operands.top());
+		_operands.pop();
+	}
+}
 
 Calculator &	Calculator::operator=(Calculator const & rhs)
 {
@@ -95,7 +103,10 @@ void Calculator::pop()
 	if (_operands.empty())
 		throw EmptyStackException();
 	else
+	{
+		delete (_operands.top());
 		_operands.pop();
+	}
 }
 
 void Calculator::printTop()
@@ -103,6 +114,7 @@ void Calculator::printTop()
 	if (_operands.empty())
 		return;
 	IOperand *Op = _operands.top();
+//	delete(_operands.top());
 	_operands.pop();
 	std::cout << Op->toString() << std::endl;
 	printTop();

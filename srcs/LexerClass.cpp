@@ -17,6 +17,7 @@
 #include <cstring>
 #include <algorithm>
 #include <fstream>
+#include <regex>
 
 Lexer::Lexer(int argc, char **argv)
 {
@@ -90,25 +91,36 @@ std::string	Lexer::parseLine(std::string line)
 	return value;
 }
 
+int	Lexer::findInstructType(std::string value){
+	std::regex regS, regC;
+	regS = R"(^(\s*)(add|dump|pop|sub|mul|div|mod|print|exit)(\s*)$)";
+//	regC = R"(^(\s*)(add|dump|pop|sub|mul|div|mod|print|exit)(\s*)$)";
+	if (std::regex_match(value, regS))
+		return 1;
+	return 0;
+}
+
 void    Lexer::defineLexerInstruct(std::string string)
 {
     std::list<Matcher*>::iterator ite;
     std::size_t pos;
 
     std::string line = Lexer::parseLine(string);
-    pos = line.find(" ");
+    pos = line.find(' ');
 	std::string value = line.substr(0, pos);
 
+	//todo : regex space
     for(ite = _matchList->begin(); ite != _matchList->end(); ite++)
     {
         if ((*ite)->matchSearch(value))
         {
-            if (pos != std::string::npos)
-                _calc.doOperation((*ite)->getType(), line.substr(pos + 1));
-            else
-                _calc.doOperation((*ite)->getType());
-            return ;
-        }
+        	if (findInstructType(value) == 1)
+//			if (pos == std::string::npos)
+				_calc.doOperation((*ite)->getType());
+			else
+				_calc.doOperation((*ite)->getType(), line.substr(pos + 1));
+			return ;
+		}
     }
     throw InvalidInstructionException();
 }
@@ -143,6 +155,14 @@ Lexer::Lexer(Lexer const & src)
 
 Lexer::~Lexer()
 {
+//	std::cout << "destructor Lexer" << std::endl;
+	std::list<Matcher*>::iterator ite;
+
+	for(ite = _matchList->begin(); ite != _matchList->end(); ite++)
+	{
+		delete((*ite));
+	}
+	_matchList->clear();
     delete _matchList;
 }
 

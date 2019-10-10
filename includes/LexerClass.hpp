@@ -61,6 +61,8 @@ class Lexer {
 	void readFile(std::istream &file);
 
 	void readInput(std::istream &input);
+
+	int findInstructType(std::string value);
 };
 
 std::ostream &	operator<< (std::ostream & o, Lexer const & rhs);

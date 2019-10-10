@@ -89,7 +89,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.cpp $(INC)
 	$(SPY)$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@ 
 
 $(NAME): $(OBJ_PATH) $(OBJ)
-	$(SPY)$(CC) -lncurses -o $(NAME) $(OBJ)
+	$(SPY)$(CC) -o $(NAME) $(OBJ)
 
 
 clean:

@@ -29,5 +29,6 @@ int     main(int argc, char **argv)
 	{
     	std::cout << "Undefined error" << std::endl;
 	}
+    delete(lexer);
     return 0;
 }

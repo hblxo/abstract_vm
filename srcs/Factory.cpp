@@ -63,7 +63,7 @@ Factory::Factory(Factory const &src)
 
 Factory::~Factory()
 {
-	;
+//	std::cout << "Factory Destructor" << std::endl;
 }
 
 Factory &Factory::operator=(Factory const &rhs)

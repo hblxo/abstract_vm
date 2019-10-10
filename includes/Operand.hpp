@@ -23,13 +23,15 @@ class Operand : public IOperand {
 private:
 	eOperandType	_type;
 	T			 	_value;
-	int 			_precision{};
+	int 			_precision;
 
 public:
 	Operand<T>(){
 	}
 
-	~Operand<T>()= default;
+	~Operand<T>(){
+//		std::cout << "Operand Destructor" << std::endl;
+	}
 
 	Operand<T>(Operand<T> const & src){
 		_type = src.getType();
@@ -121,6 +123,7 @@ public:
 	bool operator==(IOperand const & src) const{
 		return ((this->toString() == src.toString()) && (this->getType() == src.getType()) && (this->getPrecision() == src.getPrecision()));
 	}
+
 };
 
 #endif //AVM_OPERAND_HPP
