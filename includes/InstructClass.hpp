@@ -36,7 +36,7 @@ private:
 	eOperandType		_type;
 	std::string			_value;
 
-	void findValue(std::string basicString);
+	void findValue(const std::string& basicString);
 };
 
 std::ostream	&operator<<(std::ostream & o, Instruct const & rhs);

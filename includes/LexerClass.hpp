@@ -15,7 +15,7 @@
 
 # include <iostream>
 # include <list>
-# include "MatcherClass.hpp"
+# include "TokenizerClass.hpp"
 #include "IOperand.hpp"
 #include "CalculatorClass.hpp"
 
@@ -49,20 +49,22 @@ class Lexer {
 
 
     private:
-        void    defineLexerInstruct(std::string string);
-		static std::string parseLine(std::string line);
-        static std::list<Matcher*> *InitializeMatchList();
+        void    defineLexerInstruct(const std::string& string);
+		static std::string parseLine(const std::string& line);
+        static std::list<Tokenizer*> *InitializeMatchList();
 		void run();
 
 		std::list<std::string>	_input;
-        std::list<Matcher*> 	*_matchList{};
+        std::list<Tokenizer*> 	*_matchList{};
         Calculator				_calc;
 
 	void readFile(std::istream &file);
 
 	void readInput(std::istream &input);
 
-	int findInstructType(std::string value);
+	static int findInstructType(const std::string& value);
+
+	static std::string epurString(const std::string& str);
 };
 
 std::ostream &	operator<< (std::ostream & o, Lexer const & rhs);

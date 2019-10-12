@@ -43,11 +43,12 @@ Calculator::Calculator(Calculator const & src)
 Calculator::~Calculator()
 {
 //	std::cout << "Calculator Destructor" << std::endl;
-	while (!_operands.empty())
-	{
-		delete(_operands.top());
-		_operands.pop();
-	}
+//	while (!_operands.empty())
+//	{
+//		_operands.
+//		delete(_operands.top());
+		_operands.clear();
+//	}
 }
 
 Calculator &	Calculator::operator=(Calculator const & rhs)
@@ -95,7 +96,7 @@ void Calculator::doOperation(int type)
 
 void Calculator::push(IOperand *Op)
 {
-	_operands.push(Op);
+	_operands.push_back(Op);
 }
 
 void Calculator::pop()
@@ -104,8 +105,8 @@ void Calculator::pop()
 		throw EmptyStackException();
 	else
 	{
-		delete (_operands.top());
-		_operands.pop();
+		delete (_operands.back());
+		_operands.pop_back();
 	}
 }
 
@@ -113,12 +114,12 @@ void Calculator::printTop()
 {
 	if (_operands.empty())
 		return;
-	IOperand *Op = _operands.top();
+	IOperand *Op = _operands.back();
 //	delete(_operands.top());
-	_operands.pop();
+	_operands.pop_back();
 	std::cout << Op->toString() << std::endl;
 	printTop();
-	_operands.push(Op);
+	_operands.push_back(Op);
 }
 
 void Calculator::dump()
@@ -133,7 +134,7 @@ by a newline.*/
 
 void Calculator::assertion(IOperand *Op)
 {
-	if ((_operands.top() == Op) != 0)
+	if ((_operands.back() == Op) != 0)
 		throw Exception("Assertion Error");
 
 	/* Asserts that the value at the top of the stack is equal to the one passed
@@ -146,13 +147,13 @@ void Calculator::add()
 {
 	if (_operands.empty())
 		throw EmptyStackException();
-	IOperand *a = _operands.top();
-	_operands.pop();
+	IOperand *a = _operands.back();
+	_operands.pop_back();
 	if (_operands.empty())
 		throw NotEnoughOnStackException();
-	IOperand *b = _operands.top();
-	_operands.pop();
-	_operands.push(const_cast<IOperand *>(*a + *b));
+	IOperand *b = _operands.back();
+	_operands.pop_back();
+	_operands.push_back(const_cast<IOperand *>(*a + *b));
 	delete a;
 	delete b;
 }
@@ -161,13 +162,13 @@ void Calculator::sub()
 {
 	if (_operands.empty())
 		throw EmptyStackException();
-	IOperand *a = _operands.top();
-	_operands.pop();
+	IOperand *a = _operands.back();
+	_operands.pop_back();
 	if (_operands.empty())
 		throw NotEnoughOnStackException();
-	IOperand *b = _operands.top();
-	_operands.pop();
-	_operands.push(const_cast<IOperand *>(*a - *b));
+	IOperand *b = _operands.back();
+	_operands.pop_back();
+	_operands.push_back(const_cast<IOperand *>(*a - *b));
 	delete a;
 	delete b;
 }
@@ -176,13 +177,13 @@ void Calculator::mul()
 {
 	if (_operands.empty())
 		throw EmptyStackException();
-	IOperand *a = _operands.top();
-	_operands.pop();
+	IOperand *a = _operands.back();
+	_operands.pop_back();
 	if (_operands.empty())
 		throw NotEnoughOnStackException();
-	IOperand *b = _operands.top();
-	_operands.pop();
-	_operands.push(const_cast<IOperand *>(*a * *b));
+	IOperand *b = _operands.back();
+	_operands.pop_back();
+	_operands.push_back(const_cast<IOperand *>(*a * *b));
 	delete a;
 	delete b;
 }
@@ -191,15 +192,15 @@ void Calculator::div()
 {
 	if (_operands.empty())
 		throw EmptyStackException();
-	IOperand *a = _operands.top();
-	_operands.pop();
+	IOperand *a = _operands.back();
+	_operands.pop_back();
 	if (std::stod(a->toString()) == 0)
 		throw DivideByZeroException();
 	if (_operands.empty())
 		throw NotEnoughOnStackException();
-	IOperand *b = _operands.top();
-	_operands.pop();
-	_operands.push(const_cast<IOperand *>(*a / *b));
+	IOperand *b = _operands.back();
+	_operands.pop_back();
+	_operands.push_back(const_cast<IOperand *>(*a / *b));
 	delete a;
 	delete b;
 	//Todo : floating point value ?
@@ -209,15 +210,15 @@ void Calculator::mod()
 {
 	if (_operands.empty())
 		throw EmptyStackException();
-	IOperand *a = _operands.top();
-	_operands.pop();
+	IOperand *a = _operands.back();
+	_operands.pop_back();
 	if (std::stod(a->toString()) == 0)
 		throw DivideByZeroException();
 	if (_operands.empty())
 		throw NotEnoughOnStackException();
-	IOperand *b = _operands.top();
-	_operands.pop();
-	_operands.push(const_cast<IOperand *>(*a % *b));
+	IOperand *b = _operands.back();
+	_operands.pop_back();
+	_operands.push_back(const_cast<IOperand *>(*a % *b));
 	delete a;
 	delete b;
 }
@@ -230,7 +231,7 @@ void Calculator::print()
 	 * */
 	if (_operands.empty())
 		throw EmptyStackException();
-	IOperand *a = _operands.top();
+	IOperand *a = _operands.back();
 	if (a->getType() != eOperandType::Int8)
 		throw Exception("The Value on top isn't a char");
 	std::cout << static_cast<char>(std::stod(a->toString())) << std::endl;

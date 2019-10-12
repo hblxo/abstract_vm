@@ -20,7 +20,7 @@ public:
 	Exception();
     explicit Exception(std::string  msg);
     Exception(Exception const & src);
-    ~Exception(void) noexcept override;
+    ~Exception() noexcept override;
     const char* what() const noexcept override;
 
 	Exception &		operator=(Exception const & rhs);

@@ -47,6 +47,7 @@ public:
 	}
 
 	Operand<T> (eOperandType type, std::string const & value) : _type(type) {
+//		std::cout << "min : " << std::numeric_limits<T>::lowest() << " - max : " << std::numeric_limits<T>::max() << std::endl;
 		if (stod(value) > std::numeric_limits<T>::max())
 			throw OverflowException();
 		if (stod(value) <= std::numeric_limits<T>::lowest())

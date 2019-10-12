@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include <stack>
+#include <vector>
 
 # include "IOperand.hpp"
 
@@ -50,7 +51,7 @@ private:
 	//todo implement this instructions
     void	exit();
 
-	std::stack<IOperand *>	_operands;
+	std::vector<IOperand *>	_operands;
 
 	void printTop();
 };

@@ -10,31 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "MatcherClass.hpp"
+#include  "TokenizerClass.hpp"
 #include <iostream>
 #include <utility>
 #include <LexerClass.hpp>
 
-Matcher::Matcher(int type, std::string token) : _type(type), _token(std::move(token))
+Tokenizer::Tokenizer(int type, std::string token) : _type(type), _token(std::move(token))
 {
 }
 
-Matcher::Matcher()
+Tokenizer::Tokenizer()
 = default;
 
-Matcher::Matcher(Matcher const & src)
+Tokenizer::Tokenizer(Tokenizer const & src)
 {
     *this = src;
 	this->_type = src.getType();
 	this->_token = src.getToken();
 }
 
-Matcher::~Matcher(){
-//	std::cout << "destructor Matcher" << std::endl;
+Tokenizer::~Tokenizer(){
+//	std::cout << "destructor Tokenizer" << std::endl;
 	_token.clear();
 }
 
-Matcher &	Matcher::operator=(Matcher const & rhs)
+Tokenizer &	Tokenizer::operator=(Tokenizer const & rhs)
 {
     //Do whatever needs to be done
     if (this != &rhs)
@@ -42,24 +42,24 @@ Matcher &	Matcher::operator=(Matcher const & rhs)
     return *this;
 }
 
-std::string Matcher::toString() const
+std::string Tokenizer::toString() const
 {
     return(std::to_string(this->getType() ) + " - " + this->getToken() );
 }
 
-std::ostream &	operator<< (std::ostream & o, Matcher const & rhs)
+std::ostream &	operator<< (std::ostream & o, Tokenizer const & rhs)
 {
     o << rhs.toString();
     return o;
 }
 
 
-int	Matcher::getType () const { return (this->_type); }
-void	Matcher::setType (int type) { this->_type = type; }
-std::string	Matcher::getToken () const { return (this->_token); }
-void	Matcher::setToken (std::string token) { this->_token = std::move(token); }
+int	Tokenizer::getType () const { return (this->_type); }
+void	Tokenizer::setType (int type) { this->_type = type; }
+std::string	Tokenizer::getToken () const { return (this->_token); }
+void	Tokenizer::setToken (std::string token) { this->_token = std::move(token); }
 
-int     Matcher::matchSearch(const std::string& value)
+int     Tokenizer::matchSearch(const std::string& value)
 {
 	return _token == value ? 1 : 0;
 }

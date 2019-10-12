@@ -44,27 +44,31 @@ Lexer::Lexer(int argc, char **argv)
 
 void	Lexer::readInput(std::istream &input)
 {
-	std::string							tmp;
+//	std::string							tmp;
 
-	getline(input, tmp);
-	while (tmp != ";;")
+	auto							*tmp = new std::string("");
+
+	getline(input, *tmp);
+	while (*tmp != ";;")
 	{
-		_input.push_back(tmp);
-		getline(input, tmp);
+		_input.push_back(*tmp);
+		getline(input, *tmp);
 	}
+	delete(tmp);
 }
 
 void 	Lexer::readFile(std::istream &file)
 {
-	std::string							tmp;
+	auto							*tmp = new std::string("");
 
-	while (getline(file, tmp))
-		_input.push_back(tmp);
+	while (getline(file, *tmp))
+		_input.push_back(*tmp);
 	std::list<std::string>::iterator	it;
 	for (it = _input.begin(); it != _input.end() && (*it) != "exit" ; it++)
 		;
 	if ((std::find(_input.begin(), _input.end(), "exit") == _input.end()))
 		throw NoExitInstructionException();
+	delete(tmp);
 }
 
 void Lexer::run()
@@ -77,47 +81,54 @@ void Lexer::run()
 	{
 		if ((*ite)[0] == ';')
     		;
-		else if ((*ite).size() != 0 && (*ite)[0] != '\n')
+		else if (!(*ite).empty() && (*ite)[0] != '\n')
             defineLexerInstruct((*ite));
 	}
 }
 
-std::string	Lexer::parseLine(std::string line)
+std::string	Lexer::parseLine(const std::string& line)
 {
 	std::size_t commentPos;
 
-	commentPos = line.find(";");
+	char c = ';';
+	commentPos = line.find(c);
 	std::string value = line.substr(0, commentPos);
 	return value;
 }
 
-int	Lexer::findInstructType(std::string value){
+int	Lexer::findInstructType(const std::string& value){
 	std::regex regS, regC;
 	regS = R"(^(\s*)(add|dump|pop|sub|mul|div|mod|print|exit)(\s*)$)";
-//	regC = R"(^(\s*)(add|dump|pop|sub|mul|div|mod|print|exit)(\s*)$)";
 	if (std::regex_match(value, regS))
 		return 1;
 	return 0;
 }
 
-void    Lexer::defineLexerInstruct(std::string string)
+std::string Lexer::epurString(const std::string &str)
 {
-    std::list<Matcher*>::iterator ite;
+	std::regex reg(R"([\t])");
+	return std::regex_replace(str, reg, " ");
+}
+
+void    Lexer::defineLexerInstruct(const std::string& string)
+{
+    std::list<Tokenizer*>::iterator ite;
     std::size_t pos;
 
+
     std::string line = Lexer::parseLine(string);
-    pos = line.find(' ');
+    line = epurString(line);
+    char c = ' ';
+    pos = line.find(c);
 	std::string value = line.substr(0, pos);
 
-	//todo : regex space
     for(ite = _matchList->begin(); ite != _matchList->end(); ite++)
     {
         if ((*ite)->matchSearch(value))
         {
         	if (findInstructType(value) == 1)
-//			if (pos == std::string::npos)
 				_calc.doOperation((*ite)->getType());
-			else
+        	else
 				_calc.doOperation((*ite)->getType(), line.substr(pos + 1));
 			return ;
 		}
@@ -127,21 +138,21 @@ void    Lexer::defineLexerInstruct(std::string string)
 
 
 //cf : http://onoffswitch.net/building-a-custom-lexer/
-std::list<Matcher*> *Lexer::InitializeMatchList()
+std::list<Tokenizer*> *Lexer::InitializeMatchList()
 {
-    auto *keywordMatchers = new std::list<Matcher*>;
-    keywordMatchers->push_back(new Matcher(POP, "pop"));
-    keywordMatchers->push_back(new Matcher(DUMP, "dump"));
-    keywordMatchers->push_back(new Matcher(ADD, "add"));
-    keywordMatchers->push_back(new Matcher(SUB, "sub"));
-    keywordMatchers->push_back(new Matcher(MUL, "mul"));
-    keywordMatchers->push_back(new Matcher(DIV, "div"));
-    keywordMatchers->push_back(new Matcher(MOD, "mod"));
-    keywordMatchers->push_back(new Matcher(PRINT, "print"));
-    keywordMatchers->push_back(new Matcher(EXIT, "exit"));
-    keywordMatchers->push_back(new Matcher(COMMENT, ";"));
-    keywordMatchers->push_back(new Matcher(PUSH, "push"));
-    keywordMatchers->push_back(new Matcher(ASSERT, "assert"));
+    auto *keywordMatchers = new std::list<Tokenizer*>;
+    keywordMatchers->push_back(new Tokenizer(POP, "pop"));
+    keywordMatchers->push_back(new Tokenizer(DUMP, "dump"));
+    keywordMatchers->push_back(new Tokenizer(ADD, "add"));
+    keywordMatchers->push_back(new Tokenizer(SUB, "sub"));
+    keywordMatchers->push_back(new Tokenizer(MUL, "mul"));
+    keywordMatchers->push_back(new Tokenizer(DIV, "div"));
+    keywordMatchers->push_back(new Tokenizer(MOD, "mod"));
+    keywordMatchers->push_back(new Tokenizer(PRINT, "print"));
+    keywordMatchers->push_back(new Tokenizer(EXIT, "exit"));
+    keywordMatchers->push_back(new Tokenizer(COMMENT, ";"));
+    keywordMatchers->push_back(new Tokenizer(PUSH, "push"));
+    keywordMatchers->push_back(new Tokenizer(ASSERT, "assert"));
     return keywordMatchers;
 }
 
@@ -156,7 +167,7 @@ Lexer::Lexer(Lexer const & src)
 Lexer::~Lexer()
 {
 //	std::cout << "destructor Lexer" << std::endl;
-	std::list<Matcher*>::iterator ite;
+	std::list<Tokenizer*>::iterator ite;
 
 	for(ite = _matchList->begin(); ite != _matchList->end(); ite++)
 	{
@@ -176,7 +187,7 @@ Lexer &	Lexer::operator=(Lexer const & rhs)
 std::string Lexer::toString() const
 {
 	std::string ret;
-	std::list<Matcher*>::iterator ite;
+	std::list<Tokenizer*>::iterator ite;
 
 	for (ite = this->_matchList->begin(); ite != this->_matchList->end(); ite++)
 	{

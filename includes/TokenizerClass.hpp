@@ -10,21 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MATCHERCLASS_HPP
-# define MATCHERCLASS_HPP
+#ifndef TOKENIZERCLASS_HPP
+# define TOKENIZERCLASS_HPP
 # include <iostream>
 # include <list>
 
-class Matcher {
+class Tokenizer {
 
 public: 
 
-    Matcher(int type, std::string token);
-    Matcher();
-    Matcher(Matcher const & src); 
-    ~Matcher();
+    Tokenizer(int type, std::string token);
+    Tokenizer();
+    Tokenizer(Tokenizer const & src);
+    ~Tokenizer();
 
-	Matcher &		operator=(Matcher const & rhs);
+	Tokenizer &		operator=(Tokenizer const & rhs);
 
     std::string 	toString() const;
 
@@ -41,7 +41,7 @@ private:
 
 };
 
-std::ostream &	operator<< (std::ostream & o, Matcher const & rhs);
+std::ostream &	operator<< (std::ostream & o, Tokenizer const & rhs);
 
 #endif
 

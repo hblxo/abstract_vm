@@ -12,11 +12,12 @@
 
 #include <regex>
 #include <ExceptionClass.hpp>
+#include <utility>
 # include "InstructClass.hpp"
 
 Instruct::Instruct(std::string str)
 {
-	Instruct::findValue(str);
+	Instruct::findValue(std::move(str));
 }
 
 Instruct::Instruct()
@@ -32,9 +33,7 @@ Instruct::Instruct(Instruct const &src)
 }
 
 Instruct::~Instruct()
-{
-
-}
+= default;
 
 Instruct& Instruct::operator=(Instruct const &rhs)
 {
@@ -58,10 +57,10 @@ const std::string &Instruct::getValue() const
 	return _value;
 }
 
-void Instruct::findValue(std::string basicString)
+void Instruct::findValue(const std::string& basicString)
 {
 	std::regex reg;
-	reg = R"(^(\s*)(int8|int16|int32|float|double)(\()(-?[0-9]+(.?[0-9]+)?)(\))(\s*)?$)";
+	reg = R"(^([\s\t\n]*)(int8|int16|int32|float|double)(\()([-+]?[0-9]+(.?[0-9]+)?)(\))(\s*)?$)";
 	if (!std::regex_match(basicString, reg))
 		throw InvalidValueException();
 	else

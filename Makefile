@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/12/19 22:14:00 by lgiacalo          #+#    #+#              #
-#    Updated: 2019/10/06 17:08:52 by hbouchet         ###   ########.fr        #
+#    Created: 2016/12/19 22:14:00 by hbouchet          #+#    #+#              #
+#    Updated: 2019/10/12 15:03:27 by hbouchet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ NAME		= avm
 ################################################################################
 
 
-CC			= clang++  
+CC			= g++
 CFLAGS		= -Wall -Wextra -Werror -std=c++11
 CPPFLAGS	= -Iincludes
 OPT			=
@@ -37,9 +37,8 @@ INC_PATH	=	includes
 
 OBJ_PATH	=	obj
 
-
-SRC_NAME	=   main.cpp LexerClass.cpp ExceptionClass.cpp MatcherClass.cpp CalculatorClass.cpp\
-				Factory.cpp InstructClass.cpp
+SRC_NAME	=   main.cpp LexerClass.cpp ExceptionClass.cpp TokenizerClass.cpp \
+				CalculatorClass.cpp Factory.cpp InstructClass.cpp
 
 INC_NAME	=	LexerClass.hpp
 
@@ -57,14 +56,14 @@ INC	= $(addprefix $(INC_PATH)/,$(INC_NAME))
 ################################################################################
 
 ifeq ($(DEBUG), dev)
-	CFLAGS = -std=c++98
+	CFLAGS = -std=c++11
 endif
 ifeq ($(DEBUG), info)
 	CFLAGS += -g
 endif
 
 ifeq ($(DEBUG), dev)
-	$(SPY)echo "================ Sans -W x3 + -std=c++98 ! ================"
+	$(SPY)echo "================ Sans -W x3 + -std=c++11 ! ================"
 else ifeq ($(ALLOC), info)
 	$(SPY)echo "=========== Debug avec -g ! =========="
 endif
