@@ -28,6 +28,7 @@ public:
 	virtual IOperand const *	operator/( IOperand const& rhs ) const= 0;// Quotient
 	virtual IOperand const *	operator%( IOperand const& rhs ) const= 0;// Modulo
 
+	virtual bool operator==(IOperand const & src) const = 0;
 	virtual std::string			toString() const= 0;// String representation of the instance
 
 	virtual 					~IOperand() = default;

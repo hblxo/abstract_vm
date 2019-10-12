@@ -121,7 +121,10 @@ public:
 		return ret;
 	}
 
-	bool operator==(IOperand const & src) const{
+	bool operator==(IOperand const & src) const override {
+//		std::cout << this->toString() << " - " << src.toString() << std::endl;
+//		std::cout << this->getType() << " - " << src.getType() << std::endl;
+//		std::cout << this->getPrecision() << " - " << src.getPrecision() << std::endl;
 		return ((this->toString() == src.toString()) && (this->getType() == src.getType()) && (this->getPrecision() == src.getPrecision()));
 	}
 

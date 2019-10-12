@@ -134,8 +134,12 @@ by a newline.*/
 
 void Calculator::assertion(IOperand *Op)
 {
-	if ((_operands.back() == Op) != 0)
-		throw Exception("Assertion Error");
+	if (_operands.empty())
+		throw EmptyStackException();
+	auto tmp = _operands.back();
+	if (*tmp == *Op)
+		return;
+	throw Exception("Assertion Error");
 
 	/* Asserts that the value at the top of the stack is equal to the one passed
 as parameter for this instruction. If it is not the case, the program execution must
