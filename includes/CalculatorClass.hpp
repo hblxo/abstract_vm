@@ -18,13 +18,11 @@
 #include <vector>
 
 # include "IOperand.hpp"
-#include "eVerb.hpp"
+# include "eVerb.hpp"
 # include "InstructClass.hpp"
 
 class Calculator {
-
-public: 
-
+public:
     Calculator();
     Calculator(Calculator const & src); 
     ~Calculator();
@@ -33,8 +31,8 @@ public:
 
     std::string toString() const;
 
-    void run(verbs verb, Instruct instruct);
-    void doOperation(verbs verb, Instruct instruction);
+    void run(verbs verb, Value instruction);
+    void doOperation(verbs verb, Value instruction);
     void doOperation(verbs type);
 
     typedef	void	(Calculator::*instructs[9])();

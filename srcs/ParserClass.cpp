@@ -21,7 +21,7 @@ Parser::Parser(verbs verb, const std::string& value)
 	if ((verb == PUSH || verb == ASSERT) && !value.empty())
 	{
 		_verb = verb;
-		_instruct = Instruct(value);
+		_instruct = Value(value);
 	}
 	else if (verb != PUSH && verb != ASSERT && value.empty())
 	{
@@ -64,7 +64,7 @@ verbs Parser::getVerb() const
 	return _verb;
 }
 
-const Instruct &Parser::getInstruct() const
+const Value &Parser::getInstruct() const
 {
 	return _instruct;
 }

@@ -10,10 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/AnalyzerClass.hpp"
+#include "AnalyzerClass.hpp"
 #include <iostream>
 #include <ExceptionClass.hpp>
 #include <fstream>
+
+Analyzer::Analyzer()
+{
+
+}
 
 Analyzer::Analyzer(int ac, char **av)
 {

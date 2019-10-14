@@ -70,15 +70,15 @@ std::ostream &	operator<< (std::ostream & o, Calculator const & rhs)
     return o;
 }
 
-void Calculator::run(verbs verb, Instruct instruct)
+void Calculator::run(verbs verb, Value instruction)
 {
 	if (verb == ASSERT || verb == PUSH)
-		doOperation(verb, instruct);
+		doOperation(verb, instruction);
 	else
 		doOperation(verb);
 }
 
-void Calculator::doOperation(verbs verb, Instruct instruction)
+void Calculator::doOperation(verbs verb, Value instruction)
 {
 	if (verb == PUSH)
 		Calculator::push(const_cast<IOperand *>(Factory().createOperand(

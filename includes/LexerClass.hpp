@@ -19,7 +19,6 @@
 #include "IOperand.hpp"
 #include "CalculatorClass.hpp"
 #include "InstructClass.hpp"
-#include "AnalyzerClass.hpp"
 
 
 class Lexer {

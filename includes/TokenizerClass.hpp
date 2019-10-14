@@ -20,7 +20,7 @@ class Tokenizer {
 
 public: 
 
-    Tokenizer(int type, std::string token);
+    Tokenizer(verbs type, std::string token);
     Tokenizer();
     Tokenizer(Tokenizer const & src);
     ~Tokenizer();

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSERCLASS_HPP
-#define PARSERCLASS_HPP
+#ifndef AVM_PARSERCLASS_HPP
+#define AVM_PARSERCLASS_HPP
 
 #include <iostream>
 #include <list>
@@ -31,11 +31,11 @@ public:
 
 	std::string	toString() const;
 	verbs getVerb() const;
-	const Instruct &getInstruct() const;
+	const Value &getInstruct() const;
 
 private:
 	verbs 			_verb;
-	Instruct		_instruct;
+	Value		_instruct;
 
 };
 std::ostream	&	operator<< (std::ostream & o, Parser const & rhs);

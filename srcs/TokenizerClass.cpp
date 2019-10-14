@@ -15,7 +15,7 @@
 #include <utility>
 #include <LexerClass.hpp>
 
-Tokenizer::Tokenizer(int type, std::string token) : _type(type), _token(std::move(token))
+Tokenizer::Tokenizer(verbs type, std::string token) : _type(type), _token(std::move(token))
 {
 }
 

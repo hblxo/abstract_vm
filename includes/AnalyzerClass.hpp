@@ -19,9 +19,9 @@
 #include "ParserClass.hpp"
 #include "LexerClass.hpp"
 
-class Analyzer
-{
+class Analyzer{
 public:
+	Analyzer();
 	Analyzer(int ac, char **av);
 	Analyzer(Analyzer const & src);
 	~Analyzer();

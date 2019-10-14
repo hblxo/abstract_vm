@@ -16,15 +16,15 @@
 #include <iostream>
 #include "LexerClass.hpp"
 
-class Instruct
+class Value
 {
 public:
-	Instruct(const std::string& str);
-	Instruct();
-	Instruct(Instruct const & src);
-	~Instruct();
+	Value();
+	Value(const std::string& str);
+	Value(Value const & src);
+	~Value();
 
-	Instruct	&operator=(Instruct const & rhs);
+	Value	&operator=(Value const & rhs);
 
 	const std::string &	getValue() const;
 	eOperandType 		getType() const;
@@ -39,6 +39,6 @@ private:
 	void findValue(const std::string& basicString);
 };
 
-std::ostream	&operator<<(std::ostream & o, Instruct const & rhs);
+std::ostream	&operator<<(std::ostream & o, Value const & rhs);
 
 #endif //AVM_INSTRUCTCLASS_HPP

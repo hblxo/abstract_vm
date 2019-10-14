@@ -15,49 +15,49 @@
 #include <utility>
 # include "InstructClass.hpp"
 
-Instruct::Instruct(const std::string& str)
+Value::Value(const std::string& str)
 {
-	Instruct::findValue(str);
+	Value::findValue(str);
 }
 
-Instruct::Instruct()
+Value::Value()
 = default;
 
-Instruct::Instruct(Instruct const &src)
+Value::Value(Value const &src)
 {
 	this->_type = src._type;
 	this->_value = src._value;
 	*this = src;
 }
 
-Instruct::~Instruct()
+Value::~Value()
 = default;
 
-Instruct& Instruct::operator=(Instruct const &rhs)
+Value& Value::operator=(Value const &rhs)
 {
 	if (this != &rhs)
 		*this = rhs;
 	return *this;
 }
 
-std::string Instruct::toString() const
+std::string Value::toString() const
 {
 	std::string	ret;
 	ret = std::to_string(getType()) + " - " + getValue();
 	return (ret);
 }
 
-eOperandType Instruct::getType() const
+eOperandType Value::getType() const
 {
 	return _type;
 }
 
-const std::string &Instruct::getValue() const
+const std::string &Value::getValue() const
 {
 	return _value;
 }
 
-void Instruct::findValue(const std::string& basicString)
+void Value::findValue(const std::string& basicString)
 {
 	std::regex reg;
 	reg = R"(^([\s\t\n]*)(int8|int16|int32|float|double)(\()([-+]?[0-9]+(.?[0-9]+)?)(\))(\s*)?$)";
@@ -82,7 +82,7 @@ void Instruct::findValue(const std::string& basicString)
 	}
 }
 
-std::ostream &operator<<(std::ostream &o, Instruct const &rhs)
+std::ostream &operator<<(std::ostream &o, Value const &rhs)
 {
 	o << rhs.toString();
 	return o;
