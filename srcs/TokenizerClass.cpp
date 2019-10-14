@@ -54,10 +54,8 @@ std::ostream &	operator<< (std::ostream & o, Tokenizer const & rhs)
 }
 
 
-int	Tokenizer::getType () const { return (this->_type); }
-void	Tokenizer::setType (int type) { this->_type = type; }
+verbs	Tokenizer::getType () const { return (this->_type); }
 std::string	Tokenizer::getToken () const { return (this->_token); }
-void	Tokenizer::setToken (std::string token) { this->_token = std::move(token); }
 
 int     Tokenizer::matchSearch(const std::string& value)
 {

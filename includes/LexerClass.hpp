@@ -18,53 +18,37 @@
 # include "TokenizerClass.hpp"
 #include "IOperand.hpp"
 #include "CalculatorClass.hpp"
+#include "InstructClass.hpp"
+#include "AnalyzerClass.hpp"
 
 
 class Lexer {
-    public: 
+   public:
+	Lexer();
+	Lexer(std::basic_string<char> basicString,
+		  std::list<Tokenizer*> pList);
+	Lexer(Lexer const & src);
+	~Lexer();
 
-        Lexer(void); 
-        Lexer(int argc, char **argv);
-        Lexer(Lexer const & src); 
-        ~Lexer(void); 
+    Lexer &		operator=(Lexer const & rhs);
 
-        Lexer &		operator=(Lexer const & rhs);
-
-        std::string 	toString(void) const;
-
-        enum instructions {
-            POP,
-            DUMP,
-            ADD,
-            SUB,
-            MUL,
-            DIV,
-            MOD,
-            PRINT,
-            EXIT,
-            PUSH,
-            ASSERT,
-            COMMENT,
-        };
+    std::string 	toString() const;
+	const std::string &getValue() const;
+	verbs getVerb() const;
 
 
-    private:
-        void    defineLexerInstruct(const std::string& string);
-		static std::string parseLine(const std::string& line);
-        static std::list<Tokenizer*> *InitializeMatchList();
-		void run();
-
-		std::list<std::string>	_input;
-        std::list<Tokenizer*> 	*_matchList{};
-        Calculator				_calc;
-
-	void readFile(std::istream &file);
-
-	void readInput(std::istream &input);
+private:
+	static std::string ignoreComment(const std::string& line);
+	void defineLexerInstruct(const std::string &string,
+						 const std::list<Tokenizer*>& tokenList);
 
 	static int findInstructType(const std::string& value);
+	static std::string formatSpace(const std::string& str);
 
-	static std::string epurString(const std::string& str);
+
+	std::string			_value;
+	verbs 				_verb;
+
 };
 
 std::ostream &	operator<< (std::ostream & o, Lexer const & rhs);

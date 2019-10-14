@@ -11,15 +11,17 @@
 /* ************************************************************************** */
 
 #include <iostream>
+#include <AnalyzerClass.hpp>
 #include "LexerClass.hpp"
 #include "ExceptionClass.hpp"
 
 int     main(int argc, char **argv)
 {
-    Lexer       *lexer;
+    Analyzer       *an;
 
     try {
-        lexer = new Lexer(argc, argv);
+        an = new Analyzer(argc, argv);
+    	delete(an);
     }
     catch (Exception& e)
     {
@@ -29,6 +31,5 @@ int     main(int argc, char **argv)
 	{
     	std::cout << "Undefined error" << std::endl;
 	}
-    delete(lexer);
     return 0;
 }

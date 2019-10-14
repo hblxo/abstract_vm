@@ -19,7 +19,7 @@
 class Instruct
 {
 public:
-	Instruct(std::string str);
+	Instruct(const std::string& str);
 	Instruct();
 	Instruct(Instruct const & src);
 	~Instruct();

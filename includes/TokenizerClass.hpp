@@ -14,6 +14,7 @@
 # define TOKENIZERCLASS_HPP
 # include <iostream>
 # include <list>
+# include "eVerb.hpp"
 
 class Tokenizer {
 
@@ -28,7 +29,7 @@ public:
 
     std::string 	toString() const;
 
-	int                 getType() const;
+	verbs getType() const;
     void                setType(int type);
 	std::string         getToken() const;
     void	            setToken(std::string token);
@@ -36,7 +37,7 @@ public:
     int                 matchSearch(const std::string& value);
 
 private:
-    int                 _type;
+    verbs                 _type;
     std::string         _token;
 
 };

@@ -18,6 +18,8 @@
 #include <vector>
 
 # include "IOperand.hpp"
+#include "eVerb.hpp"
+# include "InstructClass.hpp"
 
 class Calculator {
 
@@ -31,8 +33,9 @@ public:
 
     std::string toString() const;
 
-    void doOperation(int type, const std::string& value);
-    void doOperation(int type);
+    void run(verbs verb, Instruct instruct);
+    void doOperation(verbs verb, Instruct instruction);
+    void doOperation(verbs type);
 
     typedef	void	(Calculator::*instructs[9])();
     static instructs _instruct;

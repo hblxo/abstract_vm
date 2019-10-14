@@ -6,7 +6,7 @@
 #    By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/19 22:14:00 by hbouchet          #+#    #+#              #
-#    Updated: 2019/10/12 18:21:45 by hbouchet         ###   ########.fr        #
+#    Updated: 2019/10/14 10:23:30 by hbouchet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,11 +38,12 @@ INC_PATH	=	includes
 OBJ_PATH	=	obj
 
 SRC_NAME	=   main.cpp LexerClass.cpp ExceptionClass.cpp TokenizerClass.cpp \
-				CalculatorClass.cpp Factory.cpp InstructClass.cpp
+				CalculatorClass.cpp Factory.cpp InstructClass.cpp \
+				AnalyzerClass.cpp ParserClass.cpp
 
 INC_NAME	=	LexerClass.hpp ExceptionClass.hpp TokenizerClass.hpp \
 				CalculatorClass.hpp Factory.hpp InstructClass.hpp IOperand.hpp \
-				Operand.hpp eOperandType.hpp
+				AnalyzerClass.hpp Operand.hpp eVerb.hpp eOperandType.hpp ParserClass.hpp
 
 OBJ_NAME	=	$(SRC_NAME:.cpp=.o)
 

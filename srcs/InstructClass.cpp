@@ -15,15 +15,13 @@
 #include <utility>
 # include "InstructClass.hpp"
 
-Instruct::Instruct(std::string str)
+Instruct::Instruct(const std::string& str)
 {
-	Instruct::findValue(std::move(str));
+	Instruct::findValue(str);
 }
 
 Instruct::Instruct()
-{
-
-}
+= default;
 
 Instruct::Instruct(Instruct const &src)
 {
@@ -44,7 +42,9 @@ Instruct& Instruct::operator=(Instruct const &rhs)
 
 std::string Instruct::toString() const
 {
-	return "";
+	std::string	ret;
+	ret = std::to_string(getType()) + " - " + getValue();
+	return (ret);
 }
 
 eOperandType Instruct::getType() const

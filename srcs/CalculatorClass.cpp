@@ -17,7 +17,6 @@
 #include <regex>
 #include <Factory.hpp>
 #include <InstructClass.hpp>
-#include <Operand.hpp>
 
 Calculator::instructs Calculator::_instruct = {
 		&Calculator::pop,
@@ -62,7 +61,7 @@ Calculator &	Calculator::operator=(Calculator const & rhs)
 std::string Calculator::toString() const
 {
     // Return whatever needs to be returned
-    return "Operation OK";
+    return "";
 }
 
 std::ostream &	operator<< (std::ostream & o, Calculator const & rhs)
@@ -71,22 +70,29 @@ std::ostream &	operator<< (std::ostream & o, Calculator const & rhs)
     return o;
 }
 
-void Calculator::doOperation(int type, const std::string& value)
+void Calculator::run(verbs verb, Instruct instruct)
 {
-	Instruct instruct = Instruct(value);
-	if (type == Lexer::PUSH)
+	if (verb == ASSERT || verb == PUSH)
+		doOperation(verb, instruct);
+	else
+		doOperation(verb);
+}
+
+void Calculator::doOperation(verbs verb, Instruct instruction)
+{
+	if (verb == PUSH)
 		Calculator::push(const_cast<IOperand *>(Factory().createOperand(
-				instruct.getType(), instruct.getValue())));
-	else if (type == Lexer::ASSERT)
+				instruction.getType(), instruction.getValue())));
+	else if (verb == ASSERT)
     	Calculator::assertion(const_cast<IOperand *>(Factory().createOperand(
-				instruct.getType(), instruct.getValue())));
+				instruction.getType(), instruction.getValue())));
 	else
 		throw InvalidInstructionException();
 }
 
-void Calculator::doOperation(int type)
+void Calculator::doOperation(verbs type)
 {
-	if (type != Lexer::PUSH && type != Lexer::ASSERT)
+	if (type != PUSH && type != ASSERT)
 	{
 		(this->*_instruct[type])();
 	}
