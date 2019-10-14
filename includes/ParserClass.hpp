@@ -23,7 +23,7 @@ class Parser
 {
 public:
 	Parser();
-	Parser(verbs verb, const std::string& value);
+	Parser(verbs verb, std::string value);
 	Parser(Parser const & src);
 	~Parser();
 
@@ -35,7 +35,7 @@ public:
 
 private:
 	verbs 			_verb;
-	Value		_instruct;
+	Value			*_instruct;
 
 };
 std::ostream	&	operator<< (std::ostream & o, Parser const & rhs);

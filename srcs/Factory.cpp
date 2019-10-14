@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <Operand.hpp>
-#include "../includes/Factory.hpp"
+#include "Operand.hpp"
 #include <iostream>
 
 Factory::ptrfnc Factory::_create = {

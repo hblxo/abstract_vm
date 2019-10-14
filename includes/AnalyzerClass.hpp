@@ -31,11 +31,11 @@ public:
 	std::string	toString() const;
 
 private:
-	std::list<std::string>	_input;
-	std::list<Lexer>		_phrases;
-	std::list<Parser>		_operations;
+	std::list<std::string>		_input;
+	std::list<Lexer*>			_phrases;
+	std::list<class Parser*>	_operations;
 
-	static std::list<Tokenizer*> initializeTokenList();
+	static std::list<Tokenizer*> *initializeTokenList();
 	void readFile(std::istream &file);
 	void readInput(std::istream &input);
 

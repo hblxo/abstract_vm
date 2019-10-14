@@ -10,13 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "LexerClass.hpp"
-#include "CalculatorClass.hpp"
-#include "ExceptionClass.hpp"
+#include "../includes/LexerClass.hpp"
+#include "../includes/ExceptionClass.hpp"
 #include <iostream>
 #include <regex>
-#include <Factory.hpp>
-#include <InstructClass.hpp>
+#include "Factory.hpp"
+#include "InstructClass.hpp"
 
 Calculator::instructs Calculator::_instruct = {
 		&Calculator::pop,
@@ -70,15 +69,16 @@ std::ostream &	operator<< (std::ostream & o, Calculator const & rhs)
     return o;
 }
 
-void Calculator::run(verbs verb, Value instruction)
+void Calculator::run(verbs verb, const Value& instruction)
 {
+
 	if (verb == ASSERT || verb == PUSH)
 		doOperation(verb, instruction);
 	else
 		doOperation(verb);
 }
 
-void Calculator::doOperation(verbs verb, Value instruction)
+void Calculator::doOperation(verbs verb, const Value& instruction)
 {
 	if (verb == PUSH)
 		Calculator::push(const_cast<IOperand *>(Factory().createOperand(
@@ -87,7 +87,10 @@ void Calculator::doOperation(verbs verb, Value instruction)
     	Calculator::assertion(const_cast<IOperand *>(Factory().createOperand(
 				instruction.getType(), instruction.getValue())));
 	else
+	{
+		std::cout << "1" << std::endl;
 		throw InvalidInstructionException();
+	}
 }
 
 void Calculator::doOperation(verbs type)
@@ -97,7 +100,10 @@ void Calculator::doOperation(verbs type)
 		(this->*_instruct[type])();
 	}
 	else
+	{
+		std::cout << "2" << std::endl;
 		throw InvalidInstructionException();
+	}
 }
 
 void Calculator::push(IOperand *Op)

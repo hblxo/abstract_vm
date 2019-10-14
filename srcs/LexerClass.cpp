@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/LexerClass.hpp"
-#include "../includes/ExceptionClass.hpp"
+#include "LexerClass.hpp"
+#include "ExceptionClass.hpp"
 #include <iostream>
 #include <list>
 #include <cstring>
@@ -19,18 +19,18 @@
 #include <regex>
 #include <utility>
 
-Lexer::Lexer(std::basic_string<char> basicString,
-			 std::list<Tokenizer*> pList)
+Lexer::Lexer(std::string str,
+			 const std::list<Tokenizer*>*pList)
 {
-	std::string line = Lexer::ignoreComment(basicString);
-	line = formatSpace(line);
-	if (basicString.empty() || basicString[0] == ';' || basicString[0] == '\n')
+	if (str.empty() || str[0] == ';' || str[0] == '\n')
 		return ;
-	defineLexerInstruct(basicString, std::move(pList));
+	std::string line = Lexer::ignoreComment(str);
+	line = formatSpace(line);
+	defineLexerInstruct(line, pList);
 }
 
 void Lexer::defineLexerInstruct(const std::string &string,
-								const std::list<Tokenizer*>& tokenList)
+								const std::list<Tokenizer*>* tokenList)
 {
 //    std::list<Tokenizer>::iterator ite;
     std::size_t pos;
@@ -41,7 +41,7 @@ void Lexer::defineLexerInstruct(const std::string &string,
 	std::string value = string.substr(0, pos);
 
 //    for(ite = tokenList.begin(); ite != tokenList.end(); ite++)
-    for (Tokenizer* tok : tokenList)
+    for (Tokenizer* tok : *tokenList)
 	{
     	if (tok->matchSearch(value))
 		{
@@ -68,7 +68,8 @@ void Lexer::defineLexerInstruct(const std::string &string,
 //		}
     }
 //    delete(_tokenList);
-    throw InvalidInstructionException();
+//	std::cout << "3" << std::endl;
+//    throw InvalidInstructionException();
 }
 
 int	Lexer::findInstructType(const std::string& value){
@@ -89,6 +90,7 @@ std::string	Lexer::ignoreComment(const std::string& line)
 	char c = ';';
 	commentPos = line.find(c);
 	std::string value = line.substr(0, commentPos);
+//	std::cout << "[" << value << "]" << std::endl;
 	return value;
 }
 

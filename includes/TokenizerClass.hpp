@@ -30,9 +30,7 @@ public:
     std::string 	toString() const;
 
 	verbs getType() const;
-    void                setType(int type);
 	std::string         getToken() const;
-    void	            setToken(std::string token);
 
     int                 matchSearch(const std::string& value);
 

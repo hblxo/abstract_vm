@@ -24,8 +24,7 @@
 class Lexer {
    public:
 	Lexer();
-	Lexer(std::basic_string<char> basicString,
-		  std::list<Tokenizer*> pList);
+	Lexer(std::string str, const std::list<Tokenizer*> *pList);
 	Lexer(Lexer const & src);
 	~Lexer();
 
@@ -39,7 +38,7 @@ class Lexer {
 private:
 	static std::string ignoreComment(const std::string& line);
 	void defineLexerInstruct(const std::string &string,
-						 const std::list<Tokenizer*>& tokenList);
+						 const std::list<Tokenizer*>*tokenList);
 
 	static int findInstructType(const std::string& value);
 	static std::string formatSpace(const std::string& str);

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/LexerClass.hpp"
 #include "../includes/ExceptionClass.hpp"
 #include <iostream>
 #include <utility>

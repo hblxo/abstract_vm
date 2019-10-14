@@ -10,14 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "AnalyzerClass.hpp"
-#include <iostream>
-#include <ExceptionClass.hpp>
 #include <fstream>
+#include <iostream>
+#include "ExceptionClass.hpp"
+#include "AnalyzerClass.hpp"
 
 Analyzer::Analyzer()
 {
-
 }
 
 Analyzer::Analyzer(int ac, char **av)
@@ -25,15 +24,16 @@ Analyzer::Analyzer(int ac, char **av)
 	SetInput(ac, av);
 	std::list<std::string>::iterator ite;
 
-	std::list<Tokenizer *> tokenList = initializeTokenList();
+	std::list<Tokenizer *> *tokenList = initializeTokenList();
 	for (ite = _input.begin(); ite != _input.end(); ite++)
-		_phrases.push_back(Lexer((*ite), tokenList));
-	for (Lexer lex : _phrases)
-		_operations.push_back(Parser(lex.getVerb(), lex.getValue()));
+		_phrases.push_back(new Lexer((*ite), tokenList));
+
+	for (Lexer *lex : _phrases)
+		_operations.push_back(new Parser(lex->getVerb(), lex->getValue()));
 
 	Calculator	*calc = new Calculator;
-	for (Parser par : _operations)
-		calc->run(par.getVerb(), par.getInstruct());
+	for (Parser *par : _operations)
+		calc->run(par->getVerb(), par->getInstruct());
 }
 
 void	Analyzer::SetInput(int ac, char **av){
@@ -103,6 +103,7 @@ Analyzer&Analyzer::operator=(Analyzer const &rhs)
 
 std::string Analyzer::toString() const
 {
+	return "";
 }
 
 std::ostream &operator<<(std::ostream &o, Analyzer const &rhs)
@@ -111,21 +112,21 @@ std::ostream &operator<<(std::ostream &o, Analyzer const &rhs)
 	return o;
 }
 
-std::list<Tokenizer*> Analyzer::initializeTokenList()
+std::list<Tokenizer*> *Analyzer::initializeTokenList()
 {
-	std::list<Tokenizer*> tokenList;
-	tokenList.push_back(new Tokenizer(POP, "pop"));
-	tokenList.push_back(new Tokenizer(DUMP, "dump"));
-	tokenList.push_back(new Tokenizer(ADD, "add"));
-	tokenList.push_back(new Tokenizer(SUB, "sub"));
-	tokenList.push_back(new Tokenizer(MUL, "mul"));
-	tokenList.push_back(new Tokenizer(DIV, "div"));
-	tokenList.push_back(new Tokenizer(MOD, "mod"));
-	tokenList.push_back(new Tokenizer(PRINT, "print"));
-	tokenList.push_back(new Tokenizer(EXIT, "exit"));
-	tokenList.push_back(new Tokenizer(COMMENT, ";"));
-	tokenList.push_back(new Tokenizer(PUSH, "push"));
-	tokenList.push_back(new Tokenizer(ASSERT, "assert"));
+	std::list<Tokenizer*> *tokenList = new std::list<Tokenizer*>;
+	tokenList->push_back(new Tokenizer(POP, "pop"));
+	tokenList->push_back(new Tokenizer(DUMP, "dump"));
+	tokenList->push_back(new Tokenizer(ADD, "add"));
+	tokenList->push_back(new Tokenizer(SUB, "sub"));
+	tokenList->push_back(new Tokenizer(MUL, "mul"));
+	tokenList->push_back(new Tokenizer(DIV, "div"));
+	tokenList->push_back(new Tokenizer(MOD, "mod"));
+	tokenList->push_back(new Tokenizer(PRINT, "print"));
+	tokenList->push_back(new Tokenizer(EXIT, "exit"));
+	tokenList->push_back(new Tokenizer(COMMENT, ";"));
+	tokenList->push_back(new Tokenizer(PUSH, "push"));
+	tokenList->push_back(new Tokenizer(ASSERT, "assert"));
 	return tokenList;
 }
 

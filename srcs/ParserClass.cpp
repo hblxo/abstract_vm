@@ -10,36 +10,37 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ExceptionClass.hpp>
+#include "ExceptionClass.hpp"
 #include "ParserClass.hpp"
 
 Parser::Parser()
 = default;
 
-Parser::Parser(verbs verb, const std::string& value)
+Parser::Parser(verbs verb, std::string value)
 {
+
 	if ((verb == PUSH || verb == ASSERT) && !value.empty())
 	{
 		_verb = verb;
-		_instruct = Value(value);
+		_instruct = new Value(value);
 	}
 	else if (verb != PUSH && verb != ASSERT && value.empty())
 	{
 		_verb = verb;
 	}
 	else
+	{
 		throw InvalidInstructionException();
+	}
 }
 
 Parser::Parser(Parser const &src)
 {
-
+	*this = src;
 }
 
 Parser::~Parser()
-{
-
-}
+= default;
 
 Parser &Parser::operator=(Parser const &rhs)
 {
@@ -53,7 +54,7 @@ std::string Parser::toString() const
 	std::string 						tmp;
 
 	if (_verb == PUSH || _verb == ASSERT)
-		tmp = std::to_string(_verb) + " " + _instruct.toString();
+		tmp = std::to_string(_verb) + " " + _instruct->toString();
 	else
 		tmp = std::to_string(_verb);
 	return tmp;
@@ -66,7 +67,7 @@ verbs Parser::getVerb() const
 
 const Value &Parser::getInstruct() const
 {
-	return _instruct;
+	return *_instruct;
 }
 
 
@@ -75,3 +76,4 @@ std::ostream &operator<<(std::ostream &o, Parser const &rhs)
 	o << rhs.toString();
 	return o;
 }
+

@@ -15,11 +15,11 @@
 
 # include <iostream>
 # include <stack>
-#include <vector>
+# include <vector>
 
+# include "InstructClass.hpp"
 # include "IOperand.hpp"
 # include "eVerb.hpp"
-# include "InstructClass.hpp"
 
 class Calculator {
 public:
@@ -31,8 +31,8 @@ public:
 
     std::string toString() const;
 
-    void run(verbs verb, Value instruction);
-    void doOperation(verbs verb, Value instruction);
+    void run(verbs verb, const class Value& instruction);
+    void doOperation(verbs verb, const class Value& instruction);
     void doOperation(verbs type);
 
     typedef	void	(Calculator::*instructs[9])();
