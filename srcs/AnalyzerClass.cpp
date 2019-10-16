@@ -26,14 +26,22 @@ Analyzer::Analyzer(int ac, char **av)
 
 	std::list<Tokenizer *> *tokenList = initializeTokenList();
 	for (ite = _input.begin(); ite != _input.end(); ite++)
+	{
 		_phrases.push_back(new Lexer((*ite), tokenList));
+	}
 
 	for (Lexer *lex : _phrases)
+	{
+//		std::cout << "lex-verb : " << lex->getVerb() << std::endl;
 		_operations.push_back(new Parser(lex->getVerb(), lex->getValue()));
+	}
 
 	Calculator	*calc = new Calculator;
 	for (Parser *par : _operations)
+	{
+//		std::cout << par->getVerb() << std::endl;
 		calc->run(par->getVerb(), par->getInstruct());
+	}
 }
 
 void	Analyzer::SetInput(int ac, char **av){

@@ -35,7 +35,7 @@ public:
     void doOperation(verbs verb, const class Value& instruction);
     void doOperation(verbs type);
 
-    typedef	void	(Calculator::*instructs[9])();
+    typedef	void	(Calculator::*instructs[10])();
     static instructs _instruct;
 
 private:
@@ -51,10 +51,10 @@ private:
     void	print();
 	//todo implement this instructions
     void	exit();
+    void	comment();
 
 	std::vector<IOperand *>	_operands;
 
-	void printTop();
 };
 
 std::ostream &	operator<< (std::ostream & o, Calculator const & rhs);

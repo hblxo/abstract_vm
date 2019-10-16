@@ -19,12 +19,12 @@
 #include <regex>
 
 Lexer::Lexer(std::string str,
-			 const std::list<Tokenizer*>*pList)
+			 const std::list<Tokenizer*>*pList) : _verb(COMMENT)
 {
-	if (str.empty() || str[0] == ';' || str[0] == '\n')
-		return ;
 	std::string line = Lexer::ignoreComment(str);
 	line = formatSpace(line);
+	if (line.empty() || line[0] == ';' || line[0] == '\n')
+		return ;
 	defineLexerInstruct(line, pList);
 }
 
@@ -51,6 +51,8 @@ void Lexer::defineLexerInstruct(const std::string &string,
 			}
     		else
 				throw Exception("???");
+//			std::cout << this->_verb << std::endl;
+    		return;
 		}
     }
 }
@@ -93,7 +95,7 @@ Lexer::Lexer(Lexer const & src)
 
 Lexer::~Lexer()
 {
-	_value.erase();
+//	_value.erase();
 	//	std::cout << "destructor Lexer" << std::endl;
 }
 
@@ -112,7 +114,7 @@ std::string Lexer::toString() const
     return ret;
 }
 
-const std::string &Lexer::getValue() const
+std::string Lexer::getValue() const
 {
 	return _value;
 }

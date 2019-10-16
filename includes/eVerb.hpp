@@ -23,9 +23,10 @@ enum verbs {
 	MOD,
 	PRINT,
 	EXIT,
+	COMMENT,
 	PUSH,
 	ASSERT,
-	COMMENT,
+	ERROR,
 };
 
 #endif //AVM_EVERB_HPP

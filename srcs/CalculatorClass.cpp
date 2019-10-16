@@ -26,6 +26,7 @@ Calculator::instructs Calculator::_instruct = {
 		&Calculator::mod,
 		&Calculator::print,
 		&Calculator::exit,
+		&Calculator::comment,
 };
 
 Calculator::Calculator()
@@ -65,7 +66,7 @@ std::ostream &	operator<< (std::ostream & o, Calculator const & rhs)
 
 void Calculator::run(verbs verb, Value *instruction)
 {
-
+//	std::cout << verb << std::endl;
 	if (verb == ASSERT || verb == PUSH)
 		doOperation(verb, *instruction);
 	else
@@ -82,7 +83,7 @@ void Calculator::doOperation(verbs verb, const Value& instruction)
 				instruction.getType(), instruction.getValue())));
 	else
 	{
-		std::cout << "1" << std::endl;
+//		std::cout << "1" << std::endl;
 		throw InvalidInstructionException();
 	}
 }
@@ -95,7 +96,7 @@ void Calculator::doOperation(verbs type)
 	}
 	else
 	{
-		std::cout << "2" << std::endl;
+//		std::cout << "2" << std::endl;
 		throw InvalidInstructionException();
 	}
 }
@@ -107,6 +108,7 @@ void Calculator::push(IOperand *Op)
 
 void Calculator::pop()
 {
+//	std::cout << "pop" << std::endl;
 	if (_operands.empty())
 		throw EmptyStackException();
 	else
@@ -131,8 +133,9 @@ void Calculator::pop()
 
 void Calculator::dump()
 {
-	if (_operands.empty())
-		throw EmptyStackException();
+//	std::cout << "dump" << std::endl;
+	//	if (_operands.empty())
+//		throw EmptyStackException();
 /*Displays each value of the stack, from the most recent one to the oldest
 one WITHOUT CHANGING the stack. Each value is separated from the next one
 by a newline.*/
@@ -146,6 +149,7 @@ by a newline.*/
 
 void Calculator::assertion(IOperand *Op)
 {
+//	std::cout << "assertion" << std::endl;
 	if (_operands.empty())
 		throw EmptyStackException();
 	auto tmp = _operands.back();
@@ -161,6 +165,7 @@ to the instruction push.*/
 
 void Calculator::add()
 {
+//	std::cout << "add" << std::endl;
 	if (_operands.empty())
 		throw EmptyStackException();
 	IOperand *a = _operands.back();
@@ -176,6 +181,7 @@ void Calculator::add()
 
 void Calculator::sub()
 {
+//	std::cout << "sub" << std::endl;
 	if (_operands.empty())
 		throw EmptyStackException();
 	IOperand *a = _operands.back();
@@ -191,6 +197,7 @@ void Calculator::sub()
 
 void Calculator::mul()
 {
+//	std::cout << "mul" << std::endl;
 	if (_operands.empty())
 		throw EmptyStackException();
 	IOperand *a = _operands.back();
@@ -206,6 +213,7 @@ void Calculator::mul()
 
 void Calculator::div()
 {
+//	std::cout << "div" << std::endl;
 	if (_operands.empty())
 		throw EmptyStackException();
 	IOperand *a = _operands.back();
@@ -216,7 +224,7 @@ void Calculator::div()
 		throw NotEnoughOnStackException();
 	IOperand *b = _operands.back();
 	_operands.pop_back();
-	_operands.push_back(const_cast<IOperand *>(*a / *b));
+	_operands.push_back(const_cast<IOperand *>(*b / *a));
 	delete a;
 	delete b;
 	//Todo : floating point value ?
@@ -224,6 +232,7 @@ void Calculator::div()
 
 void Calculator::mod()
 {
+//	std::cout << "mod" << std::endl;
 	if (_operands.empty())
 		throw EmptyStackException();
 	IOperand *a = _operands.back();
@@ -234,13 +243,14 @@ void Calculator::mod()
 		throw NotEnoughOnStackException();
 	IOperand *b = _operands.back();
 	_operands.pop_back();
-	_operands.push_back(const_cast<IOperand *>(*a % *b));
+	_operands.push_back(const_cast<IOperand *>(*b % *a));
 	delete a;
 	delete b;
 }
 
 void Calculator::print()
 {
+//	std::cout << "print" << std::endl;
 	/*Asserts that the value at the top of the stack is an 8-bit integer.
 	 *(If not,see the instruction assert), then interprets it as an ASCII value
 	 * and displays the corresponding character on the standard output
@@ -255,10 +265,16 @@ void Calculator::print()
 
 void Calculator::exit()
 {
+//	std::cout << "exit" << std::endl;
 /*
  * Terminate the execution of the current program.
  * If this instruction does not appears while all others instruction has been processed,
  * the execution must stop with an error.
  */
+}
+
+void Calculator::comment()
+{
+//	std::cout << "comment" << std::endl;
 }
 

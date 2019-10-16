@@ -31,7 +31,7 @@ class Lexer {
     Lexer &		operator=(Lexer const & rhs);
 
     std::string 	toString() const;
-	const std::string &getValue() const;
+	std::string getValue() const;
 	verbs getVerb() const;
 
 
