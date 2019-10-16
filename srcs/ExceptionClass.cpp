@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ExceptionClass.hpp"
+#include "ExceptionClass.hpp"
 #include <iostream>
 #include <utility>
 

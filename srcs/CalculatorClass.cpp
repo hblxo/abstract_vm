@@ -10,12 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/LexerClass.hpp"
-#include "../includes/ExceptionClass.hpp"
+#include "LexerClass.hpp"
+#include "ExceptionClass.hpp"
 #include <iostream>
 #include <regex>
 #include "Factory.hpp"
-#include "InstructClass.hpp"
 
 Calculator::instructs Calculator::_instruct = {
 		&Calculator::pop,
@@ -41,12 +40,7 @@ Calculator::Calculator(Calculator const & src)
 Calculator::~Calculator()
 {
 //	std::cout << "Calculator Destructor" << std::endl;
-//	while (!_operands.empty())
-//	{
-//		_operands.
-//		delete(_operands.top());
 		_operands.clear();
-//	}
 }
 
 Calculator &	Calculator::operator=(Calculator const & rhs)
@@ -69,11 +63,11 @@ std::ostream &	operator<< (std::ostream & o, Calculator const & rhs)
     return o;
 }
 
-void Calculator::run(verbs verb, const Value& instruction)
+void Calculator::run(verbs verb, Value *instruction)
 {
 
 	if (verb == ASSERT || verb == PUSH)
-		doOperation(verb, instruction);
+		doOperation(verb, *instruction);
 	else
 		doOperation(verb);
 }
@@ -122,17 +116,18 @@ void Calculator::pop()
 	}
 }
 
-void Calculator::printTop()
-{
-	if (_operands.empty())
-		return;
-	IOperand *Op = _operands.back();
-//	delete(_operands.top());
-	_operands.pop_back();
-	std::cout << Op->toString() << std::endl;
-	printTop();
-	_operands.push_back(Op);
-}
+//void Calculator::printTop()
+//{
+//	if (_operands.empty())
+//		return;
+//
+//
+////	IOperand *Op = _operands.back();
+////	_operands.pop_back();
+////	std::cout << Op->toString() << std::endl;
+////	printTop();
+////	_operands.push_back(Op);
+//}
 
 void Calculator::dump()
 {
@@ -141,7 +136,12 @@ void Calculator::dump()
 /*Displays each value of the stack, from the most recent one to the oldest
 one WITHOUT CHANGING the stack. Each value is separated from the next one
 by a newline.*/
-	printTop();
+//	printTop();
+	std::vector<IOperand *>::iterator it;
+	for (it = _operands.begin(); it != _operands.end(); it++)
+	{
+		std::cout << (*it)->toString() << std::endl;
+	}
 }
 
 void Calculator::assertion(IOperand *Op)

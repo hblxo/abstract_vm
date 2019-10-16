@@ -17,7 +17,7 @@
 # include <stack>
 # include <vector>
 
-# include "InstructClass.hpp"
+# include "ValueClass.hpp"
 # include "IOperand.hpp"
 # include "eVerb.hpp"
 
@@ -31,7 +31,7 @@ public:
 
     std::string toString() const;
 
-    void run(verbs verb, const class Value& instruction);
+    void run(verbs verb, class Value *instruction);
     void doOperation(verbs verb, const class Value& instruction);
     void doOperation(verbs type);
 

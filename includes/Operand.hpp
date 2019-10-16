@@ -130,4 +130,10 @@ public:
 
 };
 
+std::ostream & operator << (std::ostream & o, IOperand const & rhs) {
+	o << rhs.toString();
+	return o;
+}
+
+
 #endif //AVM_OPERAND_HPP

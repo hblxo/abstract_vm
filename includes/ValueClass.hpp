@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   InstructClass.hpp                                       :+:      :+:    :+:   */
+/*   ValueClass.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/07 09:22:54 by hbouchet          #+#    #+#             */
-/*   Updated: 2019/10/07 09:22:54 by hbouchet         ###   ########.fr       */
+/*   Created: 2019/10/15 14:52:37 by hbouchet          #+#    #+#             */
+/*   Updated: 2019/10/15 14:52:37 by hbouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AVM_INSTRUCTCLASS_HPP
-#define AVM_INSTRUCTCLASS_HPP
+#ifndef AVM_VALUECLASS_HPP
+#define AVM_VALUECLASS_HPP
 
 #include <iostream>
 #include "LexerClass.hpp"
@@ -41,4 +41,4 @@ private:
 
 std::ostream	&operator<<(std::ostream & o, Value const & rhs);
 
-#endif //AVM_INSTRUCTCLASS_HPP
+#endif //AVM_VALUECLASS_HPP

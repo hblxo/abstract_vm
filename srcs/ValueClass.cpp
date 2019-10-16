@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   InstructClass.cpp                                  :+:      :+:    :+:   */
+/*   ValueClass.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/07 09:23:52 by hbouchet          #+#    #+#             */
-/*   Updated: 2019/10/07 09:23:52 by hbouchet         ###   ########.fr       */
+/*   Created: 2019/10/15 14:55:33 by hbouchet          #+#    #+#             */
+/*   Updated: 2019/10/15 14:55:33 by hbouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <regex>
-#include <ExceptionClass.hpp>
 #include <utility>
-# include "InstructClass.hpp"
+# include "ExceptionClass.hpp"
+# include "ValueClass.hpp"
 
 Value::Value(const std::string& str)
 {

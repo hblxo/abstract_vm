@@ -13,11 +13,9 @@
 #ifndef AVM_PARSERCLASS_HPP
 #define AVM_PARSERCLASS_HPP
 
-#include <iostream>
-#include <list>
-#include "CalculatorClass.hpp"
-#include "AnalyzerClass.hpp"
-#include "InstructClass.hpp"
+# include <iostream>
+# include <list>
+# include "ValueClass.hpp"
 
 class Parser
 {
@@ -31,7 +29,7 @@ public:
 
 	std::string	toString() const;
 	verbs getVerb() const;
-	const Value &getInstruct() const;
+	Value *getInstruct() const;
 
 private:
 	verbs 			_verb;

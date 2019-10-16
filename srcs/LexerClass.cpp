@@ -17,7 +17,6 @@
 #include <cstring>
 #include <algorithm>
 #include <regex>
-#include <utility>
 
 Lexer::Lexer(std::string str,
 			 const std::list<Tokenizer*>*pList)
@@ -32,7 +31,6 @@ Lexer::Lexer(std::string str,
 void Lexer::defineLexerInstruct(const std::string &string,
 								const std::list<Tokenizer*>* tokenList)
 {
-//    std::list<Tokenizer>::iterator ite;
     std::size_t pos;
 
 
@@ -40,7 +38,6 @@ void Lexer::defineLexerInstruct(const std::string &string,
     pos = string.find(c);
 	std::string value = string.substr(0, pos);
 
-//    for(ite = tokenList.begin(); ite != tokenList.end(); ite++)
     for (Tokenizer* tok : *tokenList)
 	{
     	if (tok->matchSearch(value))
@@ -55,21 +52,7 @@ void Lexer::defineLexerInstruct(const std::string &string,
     		else
 				throw Exception("???");
 		}
-//        if ((*ite).matchSearch(value))
-//        {
-//        	if (findInstructType(value) == 1)
-//        		;
-//        		tmp.verb = (*ite);
-//			_calc.doOperation((*ite)->getType());
-//        	else
-//				_calc.doOperation((*ite)->getType(), line.substr(pos + 1));
-//_phrases->push_back((*ite), nullptr);
-//			return ;
-//		}
     }
-//    delete(_tokenList);
-//	std::cout << "3" << std::endl;
-//    throw InvalidInstructionException();
 }
 
 int	Lexer::findInstructType(const std::string& value){
@@ -90,7 +73,6 @@ std::string	Lexer::ignoreComment(const std::string& line)
 	char c = ';';
 	commentPos = line.find(c);
 	std::string value = line.substr(0, commentPos);
-//	std::cout << "[" << value << "]" << std::endl;
 	return value;
 }
 
@@ -100,14 +82,12 @@ std::string Lexer::formatSpace(const std::string &str)
 	return std::regex_replace(str, reg, " ");
 }
 
-
-//cf : http://onoffswitch.net/building-a-custom-lexer/
-
 Lexer::Lexer()
 = default;
 
 Lexer::Lexer(Lexer const & src) 
 {
+	this->_verb = src.getVerb();
     *this = src;
 }
 
@@ -115,14 +95,6 @@ Lexer::~Lexer()
 {
 	_value.erase();
 	//	std::cout << "destructor Lexer" << std::endl;
-//	std::list<Tokenizer*>::iterator ite;
-//
-//	for(ite = _tokenList->begin(); ite != _tokenList->end(); ite++)
-//	{
-//		delete((*ite));
-//	}
-//	_tokenList->clear();
-//    delete _tokenList;
 }
 
 Lexer &	Lexer::operator=(Lexer const & rhs)
@@ -149,12 +121,6 @@ verbs Lexer::getVerb() const
 {
 	return _verb;
 }
-
-//
-//std::list<std::string *> *Lexer::getPhrase() const
-//{
-//	return _phrase;
-//}
 
 std::ostream &	operator<< (std::ostream & o, Lexer const & rhs)
 {

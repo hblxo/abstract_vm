@@ -18,7 +18,7 @@
 # include "TokenizerClass.hpp"
 #include "IOperand.hpp"
 #include "CalculatorClass.hpp"
-#include "InstructClass.hpp"
+#include "ValueClass.hpp"
 
 
 class Lexer {

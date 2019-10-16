@@ -36,6 +36,8 @@ Parser::Parser(verbs verb, std::string value)
 
 Parser::Parser(Parser const &src)
 {
+	this->_instruct = src.getInstruct();
+	this->_verb = src.getVerb();
 	*this = src;
 }
 
@@ -65,9 +67,9 @@ verbs Parser::getVerb() const
 	return _verb;
 }
 
-const Value &Parser::getInstruct() const
+Value *Parser::getInstruct() const
 {
-	return *_instruct;
+	return _instruct;
 }
 
 
@@ -76,4 +78,3 @@ std::ostream &operator<<(std::ostream &o, Parser const &rhs)
 	o << rhs.toString();
 	return o;
 }
-
