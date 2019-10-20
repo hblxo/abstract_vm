@@ -50,11 +50,12 @@ void Lexer::defineLexerInstruct(const std::string &string,
     			this->_value = string.substr(pos + 1);
 			}
     		else
-				throw Exception("???");
+				throw InvalidInstructionException();
 //			std::cout << this->_verb << std::endl;
     		return;
 		}
     }
+	throw InvalidInstructionException();
 }
 
 int	Lexer::findInstructType(const std::string& value){
