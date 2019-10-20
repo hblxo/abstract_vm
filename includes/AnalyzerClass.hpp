@@ -18,6 +18,8 @@
 #include "CalculatorClass.hpp"
 #include "ParserClass.hpp"
 #include "LexerClass.hpp"
+#include "eVerboseLevel.hpp"
+#include "LogClass.hpp"
 
 class Analyzer{
 public:
@@ -34,12 +36,16 @@ private:
 	std::list<std::string>		_input;
 	std::list<Lexer*>			_phrases;
 	std::list<class Parser*>	_operations;
+	verbosity					_verbosity;
+
+	Log							*_log;
 
 	static std::list<Tokenizer*> *initializeTokenList();
 	void readFile(std::istream &file);
 	void readInput(std::istream &input);
 
-	void SetInput(int ac, char **av);
+	void	SetInput(int ac, char **av);
+	void	SetOptions(int ac, char **av);
 };
 std::ostream	&	operator<< (std::ostream & o, Analyzer const & rhs);
 

@@ -21,6 +21,7 @@ Analyzer::Analyzer()
 
 Analyzer::Analyzer(int ac, char **av)
 {
+	SetOptions(ac, av);
 	SetInput(ac, av);
 	std::list<std::string>::iterator ite;
 
@@ -44,15 +45,29 @@ Analyzer::Analyzer(int ac, char **av)
 	}
 }
 
+void Analyzer::SetOptions(int ac, char **av)
+{
+	_verbosity = L_OFF;
+	if (ac > 1 && av[1][0] == '-')
+	{
+		if (strcmp(av[1], "-verbose") == 0 || strcmp(av[1], "-v"))
+			_verbosity = L_INFO;
+		else
+			;//todo : throw error
+	}
+	_log = new Log(_verbosity);
+}
+
+
 void	Analyzer::SetInput(int ac, char **av){
 	std::ifstream file;
 	std::string filename;
 
-	if (ac > 2)
+	if (ac > 3)
 		throw InvalidArgumentsCountException();
-	else if (ac == 2)
+	else if ((ac == 2 && _verbosity == L_OFF) || (ac == 3 && _verbosity != L_OFF))
 	{
-		filename = av[1];
+		filename = av[ac - 1];
 		file.open(filename);
 		if (file.fail())
 			throw OpenFailureException();
@@ -122,7 +137,7 @@ std::ostream &operator<<(std::ostream &o, Analyzer const &rhs)
 
 std::list<Tokenizer*> *Analyzer::initializeTokenList()
 {
-	std::list<Tokenizer*> *tokenList = new std::list<Tokenizer*>;
+	auto *tokenList = new std::list<Tokenizer*>;
 	tokenList->push_back(new Tokenizer(POP, "pop"));
 	tokenList->push_back(new Tokenizer(DUMP, "dump"));
 	tokenList->push_back(new Tokenizer(ADD, "add"));
@@ -137,4 +152,3 @@ std::list<Tokenizer*> *Analyzer::initializeTokenList()
 	tokenList->push_back(new Tokenizer(ASSERT, "assert"));
 	return tokenList;
 }
-
