@@ -190,7 +190,7 @@ void Calculator::sub()
 		throw NotEnoughOnStackException();
 	IOperand *b = _operands.back();
 	_operands.pop_back();
-	_operands.push_back(const_cast<IOperand *>(*a - *b));
+	_operands.push_back(const_cast<IOperand *>(*b - *a));
 	delete a;
 	delete b;
 }
