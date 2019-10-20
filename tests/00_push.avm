@@ -1,0 +1,14 @@
+;00_push.avm
+
+push 	int8(-32)
+push	int8(127)
+push int16(-352)
+push int16(3320)
+push int32(-5322234)
+push int32(+5632523)
+push float(-2334.2345)
+push double(342523.23)
+
+dump
+
+exit

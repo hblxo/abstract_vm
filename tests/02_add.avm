@@ -1,0 +1,18 @@
+;02_add.avm
+
+push int8(85)
+push int16(132)
+add
+
+push int32(2512)
+add
+
+push float(13.355)
+add
+
+push double(87.687163)
+add
+
+dump
+
+exit

@@ -1,0 +1,26 @@
+;08_print.avm
+
+push int8(72) ;H
+print
+push int8(101) ;e
+print
+push int8(108) ;l
+print
+print
+push int8(111) ;o
+print
+push int8(32) ;' '
+print
+push int8(87) ;W
+print
+push int8(111) ;o
+print
+push int8(114) ;r
+print
+push int8(108) ;l
+print
+push int8(100) ;d
+print
+push int8(33) ;!
+print
+exit

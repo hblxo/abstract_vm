@@ -1,0 +1,11 @@
+;01_pop.avm
+push float(0.00)
+push int32(-5322234)
+push int32(+5632523)
+push double(06540.546)
+pop
+pop
+pop
+dump
+
+exit
