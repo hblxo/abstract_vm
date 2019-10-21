@@ -1,54 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   LogClass.cpp                                       :+:      :+:    :+:   */
+/*   ErrorHandlerClass.cpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/20 17:36:53 by hbouchet          #+#    #+#             */
-/*   Updated: 2019/10/20 17:36:53 by hbouchet         ###   ########.fr       */
+/*   Created: 2019/10/21 18:25:44 by hbouchet          #+#    #+#             */
+/*   Updated: 2019/10/21 18:25:44 by hbouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <GlobalVariables.hpp>
+#include "ExceptionClass.hpp"
 #include "LogClass.hpp"
+#include "ErrorHandlerClass.hpp"
+#include "GlobalVariables.hpp"
 
-Log::Log()
+ErrorHandler::ErrorHandler()
 = default;
 
-Log::Log(verbosity level, const std::string& msg)
-{
-	if (level >= global_verbosity)
-		std::cout << "\033[1;31m" << msg << "\033[0m" << std::endl;
-}
 
-Log::Log(Log const &src)
+ErrorHandler::ErrorHandler(ErrorHandler const &src)
 {
 	*this = src;
 }
 
-Log::~Log()
-{
-}
-
-Log &Log::operator=(Log const &rhs)
+ErrorHandler &ErrorHandler::operator=(ErrorHandler const &rhs)
 {
 	if (this != &rhs)
 		*this = rhs;
 	return *this;
 }
 
-std::string Log::toString() const
+std::string ErrorHandler::toString() const
 {
 	return std::string();
 }
-//
-//verbosity Log::getOptions() const
-//{
-//	return _options;
-//}
 
-std::ostream &operator<<(std::ostream &o, Log const &rhs)
+ErrorHandler::ErrorHandler(const std::string& msg)
+{
+	if (!::global_diag)
+		throw Exception(msg);
+	Log(L_ERROR, msg);
+	global_hasError = true;
+}
+
+ErrorHandler::~ErrorHandler()
+= default;
+
+std::ostream &	operator<< (std::ostream & o, ErrorHandler const & rhs)
 {
 	o << rhs.toString();
 	return o;

@@ -55,6 +55,7 @@ void Lexer::defineLexerInstruct(const std::string &string,
     		return;
 		}
     }
+//	throw Exception("ok");
 	throw InvalidInstructionException();
 }
 

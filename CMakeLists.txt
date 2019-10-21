@@ -8,4 +8,4 @@
                                       add_custom_target(avm COMMAND make -C ${avm_SOURCE_DIR}
                                               CLION_EXE_DIR=${PROJECT_BINARY_DIR})
 
-                                      add_executable(includes srcs/main.cpp srcs/LogClass.cpp includes/LogClass.hpp includes/eVerboseLevel.hpp)
+                                      add_executable(includes srcs/main.cpp srcs/LogClass.cpp includes/LogClass.hpp includes/eVerboseLevel.hpp includes/GlobalVariables.hpp srcs/ErrorHandlerClass.cpp includes/ErrorHandlerClass.hpp)

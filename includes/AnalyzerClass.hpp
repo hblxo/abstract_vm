@@ -36,16 +36,17 @@ private:
 	std::list<std::string>		_input;
 	std::list<Lexer*>			_phrases;
 	std::list<class Parser*>	_operations;
-	verbosity					_verbosity;
+//	verbosity					_verbosity;
+//	bool 						_diag;
 
-	Log							*_log;
+//	Log							*_log;
 
 	static std::list<Tokenizer*> *initializeTokenList();
 	void readFile(std::istream &file);
 	void readInput(std::istream &input);
 
 	void	SetInput(int ac, char **av);
-	void	SetOptions(int ac, char **av);
+	static void	SetOptions(int ac, char **av);
 };
 std::ostream	&	operator<< (std::ostream & o, Analyzer const & rhs);
 

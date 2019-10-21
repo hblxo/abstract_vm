@@ -1,39 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   LogClass.hpp                                       :+:      :+:    :+:   */
+/*   ErrorHandlerClass.hpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/20 17:36:44 by hbouchet          #+#    #+#             */
-/*   Updated: 2019/10/20 17:36:44 by hbouchet         ###   ########.fr       */
+/*   Created: 2019/10/21 18:21:21 by hbouchet          #+#    #+#             */
+/*   Updated: 2019/10/21 18:21:21 by hbouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AVM_LOGCLASS_HPP
-#define AVM_LOGCLASS_HPP
+#ifndef AVM_ERRORHANDLERCLASS_HPP
+#define AVM_ERRORHANDLERCLASS_HPP
 
 #include <iostream>
-#include "eVerboseLevel.hpp"
 
-class Log {
+class ErrorHandler
+{
 public:
-	Log();
-//	Log(verbosity options);
-	Log(verbosity level, const std::string& msg);
-	Log(Log const & src);
-	~Log();
+	ErrorHandler();
+	explicit ErrorHandler(const std::string& msg);
+	ErrorHandler(ErrorHandler const & src);
+	~ErrorHandler();
 
-//	verbosity getOptions() const;
-
-	Log &operator=(Log const & rhs);
-
+	ErrorHandler &operator=(ErrorHandler const &rhs);
 	std::string toString() const;
-//	void		print(verbosity level, std::string msg);
-private:
-//	verbosity _options;
 };
 
-std::ostream & operator<< (std::ostream & o, Log const & rhs);
+std::ostream &	operator<< (std::ostream & o, ErrorHandler const & rhs);
 
-#endif //AVM_LOGCLASS_HPP
+#endif //AVM_ERRORHANDLERCLASS_HPP

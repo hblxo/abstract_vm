@@ -12,12 +12,17 @@
 
 #include <fstream>
 #include <iostream>
+#include <ErrorHandlerClass.hpp>
 #include "ExceptionClass.hpp"
+#include "GlobalVariables.hpp"
 #include "AnalyzerClass.hpp"
 
+verbosity	global_verbosity;
+bool		global_diag;
+bool		global_hasError;
+
 Analyzer::Analyzer()
-{
-}
+= default;
 
 Analyzer::Analyzer(int ac, char **av)
 {
@@ -37,6 +42,9 @@ Analyzer::Analyzer(int ac, char **av)
 		_operations.push_back(new Parser(lex->getVerb(), lex->getValue()));
 	}
 
+	if (global_hasError)
+		return ;
+
 	Calculator	*calc = new Calculator;
 	for (Parser *par : _operations)
 	{
@@ -47,15 +55,18 @@ Analyzer::Analyzer(int ac, char **av)
 
 void Analyzer::SetOptions(int ac, char **av)
 {
-	_verbosity = L_OFF;
+	::global_verbosity = L_ERROR;
+	::global_diag = true;
 	if (ac > 1 && av[1][0] == '-')
 	{
-		if (strcmp(av[1], "-verbose") == 0 || strcmp(av[1], "-v"))
-			_verbosity = L_INFO;
+		if (strcmp(av[1], "-verbose") == 0 || strcmp(av[1], "-v") == 0)
+			::global_verbosity = L_INFO;
 		else
-			;//todo : throw error
+//			ErrorHandler("Invalid");
+			throw InvalidArgumentsCountException();
 	}
-	_log = new Log(_verbosity);
+//	_log = new Log(_verbosity);
+//		_log->print(L_INFO, "Verbosity set to INFO level");
 }
 
 
@@ -65,7 +76,7 @@ void	Analyzer::SetInput(int ac, char **av){
 
 	if (ac > 3)
 		throw InvalidArgumentsCountException();
-	else if ((ac == 2 && _verbosity == L_OFF) || (ac == 3 && _verbosity != L_OFF))
+	else if ((ac == 2 && global_verbosity == L_OFF) || (ac == 3 && global_verbosity != L_OFF))
 	{
 		filename = av[ac - 1];
 		file.open(filename);
@@ -83,8 +94,7 @@ Analyzer::Analyzer(Analyzer const &src)
 }
 
 Analyzer::~Analyzer()
-{
-}
+= default;
 
 void	Analyzer::readInput(std::istream &input)
 {
@@ -111,6 +121,7 @@ void 	Analyzer::readFile(std::istream &file)
 	if ((std::find(_input.begin(), _input.end(), "exit") == _input.end()))
 	{
 		delete(tmp);
+//		throw Exception("OK");
 		throw NoExitInstructionException();
 	}
 	delete(tmp);

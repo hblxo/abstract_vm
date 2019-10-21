@@ -12,6 +12,7 @@
 
 #include <regex>
 #include <utility>
+#include <ErrorHandlerClass.hpp>
 # include "ExceptionClass.hpp"
 # include "ValueClass.hpp"
 
@@ -62,7 +63,8 @@ void Value::findValue(const std::string& basicString)
 	std::regex reg;
 	reg = R"(^([\s\t\n]*)(int8|int16|int32|float|double)(\()([-+]?[0-9]+(.?[0-9]+)?)(\))(\s*)?$)";
 	if (!std::regex_match(basicString, reg))
-		throw InvalidValueException();
+		ErrorHandler("Invalid Value");
+//		throw InvalidValueException();
 	else
 	{
 		size_t pos;
