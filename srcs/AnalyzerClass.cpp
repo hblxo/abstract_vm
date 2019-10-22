@@ -12,7 +12,7 @@
 
 #include <fstream>
 #include <iostream>
-#include <InputParserClass.hpp>
+#include "InputParserClass.hpp"
 #include "ErrorHandlerClass.hpp"
 #include "ExceptionClass.hpp"
 #include "GlobalVariables.hpp"

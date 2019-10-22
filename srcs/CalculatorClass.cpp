@@ -14,6 +14,7 @@
 #include "ExceptionClass.hpp"
 #include <iostream>
 #include <regex>
+#include <LogClass.hpp>
 #include "Factory.hpp"
 
 Calculator::instructs Calculator::_instruct = {
@@ -103,6 +104,7 @@ void Calculator::doOperation(verbs type)
 
 void Calculator::push(IOperand *Op)
 {
+	Log(L_INFO, Op->toString() + " push on the top of the stack");
 	_operands.push_back(Op);
 }
 
@@ -113,23 +115,11 @@ void Calculator::pop()
 		throw EmptyStackException();
 	else
 	{
+		Log(L_INFO, _operands.back()->toString() + " removed from the top of the stack");
 		delete (_operands.back());
 		_operands.pop_back();
 	}
 }
-
-//void Calculator::printTop()
-//{
-//	if (_operands.empty())
-//		return;
-//
-//
-////	IOperand *Op = _operands.back();
-////	_operands.pop_back();
-////	std::cout << Op->toString() << std::endl;
-////	printTop();
-////	_operands.push_back(Op);
-//}
 
 void Calculator::dump()
 {
@@ -139,7 +129,6 @@ void Calculator::dump()
 /*Displays each value of the stack, from the most recent one to the oldest
 one WITHOUT CHANGING the stack. Each value is separated from the next one
 by a newline.*/
-//	printTop();
 	std::vector<IOperand *>::iterator it;
 	for (it = _operands.begin(); it != _operands.end(); it++)
 	{
@@ -181,6 +170,7 @@ void Calculator::add()
 
 void Calculator::sub()
 {
+	Log(L_INFO, "");
 //	std::cout << "sub" << std::endl;
 	if (_operands.empty())
 		throw EmptyStackException();

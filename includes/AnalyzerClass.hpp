@@ -28,30 +28,28 @@ public:
 	Analyzer(Analyzer const & src);
 	~Analyzer();
 
-	Analyzer &operator=(Analyzer const & rhs);
-
-	std::string	toString() const;
+	Analyzer 						&operator=(Analyzer const & rhs);
+	std::string						toString() const;
 
 	struct s_input {
-		std::string				content;
-		int 					line;
+		std::string					content;
+		int 						line;
 	};
 
 private:
-	std::list<s_input>			_input2;
-	std::list<std::string>		_input;
-	std::list<Lexer*>			_phrases;
-	std::list<class Parser*>	_operations;
+	std::list<s_input>				_input2;
+	std::list<std::string>			_input;
+	std::list<Lexer*>				_phrases;
+	std::list<class Parser*>		_operations;
 
-	static std::list<Tokenizer*> *initializeTokenList();
-	void readFile(std::istream &file);
-	void readInput(std::istream &input);
-
-	void	SetInput(const std::string& filename);
-//	void	SetInput(int ac, char **av);
-	void	SetOptions(int ac, char **av);
+	static std::list<Tokenizer*>	*initializeTokenList();
+	void							readFile(std::istream &file);
+	void							readInput(std::istream &input);
+	/* Setters */
+	void							SetInput(const std::string& filename);
+	void							SetOptions(int ac, char **av);
 };
-std::ostream	&	operator<< (std::ostream & o, Analyzer const & rhs);
+std::ostream						&operator<< (std::ostream & o, Analyzer const & rhs);
 
 
 #endif //AVM_ANALYZER_CLASS_HPP
