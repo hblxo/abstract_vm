@@ -21,7 +21,7 @@ class Parser
 {
 public:
 	Parser();
-	Parser(verbs verb, int lineNb, std::string value);
+	Parser(verbs verb, int lineNb, const std::string& value);
 	Parser(Parser const & src);
 	~Parser();
 

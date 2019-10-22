@@ -39,13 +39,14 @@ OBJ_PATH	=	obj
 
 SRC_NAME	=   main.cpp LexerClass.cpp ExceptionClass.cpp TokenizerClass.cpp \
  				CalculatorClass.cpp Factory.cpp ValueClass.cpp \
- 				AnalyzerClass.cpp ParserClass.cpp LogClass.cpp ErrorHandlerClass.cpp
+ 				AnalyzerClass.cpp ParserClass.cpp LogClass.cpp ErrorHandlerClass.cpp \
+ 				InputParserClass.cpp
 
 INC_NAME	=	LexerClass.hpp ExceptionClass.hpp TokenizerClass.hpp \
 				CalculatorClass.hpp Factory.hpp ValueClass.hpp\
 				AnalyzerClass.hpp ParserClass.hpp LogClass.hpp ErrorHandlerClass.hpp \
 				IOperand.hpp GlobalVariables.hpp Operand.hpp eVerb.hpp \
-				eOperandType.hpp eVerboseLevel.hpp
+				eOperandType.hpp eVerboseLevel.hpp InputParserClass.hpp
 
 OBJ_NAME	=	$(SRC_NAME:.cpp=.o)
 

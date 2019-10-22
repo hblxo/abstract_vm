@@ -47,8 +47,9 @@ private:
 	void readFile(std::istream &file);
 	void readInput(std::istream &input);
 
-	void	SetInput(int ac, char **av);
-	static void	SetOptions(int ac, char **av);
+	void	SetInput(const std::string& filename);
+//	void	SetInput(int ac, char **av);
+	void	SetOptions(int ac, char **av);
 };
 std::ostream	&	operator<< (std::ostream & o, Analyzer const & rhs);
 

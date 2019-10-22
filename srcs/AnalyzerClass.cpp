@@ -12,6 +12,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <InputParserClass.hpp>
 #include "ErrorHandlerClass.hpp"
 #include "ExceptionClass.hpp"
 #include "GlobalVariables.hpp"
@@ -27,7 +28,6 @@ Analyzer::Analyzer()
 Analyzer::Analyzer(int ac, char **av)
 {
 	SetOptions(ac, av);
-	SetInput(ac, av);
 	std::list<s_input>::iterator ite;
 
 	std::list<Tokenizer *> *tokenList = initializeTokenList();
@@ -60,28 +60,47 @@ Analyzer::Analyzer(int ac, char **av)
 
 void Analyzer::SetOptions(int ac, char **av)
 {
+	InputParser 	inputParser(ac, av);
+	std::string 	filename;
+	int 			flagNb = 1;
+
 	::global_verbosity = L_ERROR;
 	::global_diag = false;
-	if (ac > 1 && av[1][0] == '-')
+	if (inputParser.cmdOptExist("-v") || inputParser.cmdOptExist("--verbose"))
 	{
-		if (strcmp(av[1], "-verbose") == 0 || strcmp(av[1], "-v") == 0)
-			::global_verbosity = L_INFO;
-		else
-//			ErrorHandler("Invalid");
-			throw InvalidArgumentsCountException();
+		flagNb++;
+		global_verbosity = L_INFO;
 	}
+	if (inputParser.cmdOptExist("-d") || inputParser.cmdOptExist("--diag"))
+	{
+		flagNb++;
+		global_diag = true;
+	}
+	if (inputParser.cmdOptExist("-f"))
+	{
+		flagNb += 2;
+		filename = inputParser.getCmdOpt("-f");
+	}
+	else if (inputParser.cmdOptExist("--filename"))
+	{
+		flagNb += 2;
+		filename = inputParser.getCmdOpt("--filename");
+	}
+	else
+		filename = std::string("");
+	if (flagNb == ac)
+		SetInput(filename);
+	else
+		ErrorHandler("Error usage", -1);
+//			throw InvalidArgumentsCountException();
 }
 
 
-void	Analyzer::SetInput(int ac, char **av){
+void	Analyzer::SetInput(const std::string& filename){
 	std::ifstream file;
-	std::string filename;
 
-	if (ac > 3)
-		throw InvalidArgumentsCountException();
-	else if ((ac == 2 && global_verbosity == L_OFF) || (ac == 3 && global_verbosity != L_OFF))
+	if (!filename.empty())
 	{
-		filename = av[ac - 1];
 		file.open(filename);
 		if (file.fail())
 			throw OpenFailureException();
@@ -96,8 +115,7 @@ Analyzer::Analyzer(Analyzer const &src)
 	*this = src;
 }
 
-Analyzer::~Analyzer(){
-}
+Analyzer::~Analyzer()= default;
 
 void	Analyzer::readInput(std::istream &input)
 {

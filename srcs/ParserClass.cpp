@@ -16,7 +16,7 @@
 Parser::Parser()
 = default;
 
-Parser::Parser(verbs verb, int lineNb, std::string value) : _lineNb(lineNb)
+Parser::Parser(verbs verb, int lineNb, const std::string& value) : _lineNb(lineNb)
 {
 
 	if ((verb == PUSH || verb == ASSERT) && !value.empty())
@@ -36,6 +36,7 @@ Parser::Parser(verbs verb, int lineNb, std::string value) : _lineNb(lineNb)
 
 Parser::Parser(Parser const &src)
 {
+	this->_lineNb = src.getLineNb();
 	this->_instruct = src.getInstruct();
 	this->_verb = src.getVerb();
 	*this = src;

@@ -39,8 +39,11 @@ std::string ErrorHandler::toString() const
 ErrorHandler::ErrorHandler(const std::string& msg, int lineNb)
 {
 	if (!::global_diag)
+	{
+		//todo : gérer lineNb == -1 / global error
 		throw Exception("Line " + std::to_string(lineNb) + " - " +msg);
-	Log(L_ERROR, msg);
+	}
+	Log log(L_ERROR, msg);
 	global_hasError = true;
 }
 

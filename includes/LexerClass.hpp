@@ -36,7 +36,6 @@ class Lexer {
 	int 			getLineNb() const;
 
 
-
 private:
 	static std::string ignoreComment(const std::string& line);
 	void defineLexerInstruct(const std::string &string,
