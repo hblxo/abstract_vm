@@ -21,19 +21,21 @@ class Parser
 {
 public:
 	Parser();
-	Parser(verbs verb, std::string value);
+	Parser(verbs verb, int lineNb, std::string value);
 	Parser(Parser const & src);
 	~Parser();
 
 	Parser &operator=(Parser const & rhs);
 
-	std::string	toString() const;
-	verbs getVerb() const;
-	Value *getInstruct() const;
+	std::string		toString() const;
+	verbs			getVerb() const;
+	Value			*getInstruct() const;
+	int 			getLineNb() const;
 
 private:
 	verbs 			_verb;
 	Value			*_instruct;
+	int 			_lineNb;
 
 };
 std::ostream	&	operator<< (std::ostream & o, Parser const & rhs);

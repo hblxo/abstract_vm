@@ -18,10 +18,12 @@
 #include <algorithm>
 #include <regex>
 
-Lexer::Lexer(std::string str,
-			 const std::list<Tokenizer*>*pList) : _verb(COMMENT)
+Lexer::Lexer(const std::string& str, int lineNb,
+			 const std::list<Tokenizer*>*pList) :  _lineNb(lineNb), _verb(COMMENT)
 {
 	std::string line = Lexer::ignoreComment(str);
+//	std::cout << "LEXER - line : " << line << std::endl;
+
 	line = formatSpace(line);
 	if (line.empty() || line[0] == ';' || line[0] == '\n')
 		return ;
@@ -40,7 +42,7 @@ void Lexer::defineLexerInstruct(const std::string &string,
 
     for (Tokenizer* tok : *tokenList)
 	{
-    	if (tok->matchSearch(value))
+		if (tok->matchSearch(value))
 		{
     		if (findInstructType(value) == 1)
 				this->_verb = tok->getType();
@@ -124,6 +126,11 @@ std::string Lexer::getValue() const
 verbs Lexer::getVerb() const
 {
 	return _verb;
+}
+
+int Lexer::getLineNb() const
+{
+	return _lineNb;
 }
 
 std::ostream &	operator<< (std::ostream & o, Lexer const & rhs)

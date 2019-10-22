@@ -161,7 +161,7 @@ OpenFailureException::~OpenFailureException()
  */
 InvalidArgumentsCountException::InvalidArgumentsCountException()
 {
-	_msg = "Invalid Arguments Count Exception\nusage : ./avm";
+	_msg = "Invalid Arguments Count Exception\nusage : ./avm [-v --verbose -d --diag] [filename]";
 }
 
 InvalidArgumentsCountException::InvalidArgumentsCountException(InvalidArgumentsCountException const &src)

@@ -24,15 +24,17 @@
 class Lexer {
    public:
 	Lexer();
-	Lexer(std::string str, const std::list<Tokenizer*> *pList);
+	Lexer(const std::string& str, int lineNb, const std::list<Tokenizer*> *pList);
 	Lexer(Lexer const & src);
 	~Lexer();
 
     Lexer &		operator=(Lexer const & rhs);
 
     std::string 	toString() const;
-	std::string getValue() const;
-	verbs getVerb() const;
+	std::string 	getValue() const;
+	verbs 			getVerb() const;
+	int 			getLineNb() const;
+
 
 
 private:
@@ -43,7 +45,7 @@ private:
 	static int findInstructType(const std::string& value);
 	static std::string formatSpace(const std::string& str);
 
-
+	int 				_lineNb;
 	std::string			_value;
 	verbs 				_verb;
 

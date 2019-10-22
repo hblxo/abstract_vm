@@ -12,14 +12,14 @@
 
 #include <fstream>
 #include <iostream>
-#include <ErrorHandlerClass.hpp>
+#include "ErrorHandlerClass.hpp"
 #include "ExceptionClass.hpp"
 #include "GlobalVariables.hpp"
 #include "AnalyzerClass.hpp"
 
 verbosity	global_verbosity;
 bool		global_diag;
-bool		global_hasError;
+bool		global_hasError = false;
 
 Analyzer::Analyzer()
 = default;
@@ -28,35 +28,40 @@ Analyzer::Analyzer(int ac, char **av)
 {
 	SetOptions(ac, av);
 	SetInput(ac, av);
-	std::list<std::string>::iterator ite;
+	std::list<s_input>::iterator ite;
 
 	std::list<Tokenizer *> *tokenList = initializeTokenList();
-	for (ite = _input.begin(); ite != _input.end(); ite++)
+	for (ite = _input2.begin(); ite != _input2.end(); ite++)
 	{
-		_phrases.push_back(new Lexer((*ite), tokenList));
+//		std::cout << "content : " << (*ite).content << std::endl;
+		_phrases.push_back(new Lexer((*ite).content, (*ite).line, tokenList));
 	}
 
 	for (Lexer *lex : _phrases)
 	{
 //		std::cout << "lex-verb : " << lex->getVerb() << std::endl;
-		_operations.push_back(new Parser(lex->getVerb(), lex->getValue()));
+		_operations.push_back(new Parser(lex->getVerb(), lex->getLineNb(), lex->getValue()));
 	}
 
-	if (global_hasError)
-		return ;
+//	std::cout << "diag : " << global_diag << std::endl;
+//	std::cout << "Error : " << global_hasError << std::endl;
+	if (global_diag && global_hasError)
+//		std::cout << "Ok" << std::endl;
+		throw std::runtime_error("Error") ;
 
-	Calculator	*calc = new Calculator;
+	auto	*calc = new Calculator;
 	for (Parser *par : _operations)
 	{
 //		std::cout << par->getVerb() << std::endl;
 		calc->run(par->getVerb(), par->getInstruct());
 	}
+	delete(calc);
 }
 
 void Analyzer::SetOptions(int ac, char **av)
 {
 	::global_verbosity = L_ERROR;
-	::global_diag = true;
+	::global_diag = false;
 	if (ac > 1 && av[1][0] == '-')
 	{
 		if (strcmp(av[1], "-verbose") == 0 || strcmp(av[1], "-v") == 0)
@@ -65,8 +70,6 @@ void Analyzer::SetOptions(int ac, char **av)
 //			ErrorHandler("Invalid");
 			throw InvalidArgumentsCountException();
 	}
-//	_log = new Log(_verbosity);
-//		_log->print(L_INFO, "Verbosity set to INFO level");
 }
 
 
@@ -93,38 +96,54 @@ Analyzer::Analyzer(Analyzer const &src)
 	*this = src;
 }
 
-Analyzer::~Analyzer()
-= default;
+Analyzer::~Analyzer(){
+}
 
 void	Analyzer::readInput(std::istream &input)
 {
 	auto	*tmp = new std::string("");
+	int 	line = 0;
+	auto	*ret = new s_input;
 
 	getline(input, *tmp);
 	while (*tmp != ";;")
 	{
-		_input.push_back(*tmp);
+		ret->content = *tmp;
+		ret->line = line;
+//		std::cout << "ret-content : \"" << ret->content << "\" - line : " << ret->line << std::endl;
+		_input2.push_back(*ret);
+//		_input.push_back(*tmp); // delete
 		getline(input, *tmp);
+		line++;
+//		ret = {};
 	}
-	delete(tmp);
+//	delete(ret);
+//	delete(tmp);
 }
 
 void 	Analyzer::readFile(std::istream &file)
 {
 	auto	*tmp = new std::string("");
+	int 	line = 0;
+	auto	*ret = new s_input;
 
 	while (getline(file, *tmp))
+	{
+		ret->line = line++;
+		ret->content = *tmp;
+		_input2.push_back(*ret);
 		_input.push_back(*tmp);
+//		ret = {};
+	}
+	delete(ret);
+	delete(tmp);
 	std::list<std::string>::iterator	it;
 	for (it = _input.begin(); it != _input.end() && (*it) != "exit" ; it++)
 		;
 	if ((std::find(_input.begin(), _input.end(), "exit") == _input.end()))
 	{
-		delete(tmp);
-//		throw Exception("OK");
 		throw NoExitInstructionException();
 	}
-	delete(tmp);
 }
 
 

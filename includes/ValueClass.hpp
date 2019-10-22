@@ -20,7 +20,7 @@ class Value
 {
 public:
 	Value();
-	Value(const std::string& str);
+	Value(const std::string& str, int lineNb);
 	Value(Value const & src);
 	~Value();
 
@@ -28,13 +28,15 @@ public:
 
 	const std::string &	getValue() const;
 	eOperandType 		getType() const;
-
 	std::string			toString() const;
-
+	int 				getLineNb() const;
 
 private:
 	eOperandType		_type;
 	std::string			_value;
+	int 				_lineNb;
+
+private:
 
 	void findValue(const std::string& basicString);
 };

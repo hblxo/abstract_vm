@@ -32,14 +32,16 @@ public:
 
 	std::string	toString() const;
 
+	struct s_input {
+		std::string				content;
+		int 					line;
+	};
+
 private:
+	std::list<s_input>			_input2;
 	std::list<std::string>		_input;
 	std::list<Lexer*>			_phrases;
 	std::list<class Parser*>	_operations;
-//	verbosity					_verbosity;
-//	bool 						_diag;
-
-//	Log							*_log;
 
 	static std::list<Tokenizer*> *initializeTokenList();
 	void readFile(std::istream &file);

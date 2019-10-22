@@ -36,10 +36,10 @@ std::string ErrorHandler::toString() const
 	return std::string();
 }
 
-ErrorHandler::ErrorHandler(const std::string& msg)
+ErrorHandler::ErrorHandler(const std::string& msg, int lineNb)
 {
 	if (!::global_diag)
-		throw Exception(msg);
+		throw Exception("Line " + std::to_string(lineNb) + " - " +msg);
 	Log(L_ERROR, msg);
 	global_hasError = true;
 }

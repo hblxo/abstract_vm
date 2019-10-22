@@ -16,7 +16,7 @@
 # include "ExceptionClass.hpp"
 # include "ValueClass.hpp"
 
-Value::Value(const std::string& str)
+Value::Value(const std::string& str, int lineNb) : _lineNb(lineNb)
 {
 	Value::findValue(str);
 }
@@ -63,7 +63,7 @@ void Value::findValue(const std::string& basicString)
 	std::regex reg;
 	reg = R"(^([\s\t\n]*)(int8|int16|int32|float|double)(\()([-+]?[0-9]+(.?[0-9]+)?)(\))(\s*)?$)";
 	if (!std::regex_match(basicString, reg))
-		ErrorHandler("Invalid Value");
+		ErrorHandler("Invalid Value", _lineNb);
 //		throw InvalidValueException();
 	else
 	{
@@ -82,6 +82,11 @@ void Value::findValue(const std::string& basicString)
 			throw InvalidTypeException();
 		this->_value = std::to_string(std::stod(basicString.substr(basicString.find('(') + 1, basicString.find(')'))));
 	}
+}
+
+int Value::getLineNb() const
+{
+	return _lineNb;
 }
 
 std::ostream &operator<<(std::ostream &o, Value const &rhs)
