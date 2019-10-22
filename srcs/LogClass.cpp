@@ -19,7 +19,8 @@ Log::Log()
 Log::Log(verbosity level, const std::string& msg)
 {
 	if (level >= global_verbosity)
-		std::cout << "\033[1;31m" << msg << "\033[0m" << std::endl;
+//		std::cout << "\033[1;31m" << msg << "\033[0m" << std::endl;
+		std::cout << msg << std::endl;
 }
 
 Log::Log(Log const &src)

@@ -24,17 +24,17 @@ public:
 	InputParser(InputParser const & src);
 	~InputParser();
 
-	const std::string&	getCmdOpt(const std::string &options);
-	bool				cmdOptExist(const std::string &opt);
-	std::string			toString() const;
+	const std::string&		getCmdOpt(const std::string &options);
+	bool					cmdOptExist(const std::string &opt);
+	std::string				toString() const;
 
-	InputParser &operator=(InputParser const & rhs);
+	InputParser 			&operator=(InputParser const & rhs);
 
 private:
 	std::list<std::string>	_tokens;
 };
 
-std::ostream & operator<< (std::ostream & o, InputParser const & rhs);
+std::ostream				&operator<< (std::ostream & o, InputParser const & rhs);
 
 
 #endif //AVM_INPUTPARSERCLASS_HPP

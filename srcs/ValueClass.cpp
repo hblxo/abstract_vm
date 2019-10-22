@@ -12,8 +12,7 @@
 
 #include <regex>
 #include <utility>
-#include <ErrorHandlerClass.hpp>
-# include "ExceptionClass.hpp"
+#include "ErrorHandlerClass.hpp"
 # include "ValueClass.hpp"
 
 Value::Value(const std::string& str, int lineNb) : _lineNb(lineNb)
@@ -63,8 +62,7 @@ void Value::findValue(const std::string& basicString)
 	std::regex reg;
 	reg = R"(^([\s\t\n]*)(int8|int16|int32|float|double)(\()([-+]?[0-9]+(.?[0-9]+)?)(\))(\s*)?$)";
 	if (!std::regex_match(basicString, reg))
-		ErrorHandler("Invalid Value", _lineNb);
-//		throw InvalidValueException();
+		ErrorHandler("Invalid Type", _lineNb);
 	else
 	{
 		size_t pos;
@@ -79,7 +77,7 @@ void Value::findValue(const std::string& basicString)
 		else if ((pos = basicString.find("double(")) != std::string::npos)
 			this->_type = (eOperandType)Double;
 		else
-			throw InvalidTypeException();
+			ErrorHandler("Invalid Type", _lineNb);
 		this->_value = std::to_string(std::stod(basicString.substr(basicString.find('(') + 1, basicString.find(')'))));
 	}
 }

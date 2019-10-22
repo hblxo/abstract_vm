@@ -19,19 +19,14 @@
 class Log {
 public:
 	Log();
-//	Log(verbosity options);
 	Log(verbosity level, const std::string& msg);
 	Log(Log const & src);
 	~Log();
 
-//	verbosity getOptions() const;
-
 	Log &operator=(Log const & rhs);
 
 	std::string toString() const;
-//	void		print(verbosity level, std::string msg);
 private:
-//	verbosity _options;
 };
 
 std::ostream & operator<< (std::ostream & o, Log const & rhs);

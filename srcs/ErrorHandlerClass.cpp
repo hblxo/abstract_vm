@@ -19,7 +19,7 @@ ErrorHandler::ErrorHandler()
 = default;
 
 
-ErrorHandler::ErrorHandler(ErrorHandler const &src)
+ErrorHandler::ErrorHandler(const char *src)
 {
 	*this = src;
 }
@@ -41,9 +41,9 @@ ErrorHandler::ErrorHandler(const std::string& msg, int lineNb)
 	if (!::global_diag)
 	{
 		//todo : gérer lineNb == -1 / global error
-		throw Exception("Line " + std::to_string(lineNb) + " - " +msg);
+		throw ParsingException("Line " + std::to_string(lineNb) + " - " +msg);
 	}
-	Log log(L_ERROR, msg);
+	Log log(L_ERROR, "Line " + std::to_string(lineNb) + " - " + msg);
 	global_hasError = true;
 }
 

@@ -13,4 +13,4 @@ print
 pop
 print
 pop
-exit
+;exit

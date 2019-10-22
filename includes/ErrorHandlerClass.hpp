@@ -20,7 +20,7 @@ class ErrorHandler
 public:
 	ErrorHandler();
 	explicit ErrorHandler(const std::string& msg, int lineNb);
-	ErrorHandler(ErrorHandler const & src);
+	ErrorHandler(const char *src);
 	~ErrorHandler();
 
 	ErrorHandler &operator=(ErrorHandler const &rhs);

@@ -49,9 +49,9 @@ public:
 	Operand<T> (eOperandType type, std::string const & value) : _type(type) {
 //		std::cout << "min : " << std::numeric_limits<T>::lowest() << " - max : " << std::numeric_limits<T>::max() << std::endl;
 		if (stod(value) > std::numeric_limits<T>::max())
-			throw OverflowException();
+			throw OverflowException("Value Overflow");
 		if (stod(value) <= std::numeric_limits<T>::lowest())
-			throw UnderflowException();
+			throw UnderflowException("Value Underflow");
 
 		this->_precision = static_cast<int>(type);
 		this->_value = stod(value, nullptr);

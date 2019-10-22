@@ -15,197 +15,78 @@
 
 # include <iostream>
 
-class Exception : public std::exception {
-public: 
-	Exception();
-    explicit Exception(std::string  msg);
-    Exception(Exception const & src);
-    ~Exception() noexcept override;
-    const char* what() const noexcept override;
 
-	Exception &		operator=(Exception const & rhs);
-
-private:
-   const std::string _msg;
-
+class DivideByZeroException : public std::runtime_error
+{
+public:
+	explicit DivideByZeroException(const std::string& what_arg);
 };
 
-std::ostream &	operator<< (std::ostream & o, Exception const & rhs);
-
-/*
- * Nested Class DivideByZero
- */
-class DivideByZeroException : public Exception{
+class OverflowException : public std::overflow_error
+{
 public:
-	DivideByZeroException();
-	DivideByZeroException(DivideByZeroException const & src);
-	~DivideByZeroException() override;
-	const char* what() const noexcept override;
-
-	DivideByZeroException	&operator=(DivideByZeroException const & rhs);
-
-private:
-	std::string _msg;
+	explicit OverflowException(const std::string& what_arg);
 };
 
-/*
- * Nested Class OverflowException
- */
-class OverflowException : public Exception{
+class UnderflowException : public std::overflow_error
+{
 public:
-	OverflowException();
-	OverflowException(OverflowException const & src);
-	~OverflowException() override;
-	const char* what() const noexcept override;
-
-	OverflowException	&operator=(OverflowException const & rhs);
-
-private:
-	std::string _msg;
+	explicit UnderflowException(const std::string& what_arg);
 };
 
-/*
- * Nested Class UnderflowException
- */
-class UnderflowException : public Exception{
+class FileOpeningException : public std::runtime_error
+{
 public:
-	UnderflowException();
-	UnderflowException(UnderflowException const & src);
-	~UnderflowException() override;
-	const char* what() const noexcept override;
-
-	UnderflowException	&operator=(UnderflowException const & rhs);
-
-private:
-	std::string _msg;
+	explicit FileOpeningException(const std::string& what_arg);
 };
 
-/*
- * Nested Class OpenFailureException
- */
-class OpenFailureException : public Exception{
+class InvalidArgumentsException : public std::runtime_error
+{
 public:
-	OpenFailureException();
-	OpenFailureException(OpenFailureException const & src);
-	~OpenFailureException() override;
-	const char* what() const noexcept override;
-
-	OpenFailureException	&operator=(OpenFailureException const & rhs);
-
-private:
-	std::string _msg;
+	explicit InvalidArgumentsException(const std::string& what_arg);
 };
 
-/*
- * Nested Class InvalidArgumentsCountException
- */
-class InvalidArgumentsCountException : public Exception{
+class InvalidInstructionException : public std::runtime_error
+{
 public:
-	InvalidArgumentsCountException();
-	InvalidArgumentsCountException(InvalidArgumentsCountException const & src);
-	~InvalidArgumentsCountException() override;
-	const char* what() const noexcept override;
-
-	InvalidArgumentsCountException	&operator=(InvalidArgumentsCountException const & rhs);
-
-private:
-	std::string _msg;
+	explicit InvalidInstructionException(const std::string& what_arg);
 };
 
-/*
- * Nested Class InvalidInstructionException
- */
-class InvalidInstructionException : public Exception{
+class EmptyStackException : public std::runtime_error
+{
 public:
-	InvalidInstructionException();
-	InvalidInstructionException(InvalidInstructionException const & src);
-	~InvalidInstructionException() override;
-	const char* what() const noexcept override;
-
-	InvalidInstructionException	&operator=(InvalidInstructionException const & rhs);
-
-private:
-	std::string _msg;
+	explicit EmptyStackException(const std::string& what_arg);
 };
 
-/*
- * Nested Class EmptyStackException
- */
-class EmptyStackException : public Exception{
+class ParsingException : public std::runtime_error
+{
 public:
-	EmptyStackException();
-	EmptyStackException(EmptyStackException const & src);
-	~EmptyStackException() override;
-	const char* what() const noexcept override;
-
-	EmptyStackException	&operator=(EmptyStackException const & rhs);
-
-private:
-	std::string _msg;
+	explicit ParsingException(const std::string& what_arg);
 };
 
-/*
- * Nested Class InvalidTypeException
- */
-class InvalidTypeException : public Exception{
+
+class NotEnoughOnStackException : public std::runtime_error
+{
 public:
-	InvalidTypeException();
-	InvalidTypeException(InvalidTypeException const & src);
-	~InvalidTypeException() override;
-	const char* what() const noexcept override;
-
-	InvalidTypeException	&operator=(InvalidTypeException const & rhs);
-
-private:
-	std::string _msg;
+	explicit NotEnoughOnStackException(const std::string& what_arg);
 };
 
-/*
- * Nested Class InvalidValueException
- */
-class InvalidValueException : public Exception{
+class NoExitInstructionException : public std::runtime_error
+{
 public:
-	InvalidValueException();
-	InvalidValueException(InvalidValueException const & src);
-	~InvalidValueException() override;
-	const char* what() const noexcept override;
-
-	InvalidValueException	&operator=(InvalidValueException const & rhs);
-
-private:
-	std::string _msg;
+	explicit NoExitInstructionException(const std::string& what_arg);
 };
 
-/*
- * Nested Class NotEnoughOnStackException
- */
-class NotEnoughOnStackException : public Exception{
+class BadAssertionException : public std::runtime_error
+{
 public:
-	NotEnoughOnStackException();
-	NotEnoughOnStackException(NotEnoughOnStackException const & src);
-	~NotEnoughOnStackException() override;
-	const char* what() const noexcept override;
-
-	NotEnoughOnStackException	&operator=(NotEnoughOnStackException const & rhs);
-
-private:
-	std::string _msg;
+	explicit BadAssertionException(const std::string &what_arg);
 };
 
-/*
- * Nested Class NoExitInstructionException
- */
-class NoExitInstructionException : public Exception{
+class NotACharException : public std::runtime_error
+{
 public:
-	NoExitInstructionException();
-	NoExitInstructionException(NoExitInstructionException const & src);
-	~NoExitInstructionException() override;
-	const char* what() const noexcept override;
-
-	NoExitInstructionException	&operator=(NoExitInstructionException const & rhs);
-
-private:
-	std::string _msg;
+	explicit NotACharException(const std::string& what_arg);
 };
 
 #endif

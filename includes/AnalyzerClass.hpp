@@ -37,8 +37,7 @@ public:
 	};
 
 private:
-	std::list<s_input>				_input2;
-	std::list<std::string>			_input;
+	std::list<s_input>				_input;
 	std::list<Lexer*>				_phrases;
 	std::list<class Parser*>		_operations;
 

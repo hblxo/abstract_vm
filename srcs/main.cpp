@@ -22,7 +22,7 @@ int     main(int argc, char **argv)
         an = new Analyzer(argc, argv);
     	delete(an);
     }
-    catch (Exception& e)
+    catch (std::runtime_error& e)
     {
         std::cout << "Error : " << e.what() << std::endl;
     }

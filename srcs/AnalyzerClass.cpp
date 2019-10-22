@@ -31,7 +31,7 @@ Analyzer::Analyzer(int ac, char **av)
 	std::list<s_input>::iterator ite;
 
 	std::list<Tokenizer *> *tokenList = initializeTokenList();
-	for (ite = _input2.begin(); ite != _input2.end(); ite++)
+	for (ite = _input.begin(); ite != _input.end(); ite++)
 	{
 //		std::cout << "content : " << (*ite).content << std::endl;
 		_phrases.push_back(new Lexer((*ite).content, (*ite).line, tokenList));
@@ -47,7 +47,7 @@ Analyzer::Analyzer(int ac, char **av)
 //	std::cout << "Error : " << global_hasError << std::endl;
 	if (global_diag && global_hasError)
 //		std::cout << "Ok" << std::endl;
-		throw std::runtime_error("Error") ;
+		return ;
 
 	auto	*calc = new Calculator;
 	for (Parser *par : _operations)
@@ -91,8 +91,7 @@ void Analyzer::SetOptions(int ac, char **av)
 	if (flagNb == ac)
 		SetInput(filename);
 	else
-		ErrorHandler("Error usage", -1);
-//			throw InvalidArgumentsCountException();
+		throw InvalidArgumentsException("usage : ./avm [-v --verbose] [-d --diag] [-f --filename filename]");
 }
 
 
@@ -103,11 +102,12 @@ void	Analyzer::SetInput(const std::string& filename){
 	{
 		file.open(filename);
 		if (file.fail())
-			throw OpenFailureException();
+			throw FileOpeningException("The file can't be opened");
 		readFile(file);
 	}
 	else
 		readInput(std::cin);
+	//todo : reading from input / filename log
 }
 
 Analyzer::Analyzer(Analyzer const &src)
@@ -129,14 +129,10 @@ void	Analyzer::readInput(std::istream &input)
 		ret->content = *tmp;
 		ret->line = line;
 //		std::cout << "ret-content : \"" << ret->content << "\" - line : " << ret->line << std::endl;
-		_input2.push_back(*ret);
-//		_input.push_back(*tmp); // delete
+		_input.push_back(*ret);
 		getline(input, *tmp);
 		line++;
-//		ret = {};
 	}
-//	delete(ret);
-//	delete(tmp);
 }
 
 void 	Analyzer::readFile(std::istream &file)
@@ -149,19 +145,15 @@ void 	Analyzer::readFile(std::istream &file)
 	{
 		ret->line = line++;
 		ret->content = *tmp;
-		_input2.push_back(*ret);
-		_input.push_back(*tmp);
-//		ret = {};
+		_input.push_back(*ret);
 	}
 	delete(ret);
 	delete(tmp);
-	std::list<std::string>::iterator	it;
-	for (it = _input.begin(); it != _input.end() && (*it) != "exit" ; it++)
+	std::list<s_input>::iterator	it;
+	for (it = _input.begin(); it != _input.end() && (*it).content != "exit" ; it++)
 		;
-	if ((std::find(_input.begin(), _input.end(), "exit") == _input.end()))
-	{
-		throw NoExitInstructionException();
-	}
+	if (it == _input.end())
+		throw NoExitInstructionException("The file doesn't contain a \"exit\" instruction");
 }
 
 
@@ -200,3 +192,5 @@ std::list<Tokenizer*> *Analyzer::initializeTokenList()
 	tokenList->push_back(new Tokenizer(ASSERT, "assert"));
 	return tokenList;
 }
+
+//todo : ordonner sortie -diag

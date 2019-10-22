@@ -17,6 +17,7 @@
 #include <cstring>
 #include <algorithm>
 #include <regex>
+#include <ErrorHandlerClass.hpp>
 
 Lexer::Lexer(const std::string& str, int lineNb,
 			 const std::list<Tokenizer*>*pList) :  _lineNb(lineNb), _verb(COMMENT)
@@ -52,13 +53,14 @@ void Lexer::defineLexerInstruct(const std::string &string,
     			this->_value = string.substr(pos + 1);
 			}
     		else
-				throw InvalidInstructionException();
+    			ErrorHandler("Invalid Instruction", _lineNb);
+//				throw InvalidInstructionException();
 //			std::cout << this->_verb << std::endl;
     		return;
 		}
     }
-//	throw Exception("ok");
-	throw InvalidInstructionException();
+	ErrorHandler("Invalid Instruction", _lineNb);
+    //	throw InvalidInstructionException();
 }
 
 int	Lexer::findInstructType(const std::string& value){

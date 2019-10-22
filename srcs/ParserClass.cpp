@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ErrorHandlerClass.hpp>
 #include "ExceptionClass.hpp"
 #include "ParserClass.hpp"
 
@@ -30,7 +31,8 @@ Parser::Parser(verbs verb, int lineNb, const std::string& value) : _lineNb(lineN
 	}
 	else
 	{
-		throw InvalidInstructionException();
+		ErrorHandler("Invalid instruction structure", _lineNb);
+//		throw InvalidInstructionException();
 	}
 }
 
