@@ -10,11 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "LexerClass.hpp"
-#include "ExceptionClass.hpp"
 #include <iostream>
 #include <regex>
-#include <LogClass.hpp>
+#include "LexerClass.hpp"
+#include "ExceptionClass.hpp"
+#include "LogClass.hpp"
+#include "ErrorHandlerClass.hpp"
 #include "Factory.hpp"
 
 Calculator::instructs Calculator::_instruct = {
@@ -115,7 +116,7 @@ void Calculator::pop()
 		throw EmptyStackException();
 	else
 	{
-		Log(L_INFO, _operands.back()->toString() + " removed from the top of the stack");
+		Log(L_INFO, _operands.back()->toString() + " remove from the top of the stack");
 		delete (_operands.back());
 		_operands.pop_back();
 	}
@@ -143,7 +144,10 @@ void Calculator::assertion(IOperand *Op)
 		throw EmptyStackException();
 	auto tmp = _operands.back();
 	if (*tmp == *Op)
+	{
+		Log(L_INFO, "The value at the top of the stack is equal to the parameter");
 		return;
+	}
 	throw Exception("Assertion Error");
 
 	/* Asserts that the value at the top of the stack is equal to the one passed
@@ -162,15 +166,16 @@ void Calculator::add()
 	if (_operands.empty())
 		throw NotEnoughOnStackException();
 	IOperand *b = _operands.back();
+	Log(L_INFO, "The last two values on the stack are added and removed from the stack");
 	_operands.pop_back();
 	_operands.push_back(const_cast<IOperand *>(*a + *b));
+	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
 	delete a;
 	delete b;
 }
 
 void Calculator::sub()
 {
-	Log(L_INFO, "");
 //	std::cout << "sub" << std::endl;
 	if (_operands.empty())
 		throw EmptyStackException();
@@ -179,8 +184,10 @@ void Calculator::sub()
 	if (_operands.empty())
 		throw NotEnoughOnStackException();
 	IOperand *b = _operands.back();
+	Log(L_INFO, "A subtraction is made between the last two values on the stack and they are removed from the stack");
 	_operands.pop_back();
 	_operands.push_back(const_cast<IOperand *>(*b - *a));
+	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
 	delete a;
 	delete b;
 }
@@ -195,8 +202,10 @@ void Calculator::mul()
 	if (_operands.empty())
 		throw NotEnoughOnStackException();
 	IOperand *b = _operands.back();
+	Log(L_INFO, "A multiplication is made between the last two values on the stack and they are removed from the stack");
 	_operands.pop_back();
 	_operands.push_back(const_cast<IOperand *>(*a * *b));
+	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
 	delete a;
 	delete b;
 }
@@ -213,8 +222,10 @@ void Calculator::div()
 	if (_operands.empty())
 		throw NotEnoughOnStackException();
 	IOperand *b = _operands.back();
+	Log(L_INFO, "A division is made between the last two values on the stack and they are removed from the stack");
 	_operands.pop_back();
 	_operands.push_back(const_cast<IOperand *>(*b / *a));
+	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
 	delete a;
 	delete b;
 	//Todo : floating point value ?
@@ -232,8 +243,10 @@ void Calculator::mod()
 	if (_operands.empty())
 		throw NotEnoughOnStackException();
 	IOperand *b = _operands.back();
+	Log(L_INFO, "A modulo operation is made between the last two values on the stack and they are removed from the stack");
 	_operands.pop_back();
 	_operands.push_back(const_cast<IOperand *>(*b % *a));
+	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
 	delete a;
 	delete b;
 }
@@ -249,7 +262,8 @@ void Calculator::print()
 		throw EmptyStackException();
 	IOperand *a = _operands.back();
 	if (a->getType() != eOperandType::Int8)
-		throw Exception("The Value on top isn't a char");
+		ErrorHandler("The Value on top isn't a char", -1);
+	Log(L_INFO, "The value on the top of the stack's type is 'int8'");
 	std::cout << static_cast<char>(std::stod(a->toString())) << std::endl;
 }
 
@@ -265,6 +279,7 @@ void Calculator::exit()
 
 void Calculator::comment()
 {
-//	std::cout << "comment" << std::endl;
+	Log(L_COMMENT, "");
+	//	std::cout << "comment" << std::endl;
 }
 

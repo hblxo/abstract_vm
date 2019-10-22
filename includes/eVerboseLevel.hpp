@@ -14,6 +14,7 @@
 #define AVM_EVERBOSELEVEL_HPP
 
 enum verbosity {
+	L_COMMENT,
 	L_INFO,
 	L_ERROR,
 	L_OFF
