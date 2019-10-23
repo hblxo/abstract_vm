@@ -14,10 +14,12 @@
 #define AVM_GLOBALVARIABLES_HPP
 
 # include "eVerboseLevel.hpp"
+# include "ErrorHandlerClass.hpp"
 
 
 extern verbosity	global_verbosity;
 extern bool 		global_diag;
 extern bool			global_hasError;
+extern ErrorHandler	*global_errorHandler;
 
 #endif //AVM_GLOBALVARIABLES_HPP

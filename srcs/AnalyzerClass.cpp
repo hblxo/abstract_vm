@@ -12,15 +12,16 @@
 
 #include <fstream>
 #include <iostream>
+#include <ErrorHandlerClass.hpp>
 #include "InputParserClass.hpp"
-#include "ErrorHandlerClass.hpp"
 #include "ExceptionClass.hpp"
 #include "GlobalVariables.hpp"
 #include "AnalyzerClass.hpp"
 
-verbosity	global_verbosity;
-bool		global_diag;
-bool		global_hasError = false;
+verbosity		global_verbosity;
+bool			global_diag;
+bool			global_hasError = false;
+ErrorHandler	*global_errorHandler = new ErrorHandler();
 
 Analyzer::Analyzer()
 = default;
@@ -47,7 +48,10 @@ Analyzer::Analyzer(int ac, char **av)
 //	std::cout << "Error : " << global_hasError << std::endl;
 	if (global_diag && global_hasError)
 //		std::cout << "Ok" << std::endl;
+	{
+		global_errorHandler->print();
 		return ;
+	}
 
 	auto	*calc = new Calculator;
 	for (Parser *par : _operations)
@@ -107,7 +111,6 @@ void	Analyzer::SetInput(const std::string& filename){
 	}
 	else
 		readInput(std::cin);
-	//todo : reading from input / filename log
 }
 
 Analyzer::Analyzer(Analyzer const &src)
@@ -192,5 +195,3 @@ std::list<Tokenizer*> *Analyzer::initializeTokenList()
 	tokenList->push_back(new Tokenizer(ASSERT, "assert"));
 	return tokenList;
 }
-
-//todo : ordonner sortie -diag

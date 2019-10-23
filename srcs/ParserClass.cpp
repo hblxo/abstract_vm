@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <ErrorHandlerClass.hpp>
+#include <GlobalVariables.hpp>
 #include "ExceptionClass.hpp"
 #include "ParserClass.hpp"
 
@@ -31,7 +32,7 @@ Parser::Parser(verbs verb, int lineNb, const std::string& value) : _lineNb(lineN
 	}
 	else
 	{
-		ErrorHandler("Invalid instruction structure", _lineNb);
+		global_errorHandler->handler("Invalid instruction structure", _lineNb);
 //		throw InvalidInstructionException();
 	}
 }
