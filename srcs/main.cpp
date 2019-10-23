@@ -12,7 +12,6 @@
 
 #include <iostream>
 #include "AnalyzerClass.hpp"
-#include "ExceptionClass.hpp"
 
 int     main(int argc, char **argv)
 {

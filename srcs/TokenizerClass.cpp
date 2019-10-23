@@ -18,8 +18,9 @@ Tokenizer::Tokenizer(verbs type, std::string token) : _type(type), _token(std::m
 {
 }
 
-Tokenizer::Tokenizer()
-= default;
+Tokenizer::Tokenizer() : _type(COMMENT)
+{
+}
 
 Tokenizer::Tokenizer(Tokenizer const & src)
 {

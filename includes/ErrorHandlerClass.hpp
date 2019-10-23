@@ -21,7 +21,7 @@ class ErrorHandler
 {
 public:
 	ErrorHandler();
-	explicit ErrorHandler(ErrorHandler const &src);
+	ErrorHandler(ErrorHandler const &src);
 	~ErrorHandler();
 
 	ErrorHandler 			&operator=(ErrorHandler const &rhs);

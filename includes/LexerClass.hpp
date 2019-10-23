@@ -44,7 +44,7 @@ private:
 	static int findInstructType(const std::string& value);
 	static std::string formatSpace(const std::string& str);
 
-	int 				_lineNb;
+	int 				_lineNb{};
 	std::string			_value;
 	verbs 				_verb;
 

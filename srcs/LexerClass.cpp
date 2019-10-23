@@ -11,13 +11,11 @@
 /* ************************************************************************** */
 
 #include "LexerClass.hpp"
-#include "ExceptionClass.hpp"
 #include <iostream>
 #include <list>
 #include <cstring>
 #include <algorithm>
 #include <regex>
-#include <ErrorHandlerClass.hpp>
 #include <GlobalVariables.hpp>
 
 Lexer::Lexer(const std::string& str, int lineNb,
@@ -55,14 +53,11 @@ void Lexer::defineLexerInstruct(const std::string &string,
 			}
     		else
 				global_errorHandler->handler("Invalid Instruction", _lineNb);
-//				throw InvalidInstructionException();
 //			std::cout << this->_verb << std::endl;
     		return;
 		}
     }
 	global_errorHandler->handler("Invalid Instruction", _lineNb);
-//	ErrorHandler("Invalid Instruction", _lineNb);
-    //	throw InvalidInstructionException();
 }
 
 int	Lexer::findInstructType(const std::string& value){
@@ -92,18 +87,20 @@ std::string Lexer::formatSpace(const std::string &str)
 	return std::regex_replace(str, reg, " ");
 }
 
-Lexer::Lexer()
-= default;
+Lexer::Lexer() : _lineNb(-1), _verb(COMMENT)
+{}
 
 Lexer::Lexer(Lexer const & src) 
 {
 	this->_verb = src.getVerb();
+	this->_lineNb = src.getLineNb();
+	this->_value = src.getValue();
     *this = src;
 }
 
 Lexer::~Lexer()
 {
-//	_value.erase();
+	_value.erase();
 	//	std::cout << "destructor Lexer" << std::endl;
 }
 

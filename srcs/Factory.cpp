@@ -24,8 +24,7 @@ Factory::ptrfnc Factory::_create = {
 Factory::Factory()
 = default;
 
-IOperand const *
-Factory::createOperand(eOperandType type, std::string const &value) const
+IOperand const *Factory::createOperand(eOperandType type, std::string const &value) const
 {
 	return (this->*_create[type])(value);
 }
@@ -60,10 +59,7 @@ Factory::Factory(Factory const &src)
 	*this = src;
 }
 
-Factory::~Factory()
-{
-//	std::cout << "Factory Destructor" << std::endl;
-}
+Factory::~Factory() = default;
 
 Factory &Factory::operator=(Factory const &rhs)
 {

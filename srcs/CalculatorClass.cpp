@@ -15,7 +15,6 @@
 #include "LexerClass.hpp"
 #include "ExceptionClass.hpp"
 #include "LogClass.hpp"
-#include "ErrorHandlerClass.hpp"
 #include "Factory.hpp"
 
 Calculator::instructs Calculator::_instruct = {
@@ -262,8 +261,8 @@ void Calculator::print()
 		throw EmptyStackException("Print operation on empty stack");
 	IOperand *a = _operands.back();
 	if (a->getType() != eOperandType::Int8)
-		NotACharException("The Value on top isn't a char");
-	Log(L_INFO, "The value on the top of the stack's type is 'int8'");
+		throw NotACharException("The Value on top isn't a char");
+	Log(L_INFO, "The value on the top of the stack type is 'int8'");
 	std::cout << static_cast<char>(std::stod(a->toString())) << std::endl;
 }
 

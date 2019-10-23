@@ -10,13 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ErrorHandlerClass.hpp>
-#include <GlobalVariables.hpp>
+#include "GlobalVariables.hpp"
 #include "ExceptionClass.hpp"
 #include "ParserClass.hpp"
 
-Parser::Parser()
-= default;
+Parser::Parser() : _verb(COMMENT), _instruct(nullptr), _lineNb(-1)
+{}
 
 Parser::Parser(verbs verb, int lineNb, const std::string& value) : _lineNb(lineNb)
 {

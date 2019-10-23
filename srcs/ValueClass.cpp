@@ -11,23 +11,24 @@
 /* ************************************************************************** */
 
 #include <regex>
-#include <utility>
 #include <GlobalVariables.hpp>
 #include "ErrorHandlerClass.hpp"
 # include "ValueClass.hpp"
 
-Value::Value(const std::string& str, int lineNb) : _lineNb(lineNb)
+Value::Value(const std::string& str, int lineNb) : _type(Double), _lineNb(lineNb)
 {
 	Value::findValue(str);
 }
 
-Value::Value()
-= default;
+Value::Value() : _type(Double), _lineNb(-1)
+{
+}
 
 Value::Value(Value const &src)
 {
-	this->_type = src._type;
-	this->_value = src._value;
+	this->_lineNb = src.getLineNb();
+	this->_type = src.getType();
+	this->_value = src.getValue();
 	*this = src;
 }
 
@@ -66,16 +67,15 @@ void Value::findValue(const std::string& basicString)
 		global_errorHandler->handler("Invalid Type", _lineNb);
 	else
 	{
-		size_t pos;
-		if ((pos = basicString.find("int8(")) != std::string::npos)
+		if ((basicString.find("int8(")) != std::string::npos)
 			this->_type = (eOperandType)Int8;
-		else if ((pos = basicString.find("int16(")) != std::string::npos)
+		else if ((basicString.find("int16(")) != std::string::npos)
 			this->_type = (eOperandType)Int16;
-		else if ((pos = basicString.find("int32(")) != std::string::npos)
+		else if ((basicString.find("int32(")) != std::string::npos)
 			this->_type = (eOperandType)Int32;
-		else if ((pos = basicString.find("float(")) != std::string::npos)
+		else if ((basicString.find("float(")) != std::string::npos)
 			this->_type = (eOperandType)Float;
-		else if ((pos = basicString.find("double(")) != std::string::npos)
+		else if ((basicString.find("double(")) != std::string::npos)
 			this->_type = (eOperandType)Double;
 		else
 			global_errorHandler->handler("Invalid Type", _lineNb);

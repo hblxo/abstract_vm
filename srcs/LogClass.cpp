@@ -29,8 +29,7 @@ Log::Log(Log const &src)
 }
 
 Log::~Log()
-{
-}
+= default;
 
 Log &Log::operator=(Log const &rhs)
 {

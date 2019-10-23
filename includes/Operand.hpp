@@ -81,7 +81,7 @@ public:
 								  ? rhs.getPrecision() : this->getPrecision());
 
 		const IOperand *ret = Factory().createOperand(resType,
-				std::to_string(static_cast<double>(stod(rhs.toString())) + static_cast<double>(stod(this->toString()))));
+				std::to_string(stod(rhs.toString()) + stod(this->toString())));
 		return ret;
 	}
 
@@ -89,8 +89,9 @@ public:
 		auto resType = (eOperandType) (rhs.getPrecision() > this->getPrecision()
 											   ? rhs.getPrecision() : this->getPrecision());
 
-		const IOperand *ret = Factory().createOperand(resType, std::to_string(static_cast<double>(stod(rhs.toString())) -
-																		static_cast<double>(stod(this->toString()))));
+		const IOperand *ret = Factory().createOperand(resType, std::to_string(
+				stod(rhs.toString()) -
+				stod(this->toString())));
 		return ret;
 	}
 
@@ -98,8 +99,9 @@ public:
 		auto resType = (eOperandType) (rhs.getPrecision() > this->getPrecision()
 											   ? rhs.getPrecision() : this->getPrecision());
 
-		const IOperand *ret = Factory().createOperand(resType, std::to_string(static_cast<double>(stod(rhs.toString())) *
-																		static_cast<double>(stod(this->toString()))));
+		const IOperand *ret = Factory().createOperand(resType, std::to_string(
+				stod(rhs.toString()) *
+				stod(this->toString())));
 		return ret;
 	}
 
@@ -107,8 +109,9 @@ public:
 		auto resType = (eOperandType) (src.getPrecision() > this->getPrecision()
 											   ? src.getPrecision() : this->getPrecision());
 
-		const IOperand *ret = Factory().createOperand(resType, std::to_string(static_cast<double>(stod(src.toString())) /
-																		static_cast<double>(stod(this->toString()))));
+		const IOperand *ret = Factory().createOperand(resType, std::to_string(
+				stod(src.toString()) /
+				stod(this->toString())));
 		return ret;
 	}
 
@@ -116,8 +119,9 @@ public:
 		auto resType = (eOperandType) (src.getPrecision() > this->getPrecision()
 											   ? src.getPrecision() : this->getPrecision());
 
-		const IOperand *ret = Factory().createOperand(resType, std::to_string(fmod(static_cast<double>(stod(src.toString())),
-																		static_cast<double>(stod(this->toString())))));
+		const IOperand *ret = Factory().createOperand(resType, std::to_string(fmod(
+				stod(src.toString()),
+				stod(this->toString()))));
 		return ret;
 	}
 

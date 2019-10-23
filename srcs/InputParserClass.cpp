@@ -30,7 +30,7 @@ const std::string &InputParser::getCmdOpt(const std::string &options)
 	it = std::find(_tokens.begin(), _tokens.end(), options);
 	if (it != _tokens.end() && ++it != _tokens.end())
 		return *it;
-	static const std::string empty("");
+	static const std::string empty;
 	return empty;
 }
 

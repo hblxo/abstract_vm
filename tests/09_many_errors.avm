@@ -1,4 +1,9 @@
 ;09_many_errors.avm
+;ggg
+
+
+
+;gjgienenen
 
 puhs int8(85)
 push int32(.05)
@@ -10,9 +15,14 @@ dump
 ;adfdsgs
 push float(369487654354348763.5541354)
 ;afgsgsd
+
+
+
+
 add
 asser INT32(568)
 55
+;
 51
 
 

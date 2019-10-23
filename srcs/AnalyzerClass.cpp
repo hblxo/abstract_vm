@@ -21,7 +21,7 @@
 verbosity		global_verbosity;
 bool			global_diag;
 bool			global_hasError = false;
-ErrorHandler	*global_errorHandler = new ErrorHandler();
+ErrorHandler	*global_errorHandler;
 
 Analyzer::Analyzer()
 = default;
@@ -79,6 +79,7 @@ void Analyzer::SetOptions(int ac, char **av)
 	{
 		flagNb++;
 		global_diag = true;
+		global_errorHandler = new ErrorHandler();
 	}
 	if (inputParser.cmdOptExist("-f"))
 	{
@@ -141,7 +142,7 @@ void	Analyzer::readInput(std::istream &input)
 void 	Analyzer::readFile(std::istream &file)
 {
 	auto	*tmp = new std::string("");
-	int 	line = 0;
+	int 	line = 1;
 	auto	*ret = new s_input;
 
 	while (getline(file, *tmp))

@@ -44,7 +44,6 @@ void ErrorHandler::handler(const std::string &msg, int lineNb)
 	log.errorMsg = "Line " + std::to_string(lineNb) + " - " + msg;
 	if (!::global_diag)
 	{
-		//todo : gérer lineNb == -1 / global error
 		throw ParsingException(log.errorMsg);
 	}
 	_errorLog.push_back(log);
