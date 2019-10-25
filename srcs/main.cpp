@@ -15,19 +15,17 @@
 
 int     main(int argc, char **argv)
 {
-    Analyzer       *an;
-
-    try {
-        an = new Analyzer(argc, argv);
-    	delete(an);
-    }
-    catch (std::runtime_error& e)
-    {
-        std::cout << "Error : " << e.what() << std::endl;
-    }
-    catch (...)
-	{
-    	std::cout << "Undefined error" << std::endl;
-	}
+	(void)argc; (void)argv;
+//    try {
+		std::shared_ptr<Analyzer> an(new Analyzer(argc, argv));
+//    }
+//    catch (std::runtime_error& e)
+//    {
+//        std::cout << "Error : " << e.what() << std::endl;
+//    }
+//    catch (...)
+//	{
+//    	std::cout << "Undefined error" << std::endl;
+//	}
     return 0;
 }

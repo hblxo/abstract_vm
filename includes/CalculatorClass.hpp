@@ -20,6 +20,11 @@
 # include "ValueClass.hpp"
 # include "IOperand.hpp"
 # include "eVerb.hpp"
+# include "ParserClass.hpp"
+
+typedef std::shared_ptr<IOperand> op_ptr;
+typedef std::shared_ptr<class Value> val_ptr;
+
 
 class Calculator {
 public:
@@ -31,8 +36,8 @@ public:
 
     std::string toString() const;
 
-    void run(verbs verb, class Value *instruction);
-    void doOperation(verbs verb, const class Value& instruction);
+	void run(verbs verb, const val_ptr &instruction);
+    void doOperation(verbs verb, const val_ptr& instruction);
     void doOperation(verbs type);
 
     typedef	void	(Calculator::*instructs[10])();
@@ -53,7 +58,8 @@ private:
     void	exit();
     void	comment();
 
-	std::vector<IOperand *>	_operands;
+//	std::vector<IOperand *>	_operands;
+	std::vector<op_ptr>		_operands;
 
 };
 

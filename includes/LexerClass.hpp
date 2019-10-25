@@ -28,24 +28,26 @@ class Lexer {
 	Lexer(Lexer const & src);
 	~Lexer();
 
-    Lexer &		operator=(Lexer const & rhs);
+    Lexer &				operator=(Lexer const & rhs);
 
-    std::string 	toString() const;
-	std::string 	getValue() const;
-	verbs 			getVerb() const;
-	int 			getLineNb() const;
+    std::string 		toString() const;
+	verbs 				getVerb() const;
+	int 				getLineNb() const;
+	const std::string	&getValue() const;
 
 
 private:
-	static std::string ignoreComment(const std::string& line);
-	void defineLexerInstruct(const std::string &string,
-						 const std::list<Tokenizer*>*tokenList);
+	static std::string	ignoreComment(const std::string& line);
+	void 				defineLexerInstruct(const std::string& string,
+							 const std::list<Tokenizer*>*tokenList);
 
-	static int findInstructType(const std::string& value);
-	static std::string formatSpace(const std::string& str);
+	static int 			findInstructType(const std::string& value);
+	static std::string	formatSpace(const std::string& str);
 
-	int 				_lineNb{};
+	int 				_lineNb;
 	std::string			_value;
+
+private:
 	verbs 				_verb;
 
 };

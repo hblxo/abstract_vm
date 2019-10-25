@@ -17,6 +17,7 @@
 # include <list>
 # include "ValueClass.hpp"
 
+typedef std::shared_ptr<class Value> val_ptr;
 class Parser
 {
 public:
@@ -29,12 +30,12 @@ public:
 
 	std::string		toString() const;
 	verbs			getVerb() const;
-	Value			*getInstruct() const;
+	val_ptr			getInstruct() const;
 	int 			getLineNb() const;
 
 private:
 	verbs 			_verb;
-	Value			*_instruct;
+	val_ptr			_instruct;
 	int 			_lineNb;
 
 };

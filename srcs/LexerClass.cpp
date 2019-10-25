@@ -19,7 +19,7 @@
 #include <GlobalVariables.hpp>
 
 Lexer::Lexer(const std::string& str, int lineNb,
-			 const std::list<Tokenizer*>*pList) :  _lineNb(lineNb), _verb(COMMENT)
+			 const std::list<Tokenizer*>*pList) :  _lineNb(lineNb), _value(""), _verb(COMMENT)
 {
 	std::string line = Lexer::ignoreComment(str);
 //	std::cout << "LEXER - line : " << line << std::endl;
@@ -30,29 +30,34 @@ Lexer::Lexer(const std::string& str, int lineNb,
 	defineLexerInstruct(line, pList);
 }
 
-void Lexer::defineLexerInstruct(const std::string &string,
+void Lexer::defineLexerInstruct(const std::string& string,
 								const std::list<Tokenizer*>* tokenList)
 {
     std::size_t pos;
 
 
     char c = ' ';
-    pos = string.find(c);
+    pos = string.rfind(c);
 	std::string value = string.substr(0, pos);
 
     for (Tokenizer* tok : *tokenList)
 	{
 		if (tok->matchSearch(value))
 		{
+   			this->_value = std::string();
     		if (findInstructType(value) == 1)
-				this->_verb = tok->getType();
+			{
+    			this->_verb = tok->getType();
+			}
     		else if (findInstructType(value) == 2)
 			{
     			this->_verb = tok->getType();
-    			this->_value = string.substr(pos + 1);
+    			this->_value = string.substr((std::string::size_type )pos + 1);
 			}
     		else
-				global_errorHandler->handler("Invalid Instruction", _lineNb);
+			{
+    			global_errorHandler->handler("Invalid Instruction", _lineNb);
+			}
 //			std::cout << this->_verb << std::endl;
     		return;
 		}
@@ -76,18 +81,18 @@ std::string	Lexer::ignoreComment(const std::string& line)
 	std::size_t commentPos;
 
 	char c = ';';
-	commentPos = line.find(c);
-	std::string value = line.substr(0, commentPos);
+	commentPos = line.rfind(c);
+	std::string value = line.substr((std::string::size_type )0, (std::string::size_type )commentPos);
 	return value;
 }
 
-std::string Lexer::formatSpace(const std::string &str)
+std::string Lexer::formatSpace(const std::string& str)
 {
 	std::regex reg(R"([\t])");
 	return std::regex_replace(str, reg, " ");
 }
 
-Lexer::Lexer() : _lineNb(-1), _verb(COMMENT)
+Lexer::Lexer() : _lineNb(-1), _value(""),_verb(COMMENT)
 {}
 
 Lexer::Lexer(Lexer const & src) 
@@ -119,10 +124,10 @@ std::string Lexer::toString() const
     return ret;
 }
 
-std::string Lexer::getValue() const
-{
-	return _value;
-}
+//std::string Lexer::getValue() const
+//{
+//	return _value;
+//}
 
 verbs Lexer::getVerb() const
 {
@@ -132,6 +137,11 @@ verbs Lexer::getVerb() const
 int Lexer::getLineNb() const
 {
 	return _lineNb;
+}
+
+const std::string &Lexer::getValue() const
+{
+	return _value;
 }
 
 std::ostream &	operator<< (std::ostream & o, Lexer const & rhs)

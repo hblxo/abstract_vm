@@ -12,7 +12,8 @@
 
 #include <iostream>
 #include <regex>
-#include "LexerClass.hpp"
+#include <ParserClass.hpp>
+#include <CalculatorClass.hpp>
 #include "ExceptionClass.hpp"
 #include "LogClass.hpp"
 #include "Factory.hpp"
@@ -65,23 +66,23 @@ std::ostream &	operator<< (std::ostream & o, Calculator const & rhs)
     return o;
 }
 
-void Calculator::run(verbs verb, Value *instruction)
+void Calculator::run(verbs verb, const val_ptr& instruction)
 {
 //	std::cout << verb << std::endl;
 	if (verb == ASSERT || verb == PUSH)
-		doOperation(verb, *instruction);
+		doOperation(verb, instruction);
 	else
 		doOperation(verb);
 }
 
-void Calculator::doOperation(verbs verb, const Value& instruction)
+void Calculator::doOperation(verbs verb, const val_ptr& instruction)
 {
 	if (verb == PUSH)
 		Calculator::push(const_cast<IOperand *>(Factory().createOperand(
-				instruction.getType(), instruction.getValue())));
+				instruction->getType(), instruction->getValue())));
 	else if (verb == ASSERT)
     	Calculator::assertion(const_cast<IOperand *>(Factory().createOperand(
-				instruction.getType(), instruction.getValue())));
+				instruction->getType(), instruction->getValue())));
 	else
 	{
 //		std::cout << "1" << std::endl;
@@ -105,7 +106,9 @@ void Calculator::doOperation(verbs type)
 void Calculator::push(IOperand *Op)
 {
 	Log(L_INFO, Op->toString() + " push on the top of the stack");
-	_operands.push_back(Op);
+	op_ptr op(Op);
+	_operands.push_back(op);
+//	_operands->push_back(Op);
 }
 
 void Calculator::pop()
@@ -116,7 +119,7 @@ void Calculator::pop()
 	else
 	{
 		Log(L_INFO, _operands.back()->toString() + " remove from the top of the stack");
-		delete (_operands.back());
+//		delete (_operands.back());
 		_operands.pop_back();
 	}
 }
@@ -129,7 +132,7 @@ void Calculator::dump()
 /*Displays each value of the stack, from the most recent one to the oldest
 one WITHOUT CHANGING the stack. Each value is separated from the next one
 by a newline.*/
-	std::vector<IOperand *>::iterator it;
+	std::vector<op_ptr>::iterator it;
 	for (it = _operands.begin(); it != _operands.end(); it++)
 	{
 		std::cout << (*it)->toString() << std::endl;
@@ -160,17 +163,19 @@ void Calculator::add()
 //	std::cout << "add" << std::endl;
 	if (_operands.empty())
 		throw EmptyStackException("Addition operation on empty stack");
-	IOperand *a = _operands.back();
+	op_ptr a = _operands.back();
 	_operands.pop_back();
 	if (_operands.empty())
 		throw NotEnoughOnStackException("Two values on stack are required to perform addition operation");
-	IOperand *b = _operands.back();
+	op_ptr b = _operands.back();
 	Log(L_INFO, "The last two values on the stack are added and removed from the stack");
 	_operands.pop_back();
-	_operands.push_back(const_cast<IOperand *>(*a + *b));
+	op_ptr op(const_cast<IOperand *>(*a + *b));
+	_operands.push_back(op);
+//	_operands.push_back(const_cast<IOperand *>(*a + *b));
 	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
-	delete a;
-	delete b;
+//	delete a;
+//	delete b;
 }
 
 void Calculator::sub()
@@ -178,17 +183,19 @@ void Calculator::sub()
 //	std::cout << "sub" << std::endl;
 	if (_operands.empty())
 		throw EmptyStackException("Subtraction operation on empty stack");
-	IOperand *a = _operands.back();
+	op_ptr a = _operands.back();
 	_operands.pop_back();
 	if (_operands.empty())
 		throw NotEnoughOnStackException("Two values on stack are required to perform subtraction operation");
-	IOperand *b = _operands.back();
+	op_ptr b = _operands.back();
 	Log(L_INFO, "A subtraction is made between the last two values on the stack and they are removed from the stack");
 	_operands.pop_back();
-	_operands.push_back(const_cast<IOperand *>(*b - *a));
+	op_ptr op(const_cast<IOperand *>(*a + *b));
+	_operands.push_back(op);
+//	_operands.push_back(const_cast<IOperand *>(*b - *a));
 	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
-	delete a;
-	delete b;
+//	delete a;
+//	delete b;
 }
 
 void Calculator::mul()
@@ -196,17 +203,18 @@ void Calculator::mul()
 //	std::cout << "mul" << std::endl;
 	if (_operands.empty())
 		throw EmptyStackException("Multiplication operation on empty stack");
-	IOperand *a = _operands.back();
+	op_ptr a = _operands.back();
 	_operands.pop_back();
 	if (_operands.empty())
 		throw NotEnoughOnStackException("Two values on stack are required to perform multiplication operation");
-	IOperand *b = _operands.back();
+	op_ptr b = _operands.back();
 	Log(L_INFO, "A multiplication is made between the last two values on the stack and they are removed from the stack");
 	_operands.pop_back();
-	_operands.push_back(const_cast<IOperand *>(*a * *b));
+	op_ptr op(const_cast<IOperand *>(*a * *b));
+	_operands.push_back(op);
 	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
-	delete a;
-	delete b;
+//	delete a;
+//	delete b;
 }
 
 void Calculator::div()
@@ -214,19 +222,20 @@ void Calculator::div()
 //	std::cout << "div" << std::endl;
 	if (_operands.empty())
 		throw EmptyStackException("Division operation on empty stack");
-	IOperand *a = _operands.back();
+	op_ptr a = _operands.back();
 	_operands.pop_back();
 	if (std::stod(a->toString()) == 0)
 		throw DivideByZeroException("Impossible to divide by zero");
 	if (_operands.empty())
 		throw NotEnoughOnStackException("Two values on stack are required to perform multiplication operation");
-	IOperand *b = _operands.back();
+	op_ptr b = _operands.back();
 	Log(L_INFO, "A division is made between the last two values on the stack and they are removed from the stack");
 	_operands.pop_back();
-	_operands.push_back(const_cast<IOperand *>(*b / *a));
+	op_ptr op(const_cast<IOperand *>(*b / *a));
+	_operands.push_back(op);
 	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
-	delete a;
-	delete b;
+//	delete a;
+//	delete b;
 	//Todo : floating point value ?
 }
 
@@ -235,19 +244,20 @@ void Calculator::mod()
 //	std::cout << "mod" << std::endl;
 	if (_operands.empty())
 		throw EmptyStackException("Modulo operation on empty stack");
-	IOperand *a = _operands.back();
+	op_ptr a = _operands.back();
 	_operands.pop_back();
 	if (std::stod(a->toString()) == 0)
 		throw DivideByZeroException("Impossible to divide by zero");
 	if (_operands.empty())
 		throw NotEnoughOnStackException("Two values on stack are required to perform modulo operation");
-	IOperand *b = _operands.back();
+	op_ptr b = _operands.back();
 	Log(L_INFO, "A modulo operation is made between the last two values on the stack and they are removed from the stack");
 	_operands.pop_back();
-	_operands.push_back(const_cast<IOperand *>(*b % *a));
+	op_ptr op(const_cast<IOperand *>(*b % *a));
+	_operands.push_back(op);
 	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
-	delete a;
-	delete b;
+//	delete a;
+//	delete b;
 }
 
 void Calculator::print()
@@ -259,7 +269,7 @@ void Calculator::print()
 	 * */
 	if (_operands.empty())
 		throw EmptyStackException("Print operation on empty stack");
-	IOperand *a = _operands.back();
+	op_ptr a = _operands.back();
 	if (a->getType() != eOperandType::Int8)
 		throw NotACharException("The Value on top isn't a char");
 	Log(L_INFO, "The value on the top of the stack type is 'int8'");

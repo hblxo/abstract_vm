@@ -21,6 +21,10 @@
 #include "eVerboseLevel.hpp"
 #include "LogClass.hpp"
 
+
+typedef std::shared_ptr<Lexer> lex_ptr;
+typedef std::shared_ptr<Parser> par_ptr;
+
 class Analyzer{
 public:
 	Analyzer();
@@ -35,11 +39,13 @@ public:
 		std::string					content;
 		int 						line;
 	};
+typedef std::shared_ptr<s_input>	input_ptr;
 
 private:
-	std::list<s_input>				_input;
-	std::list<Lexer*>				_phrases;
-	std::list<class Parser*>		_operations;
+	std::vector<input_ptr>			_input;
+//	std::list<s_input>				_input;
+	std::vector<lex_ptr>			_phrases;
+	std::vector<par_ptr>			_operations;
 
 	static std::list<Tokenizer*>	*initializeTokenList();
 	void							readFile(std::istream &file);

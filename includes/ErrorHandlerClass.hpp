@@ -17,6 +17,7 @@
 #include <list>
 #include <vector>
 
+
 class ErrorHandler
 {
 public:
@@ -30,14 +31,17 @@ public:
 	void 					print();
 	void 					handler(const std::string& msg, int lineNb);
 
+	struct					s_errorLog;
+	typedef std::shared_ptr<s_errorLog>		log_ptr;
 	struct					s_errorLog{
-		bool                operator()(const s_errorLog &a, const s_errorLog &b){
-			return a.line < b.line;};
+		bool                operator()(log_ptr a, log_ptr b){
+			return a->line < b->line;};
 		int 				line;
-		std::string			errorMsg;
+		std::string			*errorMsg;
 	};
+	const std::vector<log_ptr> &getErrorLog() const;
 private:
-	std::vector<s_errorLog>	_errorLog;
+	std::vector<log_ptr>	_errorLog;
 };
 
 

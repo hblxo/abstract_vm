@@ -12,6 +12,7 @@ pop
 push int8(345345)
 pop
 dump
+push int8(4)
 ;adfdsgs
 push float(369487654354348763.5541354)
 ;afgsgsd

@@ -1,5 +1,7 @@
 ;08_print.avm
 
+;  l
+
 push int8(72) ;H
 print
 push int8(101) ;e
@@ -24,3 +26,4 @@ print
 push int8(33) ;!
 print
 exit
+;gg

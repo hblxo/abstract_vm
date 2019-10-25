@@ -14,7 +14,7 @@
 #include "ExceptionClass.hpp"
 #include "ParserClass.hpp"
 
-Parser::Parser() : _verb(COMMENT), _instruct(nullptr), _lineNb(-1)
+Parser::Parser() : _verb(COMMENT), _instruct(new Value()), _lineNb(-1)
 {}
 
 Parser::Parser(verbs verb, int lineNb, const std::string& value) : _lineNb(lineNb)
@@ -23,7 +23,8 @@ Parser::Parser(verbs verb, int lineNb, const std::string& value) : _lineNb(lineN
 	if ((verb == PUSH || verb == ASSERT) && !value.empty())
 	{
 		_verb = verb;
-		_instruct = new Value(value, _lineNb);
+		val_ptr ptr(new Value(value, _lineNb));
+		_instruct = ptr;
 	}
 	else if (verb != PUSH && verb != ASSERT && value.empty())
 	{
@@ -32,7 +33,6 @@ Parser::Parser(verbs verb, int lineNb, const std::string& value) : _lineNb(lineN
 	else
 	{
 		global_errorHandler->handler("Invalid instruction structure", _lineNb);
-//		throw InvalidInstructionException();
 	}
 }
 
@@ -44,8 +44,7 @@ Parser::Parser(Parser const &src)
 	*this = src;
 }
 
-Parser::~Parser()
-= default;
+Parser::~Parser()= default;
 
 Parser &Parser::operator=(Parser const &rhs)
 {
@@ -70,7 +69,7 @@ verbs Parser::getVerb() const
 	return _verb;
 }
 
-Value *Parser::getInstruct() const
+val_ptr	Parser::getInstruct() const
 {
 	return _instruct;
 }

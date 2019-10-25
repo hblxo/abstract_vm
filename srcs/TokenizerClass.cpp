@@ -31,7 +31,7 @@ Tokenizer::Tokenizer(Tokenizer const & src)
 
 Tokenizer::~Tokenizer(){
 //	std::cout << "destructor Tokenizer" << std::endl;
-	_token.clear();
+	_token.erase();
 }
 
 Tokenizer &	Tokenizer::operator=(Tokenizer const & rhs)

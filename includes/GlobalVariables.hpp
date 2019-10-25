@@ -15,11 +15,13 @@
 
 # include "eVerboseLevel.hpp"
 # include "ErrorHandlerClass.hpp"
+#include "TokenizerClass.hpp"
 
 
-extern verbosity	global_verbosity;
-extern bool 		global_diag;
-extern bool			global_hasError;
-extern ErrorHandler	*global_errorHandler;
+extern verbosity				global_verbosity;
+extern bool 					global_diag;
+extern bool						global_hasError;
+extern ErrorHandler				*global_errorHandler;
+extern std::list<Tokenizer *> 	*global_tokenList;
 
 #endif //AVM_GLOBALVARIABLES_HPP

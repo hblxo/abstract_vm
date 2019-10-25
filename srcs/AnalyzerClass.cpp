@@ -18,10 +18,12 @@
 #include "GlobalVariables.hpp"
 #include "AnalyzerClass.hpp"
 
-verbosity		global_verbosity;
-bool			global_diag;
-bool			global_hasError = false;
-ErrorHandler	*global_errorHandler;
+verbosity				global_verbosity;
+bool					global_diag;
+bool					global_hasError = false;
+ErrorHandler			*global_errorHandler;
+std::list<Tokenizer *>	*global_tokenList;
+
 
 Analyzer::Analyzer()
 = default;
@@ -29,37 +31,31 @@ Analyzer::Analyzer()
 Analyzer::Analyzer(int ac, char **av)
 {
 	SetOptions(ac, av);
-	std::list<s_input>::iterator ite;
 
-	std::list<Tokenizer *> *tokenList = initializeTokenList();
-	for (ite = _input.begin(); ite != _input.end(); ite++)
+	global_tokenList = initializeTokenList();
+	for (const input_ptr& inp : _input)
 	{
-//		std::cout << "content : " << (*ite).content << std::endl;
-		_phrases.push_back(new Lexer((*ite).content, (*ite).line, tokenList));
+		lex_ptr phrase(new Lexer(inp->content, inp->line, global_tokenList));
+		_phrases.push_back(phrase);
 	}
 
-	for (Lexer *lex : _phrases)
+	for (const lex_ptr& lex : _phrases)
 	{
-//		std::cout << "lex-verb : " << lex->getVerb() << std::endl;
-		_operations.push_back(new Parser(lex->getVerb(), lex->getLineNb(), lex->getValue()));
+		par_ptr par(new Parser(lex->getVerb(), lex->getLineNb(), lex->getValue()));
+		_operations.push_back(par);
 	}
 
-//	std::cout << "diag : " << global_diag << std::endl;
-//	std::cout << "Error : " << global_hasError << std::endl;
 	if (global_diag && global_hasError)
-//		std::cout << "Ok" << std::endl;
 	{
 		global_errorHandler->print();
 		return ;
 	}
 
-	auto	*calc = new Calculator;
-	for (Parser *par : _operations)
+	std::shared_ptr<Calculator> calc(new Calculator());
+	for (const par_ptr& par : _operations)
 	{
-//		std::cout << par->getVerb() << std::endl;
 		calc->run(par->getVerb(), par->getInstruct());
 	}
-	delete(calc);
 }
 
 void Analyzer::SetOptions(int ac, char **av)
@@ -119,42 +115,48 @@ Analyzer::Analyzer(Analyzer const &src)
 	*this = src;
 }
 
-Analyzer::~Analyzer()= default;
+Analyzer::~Analyzer()
+{
+//	_phrases.clear();
+//	_operations.clear();
+//	_input.clear();
+	for (auto & it : *global_tokenList)
+		delete (it);
+	delete(global_tokenList);
+}
 
 void	Analyzer::readInput(std::istream &input)
 {
-	auto	*tmp = new std::string("");
+	std::string	tmp;
 	int 	line = 0;
-	auto	*ret = new s_input;
 
-	getline(input, *tmp);
-	while (*tmp != ";;")
+	std::getline(input, tmp);
+	while (tmp != ";;")
 	{
-		ret->content = *tmp;
-		ret->line = line;
+		input_ptr ptr = std::make_shared<s_input>();
+		ptr->content = tmp;
+		ptr->line = line;
 //		std::cout << "ret-content : \"" << ret->content << "\" - line : " << ret->line << std::endl;
-		_input.push_back(*ret);
-		getline(input, *tmp);
+		_input.push_back(ptr);
+		getline(input, tmp);
 		line++;
+//		delete(ret);
 	}
 }
 
 void 	Analyzer::readFile(std::istream &file)
 {
-	auto	*tmp = new std::string("");
 	int 	line = 1;
-	auto	*ret = new s_input;
-
-	while (getline(file, *tmp))
+	std::string	tmp;
+	while ((std::getline(file, tmp)))
 	{
-		ret->line = line++;
-		ret->content = *tmp;
-		_input.push_back(*ret);
+		input_ptr ptr = std::make_shared<s_input>();
+		ptr->line = line++;
+		ptr->content = std::string(tmp);
+		_input.push_back(ptr);
 	}
-	delete(ret);
-	delete(tmp);
-	std::list<s_input>::iterator	it;
-	for (it = _input.begin(); it != _input.end() && (*it).content != "exit" ; it++)
+	std::vector<input_ptr>::iterator	it;
+	for (it = _input.begin(); it != _input.end() && (*it)->content != "exit" ; it++)
 		;
 	if (it == _input.end())
 		throw NoExitInstructionException("The file doesn't contain a \"exit\" instruction");

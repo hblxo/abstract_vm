@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <LogClass.hpp>
+#include "LogClass.hpp"
 #include "ExceptionClass.hpp"
 #include "ErrorHandlerClass.hpp"
 #include "GlobalVariables.hpp"
@@ -21,6 +21,7 @@ ErrorHandler::ErrorHandler()
 
 ErrorHandler::ErrorHandler(ErrorHandler const &src)
 {
+	this->_errorLog = getErrorLog();
 	*this = src;
 }
 
@@ -36,30 +37,36 @@ std::string ErrorHandler::toString() const
 	return std::string();
 }
 
-void ErrorHandler::handler(const std::string &msg, int lineNb)
+void ErrorHandler::handler(const std::string& msg, int lineNb)
 {
-	s_errorLog	log;
-
-	log.line = lineNb;
-	log.errorMsg = "Line " + std::to_string(lineNb) + " - " + msg;
+	log_ptr dog = std::make_shared<s_errorLog>();
+	dog->line = lineNb;
+	dog->errorMsg = new std::string("Line " + std::to_string(lineNb) + " - " + msg);
 	if (!::global_diag)
 	{
-		throw ParsingException(log.errorMsg);
+		for (auto & it : *global_tokenList)
+			delete (it);
+		delete(global_tokenList);
+		throw ParsingException(*dog->errorMsg);
 	}
-	_errorLog.push_back(log);
-//	Log log(L_ERROR, "Line " + std::to_string(lineNb) + " - " + msg);
+	_errorLog.push_back(dog);
 	global_hasError = true;
 }
 
 void ErrorHandler::print()
 {
-	std::vector<s_errorLog>::iterator it;
+	std::vector<log_ptr>::iterator it;
 
 	sort(_errorLog.begin(), _errorLog.end(), s_errorLog());
 	for (it = _errorLog.begin(); it != _errorLog.end(); it++)
 	{
-		Log(L_ERROR, (*it).errorMsg);
+		Log(L_ERROR, *(*it)->errorMsg);
 	}
+}
+
+const std::vector<ErrorHandler::log_ptr> &ErrorHandler::getErrorLog() const
+{
+	return _errorLog;
 }
 
 ErrorHandler::~ErrorHandler()

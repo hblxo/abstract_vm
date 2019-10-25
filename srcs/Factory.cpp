@@ -51,7 +51,7 @@ IOperand const *Factory::createFloat(std::string const &value) const
 
 IOperand const *Factory::createDouble(std::string const &value) const
 {
-	return new Operand<double >(Double, value);
+	return new Operand<double>(Double, value);
 }
 
 Factory::Factory(Factory const &src)
