@@ -11,20 +11,28 @@
 /* ************************************************************************** */
 
 #include <GlobalVariables.hpp>
+#include <utility>
 #include "LogClass.hpp"
 
-Log::Log()
-= default;
+Log::Log() : _msg(std::string()), _line(-1)
+{}
 
-Log::Log(verbosity level, const std::string& msg)
+
+Log::Log(int line, std::string msg) : _msg(std::move(msg)), _line(line)
 {
-	if (level >= global_verbosity)
+}
+
+Log::Log(verbosity level, std::string  msg) : _msg(std::move(msg)), _line(-1)
+{
+	if (level >= global_verbosity && !_msg.empty())
+		print();
 //		std::cout << "\033[1;31m" << msg << "\033[0m" << std::endl;
-		std::cout << msg << std::endl;
 }
 
 Log::Log(Log const &src)
 {
+	_line = src.getLine();
+	_msg = src.getMsg();
 	*this = src;
 }
 
@@ -40,13 +48,23 @@ Log &Log::operator=(Log const &rhs)
 
 std::string Log::toString() const
 {
-	return std::string();
+	return _msg;
 }
-//
-//verbosity Log::getOptions() const
-//{
-//	return _options;
-//}
+
+std::string Log::getMsg() const
+{
+	return _msg;
+}
+
+int Log::getLine() const
+{
+	return _line;
+}
+
+void Log::print()
+{
+	std::cout << *this << std::endl;
+}
 
 std::ostream &operator<<(std::ostream &o, Log const &rhs)
 {

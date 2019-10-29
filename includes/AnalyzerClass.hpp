@@ -43,7 +43,6 @@ typedef std::shared_ptr<s_input>	input_ptr;
 
 private:
 	std::vector<input_ptr>			_input;
-//	std::list<s_input>				_input;
 	std::vector<lex_ptr>			_phrases;
 	std::vector<par_ptr>			_operations;
 

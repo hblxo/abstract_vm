@@ -1,3 +1,4 @@
+i
 ;09_many_errors.avm
 ;ggg
 
@@ -6,13 +7,14 @@
 ;gjgienenen
 
 puhs int8(85)
-push int32(.05)
+;
 dqwer
 pop
 push int8(345345)
 pop
 dump
 push int8(4)
+push int32(.05)
 ;adfdsgs
 push float(369487654354348763.5541354)
 ;afgsgsd

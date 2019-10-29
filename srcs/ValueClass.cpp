@@ -66,10 +66,9 @@ void Value::findValue(const std::string& basicString)
 	std::regex reg;
 	reg = R"(^([\s\t\n]*)(int8|int16|int32|float|double)(\()([-+]?[0-9]+(.?[0-9]+)?)(\))(\s*)?$)";
 	if (!std::regex_match(basicString, reg))
-		global_errorHandler->handler("Invalid Type", _lineNb);
+		global_errorHandler->handler("Invalid Type", getLineNb());
 	else
 	{
-//		if (std::regex_match(basicString, std::regex(R"(^(int8\()([+-]?[0-9]+)(\))(\s*)$)")))
 		if ((basicString.rfind("int8(")) != std::string::npos)
 			this->_type = (eOperandType)Int8;
 		else if ((basicString.rfind("int16(")) != std::string::npos)

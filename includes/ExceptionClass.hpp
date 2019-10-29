@@ -64,7 +64,6 @@ public:
 	explicit ParsingException(const std::string& what_arg);
 };
 
-
 class NotEnoughOnStackException : public std::runtime_error
 {
 public:
@@ -87,6 +86,12 @@ class NotACharException : public std::runtime_error
 {
 public:
 	explicit NotACharException(const std::string& what_arg);
+};
+
+class OutLimitException : public std::runtime_error
+{
+public:
+	explicit OutLimitException(const std::string& what_arg);
 };
 
 #endif

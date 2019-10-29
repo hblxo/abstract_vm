@@ -27,6 +27,16 @@ Calculator::instructs Calculator::_instruct = {
 		&Calculator::div,
 		&Calculator::mod,
 		&Calculator::print,
+		&Calculator::max,
+		&Calculator::min,
+		&Calculator::pow,
+		&Calculator::sin,
+		&Calculator::cos,
+		&Calculator::tan,
+		&Calculator::sqrt,
+		&Calculator::bit_and,
+		&Calculator::bit_xor,
+		&Calculator::bit_or,
 		&Calculator::exit,
 		&Calculator::comment,
 };
@@ -274,6 +284,175 @@ void Calculator::print()
 		throw NotACharException("The Value on top isn't a char");
 	Log(L_INFO, "The value on the top of the stack type is 'int8'");
 	std::cout << static_cast<char>(std::stod(a->toString())) << std::endl;
+}
+
+void Calculator::max()
+{
+	if (_operands.empty())
+		throw EmptyStackException("Max operation on empty stack");
+	op_ptr a = _operands.back();
+	_operands.pop_back();
+	if (_operands.empty())
+		throw NotEnoughOnStackException("Two values on stack are required to perform max operation");
+	op_ptr b = _operands.back();
+	Log(L_INFO, "A max operation is made between the last two values on the stack and they are removed from the stack");
+	_operands.pop_back();
+	op_ptr op(*b > *a ? b : a);
+	_operands.push_back(op);
+	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
+}
+
+void Calculator::min()
+{
+	if (_operands.empty())
+		throw EmptyStackException("Min operation on empty stack");
+	op_ptr a = _operands.back();
+	_operands.pop_back();
+	if (_operands.empty())
+		throw NotEnoughOnStackException("Two values on stack are required to perform min operation");
+	op_ptr b = _operands.back();
+	Log(L_INFO, "A min operation is made between the last two values on the stack and they are removed from the stack");
+	_operands.pop_back();
+	op_ptr op(*b > *a ? a : b);
+	_operands.push_back(op);
+	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
+}
+
+void Calculator::pow()
+{
+/*
+ * double pow (double base, double exponent);
+ * If the base is finite negative and the exponent is finite but not an integer value,
+ * it causes a domain error.
+ * If both base and exponent are zero, it may also cause a domain error on certain implementations.
+ * If base is zero and exponent is negative, it may cause a domain error or a pole error
+ * (or none, depending on the library implementation).
+ */
+	if (_operands.empty())
+		throw EmptyStackException("Pow operation on empty stack");
+	op_ptr exp = _operands.back();
+	_operands.pop_back();
+	if (_operands.empty())
+		throw NotEnoughOnStackException("Two values on stack are required to perform pow operation");
+	op_ptr base = _operands.back();
+	if ((std::stod(base->toString()) == 0 && std::stod(exp->toString()) == 0) ||
+			(std::stod(base->toString()) == 0 && std::stod(exp->toString()) < 0))
+		throw OutLimitException("The exponent can't be null or negative if the base is null");
+//	if (std::stod(base->toString()) == 0 && std::stod(exp->toString()) < 0)
+	Log(L_INFO, "A pow operation is made between the last two values on the stack and they are removed from the stack");
+	_operands.pop_back();
+	op_ptr op(const_cast<IOperand *>(base->pow(*exp)));
+	_operands.push_back(op);
+	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
+}
+
+void Calculator::sin()
+{
+	if (_operands.empty())
+		throw EmptyStackException("Sin operation on empty stack");
+	op_ptr param = _operands.back();
+	_operands.pop_back();
+	Log(L_INFO, "A sin operation is made between the last two values on the stack and they are removed from the stack");
+	op_ptr result(const_cast<IOperand *>(param->sin()));
+	_operands.push_back(result);
+	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
+}
+
+
+void Calculator::cos()
+{
+	if (_operands.empty())
+		throw EmptyStackException("Cos operation on empty stack");
+	op_ptr param = _operands.back();
+	_operands.pop_back();
+	Log(L_INFO, "A cos operation is made between the last two values on the stack and they are removed from the stack");
+	op_ptr result(const_cast<IOperand *>(param->cos()));
+	_operands.push_back(result);
+	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
+}
+
+
+void Calculator::tan()
+{
+	if (_operands.empty())
+		throw EmptyStackException("Tan operation on empty stack");
+	op_ptr param = _operands.back();
+	_operands.pop_back();
+	Log(L_INFO, "A tan operation is made between the last two values on the stack and they are removed from the stack");
+	op_ptr result(const_cast<IOperand *>(param->tan()));
+	_operands.push_back(result);
+	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
+}
+
+void Calculator::sqrt()
+{
+	if (_operands.empty())
+		throw EmptyStackException("Tan operation on empty stack");
+	op_ptr param = _operands.back();
+	_operands.pop_back();
+	if (std::stod(param->toString()) < 0)
+		throw OutLimitException("A positive value is required to perform sqrt operation");
+	Log(L_INFO, "A tan operation is made between the last two values on the stack and they are removed from the stack");
+	op_ptr result(const_cast<IOperand *>(param->sqrt()));
+	_operands.push_back(result);
+	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
+}
+
+void Calculator::bit_and()
+{
+	if (_operands.empty())
+		throw EmptyStackException("And operation on empty stack");
+	op_ptr a = _operands.back();
+	_operands.pop_back();
+	if (_operands.empty())
+		throw NotEnoughOnStackException("Two values on stack are required to perform AND operation");
+	op_ptr b = _operands.back();
+	if ((a->getType() != Int8 && a->getType() != Int16 && a->getType() != Int32) ||
+		(b->getType() != Int8 && b->getType() != Int16 && b->getType() != Int32))
+		throw OutLimitException("Two int are required to perform an AND operation");
+	Log(L_INFO, "An AND operation is made between the last two values on the stack and they are removed from the stack");
+	_operands.pop_back();
+	op_ptr op(const_cast<IOperand *>(*b & *a));
+	_operands.push_back(op);
+	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
+}
+
+void Calculator::bit_xor()
+{
+	if (_operands.empty())
+		throw EmptyStackException("Xor operation on empty stack");
+	op_ptr a = _operands.back();
+	_operands.pop_back();
+	if (_operands.empty())
+		throw NotEnoughOnStackException("Two values on stack are required to perform XOR operation");
+	op_ptr b = _operands.back();
+	if ((a->getType() != Int8 && a->getType() != Int16 && a->getType() != Int32) ||
+		(b->getType() != Int8 && b->getType() != Int16 && b->getType() != Int32))
+		throw OutLimitException("Two int are required to perform a XOR operation");
+	Log(L_INFO, "A XOR operation is made between the last two values on the stack and they are removed from the stack");
+	_operands.pop_back();
+	op_ptr op(const_cast<IOperand *>(*b ^ *a));
+	_operands.push_back(op);
+	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
+}
+
+void Calculator::bit_or()
+{
+	if (_operands.empty())
+		throw EmptyStackException("Or operation on empty stack");
+	op_ptr a = _operands.back();
+	_operands.pop_back();
+	if (_operands.empty())
+		throw NotEnoughOnStackException("Two values on stack are required to perform OR operation");
+	op_ptr b = _operands.back();
+	if ((a->getType() != Int8 && a->getType() != Int16 && a->getType() != Int32) ||
+			(b->getType() != Int8 && b->getType() != Int16 && b->getType() != Int32))
+		throw OutLimitException("Two int are required to perform an OR operation");
+	Log(L_INFO, "An OR operation is made between the last two values on the stack and they are removed from the stack");
+	_operands.pop_back();
+	op_ptr op(const_cast<IOperand *>(*b | *a));
+	_operands.push_back(op);
+	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
 }
 
 void Calculator::exit()

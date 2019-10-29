@@ -42,7 +42,7 @@ private:
 							 const std::list<Tokenizer*>*tokenList);
 
 	static int 			findInstructType(const std::string& value);
-	static std::string	formatSpace(const std::string& str);
+	static std::string	formatSpace(std::string str);
 
 	int 				_lineNb;
 	std::string			_value;

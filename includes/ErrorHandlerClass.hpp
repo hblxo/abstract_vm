@@ -17,7 +17,7 @@
 #include <list>
 #include <vector>
 
-
+typedef std::shared_ptr<class Log>		log_ptr;
 class ErrorHandler
 {
 public:
@@ -31,14 +31,6 @@ public:
 	void 					print();
 	void 					handler(const std::string& msg, int lineNb);
 
-	struct					s_errorLog;
-	typedef std::shared_ptr<s_errorLog>		log_ptr;
-	struct					s_errorLog{
-		bool                operator()(log_ptr a, log_ptr b){
-			return a->line < b->line;};
-		int 				line;
-		std::string			*errorMsg;
-	};
 	const std::vector<log_ptr> &getErrorLog() const;
 private:
 	std::vector<log_ptr>	_errorLog;

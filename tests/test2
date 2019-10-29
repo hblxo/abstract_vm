@@ -1,16 +1,4 @@
-push int8(33) ;!
-push int8(112) ;p
-push int8(111) ;o
-push int8(108) ;l
-push int8(112) ;p
-print
-pop
-print
-pop
-print
-pop
-print
-pop
-print
-pop
-;exit
+push int32(32)
+push int32(0)
+div
+exit

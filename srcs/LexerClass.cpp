@@ -21,10 +21,10 @@
 Lexer::Lexer(const std::string& str, int lineNb,
 			 const std::list<Tokenizer*>*pList) :  _lineNb(lineNb), _value(""), _verb(COMMENT)
 {
-	std::string line = Lexer::ignoreComment(str);
 //	std::cout << "LEXER - line : " << line << std::endl;
+	std::string fline = formatSpace(str);
+	std::string line = Lexer::ignoreComment(fline);
 
-	line = formatSpace(line);
 	if (line.empty() || line[0] == ';' || line[0] == '\n')
 		return ;
 	defineLexerInstruct(line, pList);
@@ -35,9 +35,8 @@ void Lexer::defineLexerInstruct(const std::string& string,
 {
     std::size_t pos;
 
-
     char c = ' ';
-    pos = string.rfind(c);
+    pos = string.find_first_of(c);
 	std::string value = string.substr(0, pos);
 
     for (Tokenizer* tok : *tokenList)
@@ -52,7 +51,7 @@ void Lexer::defineLexerInstruct(const std::string& string,
     		else if (findInstructType(value) == 2)
 			{
     			this->_verb = tok->getType();
-    			this->_value = string.substr((std::string::size_type )pos + 1);
+    			this->_value = string.substr((std::string::size_type)pos + 1);
 			}
     		else
 			{
@@ -67,7 +66,7 @@ void Lexer::defineLexerInstruct(const std::string& string,
 
 int	Lexer::findInstructType(const std::string& value){
 	std::regex regS, regC;
-	regS = R"(^(\s*)(add|dump|pop|sub|mul|div|mod|print|exit)(\s*)$)";
+	regS = R"(^(\s*)(add|dump|pop|sub|mul|div|mod|print|exit|max|min|pow|sin|cos|tan|sqrt|and|xor|or)(\s*)$)";
 	regC = R"(^(\s*)(push|assert)*$)";
 	if (std::regex_match(value, regS))
 		return 1;
@@ -86,7 +85,7 @@ std::string	Lexer::ignoreComment(const std::string& line)
 	return value;
 }
 
-std::string Lexer::formatSpace(const std::string& str)
+std::string Lexer::formatSpace(std::string str)
 {
 	std::regex reg(R"([\t])");
 	return std::regex_replace(str, reg, " ");

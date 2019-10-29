@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <algorithm>
 #include "LogClass.hpp"
 #include "ExceptionClass.hpp"
 #include "ErrorHandlerClass.hpp"
@@ -17,7 +18,6 @@
 
 ErrorHandler::ErrorHandler()
 = default;
-
 
 ErrorHandler::ErrorHandler(ErrorHandler const &src)
 {
@@ -39,32 +39,31 @@ std::string ErrorHandler::toString() const
 
 void ErrorHandler::handler(const std::string& msg, int lineNb)
 {
-	log_ptr dog = std::make_shared<s_errorLog>();
-	dog->line = lineNb;
-	dog->errorMsg = new std::string("Line " + std::to_string(lineNb) + " - " + msg);
+	std::string tmp("Line " + std::to_string(lineNb) + " - " + msg);
+	auto ptr = log_ptr(new Log(lineNb, tmp));
 	if (!::global_diag)
 	{
 		for (auto & it : *global_tokenList)
 			delete (it);
 		delete(global_tokenList);
-		throw ParsingException(*dog->errorMsg);
+		throw ParsingException(ptr->toString());
 	}
-	_errorLog.push_back(dog);
+	_errorLog.push_back(ptr);
 	global_hasError = true;
 }
 
 void ErrorHandler::print()
 {
-	std::vector<log_ptr>::iterator it;
-
-	sort(_errorLog.begin(), _errorLog.end(), s_errorLog());
-	for (it = _errorLog.begin(); it != _errorLog.end(); it++)
+	sort(_errorLog.begin(), _errorLog.end(),
+			[](log_ptr const& a, log_ptr const&b)
+			{ return a->getLine() < b->getLine();});
+	for (const auto& it : _errorLog)
 	{
-		Log(L_ERROR, *(*it)->errorMsg);
+		it->print();
 	}
 }
 
-const std::vector<ErrorHandler::log_ptr> &ErrorHandler::getErrorLog() const
+const std::vector<log_ptr> &ErrorHandler::getErrorLog() const
 {
 	return _errorLog;
 }

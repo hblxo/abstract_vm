@@ -125,12 +125,70 @@ public:
 		return ret;
 	}
 
+	bool operator>(IOperand const & src) const override {
+		return (stod(this->toString()) > stod(src.toString()));
+	}
+
 	bool operator==(IOperand const & src) const override {
 //		std::cout << this->toString() << " - " << src.toString() << std::endl;
 //		std::cout << this->getType() << " - " << src.getType() << std::endl;
 //		std::cout << this->getPrecision() << " - " << src.getPrecision() << std::endl;
 		return ((this->toString() == src.toString()) && (this->getType() == src.getType()) && (this->getPrecision() == src.getPrecision()));
 	}
+
+	IOperand const *	pow(IOperand const &rhs) const override {
+		auto resType = (eOperandType) (rhs.getPrecision() > this->getPrecision()
+									   ? rhs.getPrecision() : this->getPrecision());
+		const IOperand *ret = Factory().createOperand(resType, std::to_string(std::pow(
+				stod(this->toString()), stod(rhs.toString())
+				)));
+		return ret;
+	};
+
+	IOperand const * sin() const override  {
+		const IOperand *ret = Factory().createOperand(Double, std::to_string(std::sin(
+				std::stod(this->toString()) * M_PI / 180)));
+		return ret;
+	}
+
+	IOperand const * cos() const override  {
+		const IOperand *ret = Factory().createOperand(Double, std::to_string(std::cos(
+				std::stod(this->toString()) * M_PI / 180)));
+		return ret;
+	}
+
+	IOperand const * tan() const override  {
+		const IOperand *ret = Factory().createOperand(Double, std::to_string(std::tan(
+				std::stod(this->toString()) * M_PI / 180)));
+		return ret;
+	}
+
+	IOperand const * sqrt() const override  {
+		const IOperand *ret = Factory().createOperand(Double, std::to_string(std::sqrt(
+				std::stod(this->toString()))));
+		return ret;
+	}
+
+	IOperand const * operator&(IOperand const& rhs ) const override  {
+		const IOperand *ret = Factory().createOperand(Double, std::to_string(
+				std::stol(rhs.toString()) & std::stol(this->toString())));
+		return ret;
+	}
+
+
+	IOperand const * operator^(IOperand const& rhs ) const override  {
+		const IOperand *ret = Factory().createOperand(Double, std::to_string(
+				std::stol(rhs.toString()) ^ std::stol(this->toString())));
+		return ret;
+	}
+
+
+	IOperand const * operator|(IOperand const& rhs ) const override  {
+		const IOperand *ret = Factory().createOperand(Double, std::to_string(
+				std::stol(rhs.toString()) | std::stol(this->toString())));
+		return ret;
+	}
+
 
 };
 

@@ -31,6 +31,7 @@ Analyzer::Analyzer()
 Analyzer::Analyzer(int ac, char **av)
 {
 	SetOptions(ac, av);
+	global_errorHandler = new ErrorHandler();
 
 	global_tokenList = initializeTokenList();
 	for (const input_ptr& inp : _input)
@@ -75,7 +76,6 @@ void Analyzer::SetOptions(int ac, char **av)
 	{
 		flagNb++;
 		global_diag = true;
-		global_errorHandler = new ErrorHandler();
 	}
 	if (inputParser.cmdOptExist("-f"))
 	{
@@ -117,9 +117,6 @@ Analyzer::Analyzer(Analyzer const &src)
 
 Analyzer::~Analyzer()
 {
-//	_phrases.clear();
-//	_operations.clear();
-//	_input.clear();
 	for (auto & it : *global_tokenList)
 		delete (it);
 	delete(global_tokenList);
@@ -140,7 +137,6 @@ void	Analyzer::readInput(std::istream &input)
 		_input.push_back(ptr);
 		getline(input, tmp);
 		line++;
-//		delete(ret);
 	}
 }
 
@@ -192,6 +188,16 @@ std::list<Tokenizer*> *Analyzer::initializeTokenList()
 	tokenList->push_back(new Tokenizer(DIV, "div"));
 	tokenList->push_back(new Tokenizer(MOD, "mod"));
 	tokenList->push_back(new Tokenizer(PRINT, "print"));
+	tokenList->push_back(new Tokenizer(MAX, "max"));
+	tokenList->push_back(new Tokenizer(MIN, "min"));
+	tokenList->push_back(new Tokenizer(POW, "pow"));
+	tokenList->push_back(new Tokenizer(SIN, "sin"));
+	tokenList->push_back(new Tokenizer(COS, "cos"));
+	tokenList->push_back(new Tokenizer(TAN, "tan"));
+	tokenList->push_back(new Tokenizer(SQRT, "sqrt"));
+	tokenList->push_back(new Tokenizer(AND, "and"));
+	tokenList->push_back(new Tokenizer(XOR, "xor"));
+	tokenList->push_back(new Tokenizer(OR, "or"));
 	tokenList->push_back(new Tokenizer(EXIT, "exit"));
 	tokenList->push_back(new Tokenizer(COMMENT, ";"));
 	tokenList->push_back(new Tokenizer(PUSH, "push"));

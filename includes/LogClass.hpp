@@ -19,16 +19,21 @@
 class Log {
 public:
 	Log();
-	Log(verbosity level, const std::string& msg);
+	Log(int line, std::string  msg);
+	Log(verbosity level, std::string   msg);
 	Log(Log const & src);
 	~Log();
 
-	Log &operator=(Log const & rhs);
+	std::string 			getMsg() const;
+	int 					getLine() const;
+	Log 					&operator=(Log const & rhs);
+	std::string 			toString() const;
+	void					print();
 
-	std::string toString() const;
 private:
+	std::string			_msg;
+	int			 		_line;
 };
-
 std::ostream & operator<< (std::ostream & o, Log const & rhs);
 
 #endif //AVM_LOGCLASS_HPP

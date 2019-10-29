@@ -17,14 +17,11 @@
 # include <stack>
 # include <vector>
 
-# include "ValueClass.hpp"
 # include "IOperand.hpp"
 # include "eVerb.hpp"
-# include "ParserClass.hpp"
 
 typedef std::shared_ptr<IOperand> op_ptr;
 typedef std::shared_ptr<class Value> val_ptr;
-
 
 class Calculator {
 public:
@@ -40,7 +37,7 @@ public:
     void doOperation(verbs verb, const val_ptr& instruction);
     void doOperation(verbs type);
 
-    typedef	void	(Calculator::*instructs[10])();
+    typedef	void	(Calculator::*instructs[20])();
     static instructs _instruct;
 
 private:
@@ -54,13 +51,20 @@ private:
     void	div();
     void	mod();
     void	print();
-	//todo implement this instructions
+    void	max();
+    void	min();
+    void	pow();
+    void	sin();
+    void	cos();
+    void	tan();
+    void	sqrt();
+    void	bit_and();
+    void	bit_xor();
+    void	bit_or();
     void	exit();
     void	comment();
 
-//	std::vector<IOperand *>	_operands;
 	std::vector<op_ptr>		_operands;
-
 };
 
 std::ostream &	operator<< (std::ostream & o, Calculator const & rhs);

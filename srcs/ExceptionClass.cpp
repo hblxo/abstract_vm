@@ -83,3 +83,9 @@ ParsingException::ParsingException(const std::string &what_arg) : runtime_error(
 {
 
 }
+
+OutLimitException::OutLimitException(const std::string &what_arg)
+		: runtime_error(what_arg)
+{
+
+}

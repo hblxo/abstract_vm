@@ -6,7 +6,7 @@
 #    By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/19 22:14:00 by hbouchet          #+#    #+#              #
-#    Updated: 2019/10/21 18:50:00 by hbouchet         ###   ########.fr        #
+#    Updated: 2019/10/29 15:10:35 by hbouchet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ NAME		= avm
 
 
 CC			= g++
-CFLAGS		= -Wall -Wextra -Werror -std=c++11
+#-O0 -g3 -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror -std=c++11 -g3
 CPPFLAGS	= -Iincludes
 OPT			=
 
