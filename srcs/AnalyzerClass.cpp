@@ -153,7 +153,6 @@ void 	Analyzer::readFile(std::istream &file)
 		_input.push_back(ptr);
 	}
 	std::vector<input_ptr>::iterator	it;
-	//todo exit + espace
 	std::regex reg(R"(^(\s)*(exit)(\s*)(;*.*)*$)");
 	for (it = _input.begin(); it != _input.end() && !std::regex_match((*it)->content, reg) ; it++)
 		;
