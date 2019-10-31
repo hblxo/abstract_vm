@@ -9,6 +9,7 @@ push int32(+5632523)
 push float(-2334.2345)
 push double(342523.23)
 
-dump
+ dump   ;fff
 
-exit
+ exit ;djkdk
+

@@ -59,6 +59,5 @@ std::string	Tokenizer::getToken () const { return (this->_token); }
 
 int     Tokenizer::matchSearch(const std::string& value)
 {
-	//todo espace debut de ligne
-	return _token == value ? 1 : 0;
+	return _token.rfind(value) != std::string::npos ? 1 : 0;
 }

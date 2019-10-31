@@ -23,6 +23,7 @@ Lexer::Lexer(const std::string& str, int lineNb,
 {
 //	std::cout << "LEXER - line : " << line << std::endl;
 	std::string fline = formatSpace(str);
+//	std::cout << fline << std::endl;
 	std::string line = Lexer::ignoreComment(fline);
 
 	if (line.empty() || line[0] == ';' || line[0] == '\n')
@@ -66,8 +67,8 @@ void Lexer::defineLexerInstruct(const std::string& string,
 
 int	Lexer::findInstructType(const std::string& value){
 	std::regex regS, regC;
-	regS = R"(^(\s*)(add|dump|pop|sub|mul|div|mod|print|exit|max|min|pow|sin|cos|tan|sqrt|and|xor|or)(\s*)$)";
-	regC = R"(^(\s*)(push|assert)*$)";
+	regS = R"(^(\s)*(add|dump|pop|sub|mul|div|mod|print|exit|max|min|pow|sin|cos|tan|sqrt|and|xor|or)(\s*)$)";
+	regC = R"(^(\s)*(push|assert)*$)";
 	if (std::regex_match(value, regS))
 		return 1;
 	else if (std::regex_match(value, regC))
@@ -88,7 +89,9 @@ std::string	Lexer::ignoreComment(const std::string& line)
 std::string Lexer::formatSpace(std::string str)
 {
 	std::regex reg(R"([\t])");
-	return std::regex_replace(str, reg, " ");
+	std::string tmp = std::regex_replace(str, reg, " ");
+	std::regex reg2(R"(^\s+)");
+	return std::regex_replace(tmp, reg2, "");
 }
 
 Lexer::Lexer() : _lineNb(-1), _value(""),_verb(COMMENT)

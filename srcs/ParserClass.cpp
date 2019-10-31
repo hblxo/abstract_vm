@@ -19,7 +19,6 @@ Parser::Parser() : _verb(COMMENT), _instruct(new Value()), _lineNb(-1)
 
 Parser::Parser(verbs verb, int lineNb, const std::string& value) : _lineNb(lineNb)
 {
-
 	if ((verb == PUSH || verb == ASSERT) && !value.empty())
 	{
 		_verb = verb;
@@ -32,6 +31,7 @@ Parser::Parser(verbs verb, int lineNb, const std::string& value) : _lineNb(lineN
 	}
 	else
 	{
+//		std::cout << value << std::endl;
 		global_errorHandler->handler("Invalid instruction structure", _lineNb);
 	}
 }

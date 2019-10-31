@@ -13,6 +13,7 @@
 #include <fstream>
 #include <iostream>
 #include <ErrorHandlerClass.hpp>
+#include <regex>
 #include "InputParserClass.hpp"
 #include "ExceptionClass.hpp"
 #include "GlobalVariables.hpp"
@@ -153,7 +154,8 @@ void 	Analyzer::readFile(std::istream &file)
 	}
 	std::vector<input_ptr>::iterator	it;
 	//todo exit + espace
-	for (it = _input.begin(); it != _input.end() && (*it)->content != "exit" ; it++)
+	std::regex reg(R"(^(\s)*(exit)(\s*)(;*.*)*$)");
+	for (it = _input.begin(); it != _input.end() && !std::regex_match((*it)->content, reg) ; it++)
 		;
 	if (it == _input.end())
 		throw NoExitInstructionException("The file doesn't contain a \"exit\" instruction");

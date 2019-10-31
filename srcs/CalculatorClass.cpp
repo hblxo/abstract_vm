@@ -200,9 +200,8 @@ void Calculator::sub()
 	op_ptr b = _operands.back();
 	Log(L_INFO, "A subtraction is made between the last two values on the stack and they are removed from the stack");
 	_operands.pop_back();
-	op_ptr op(const_cast<IOperand *>(*a - *b));
+	op_ptr op(const_cast<IOperand *>(*b - *a));
 	_operands.push_back(op);
-//	_operands.push_back(const_cast<IOperand *>(*b - *a));
 	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
 //	delete a;
 //	delete b;
@@ -220,7 +219,7 @@ void Calculator::mul()
 	op_ptr b = _operands.back();
 	Log(L_INFO, "A multiplication is made between the last two values on the stack and they are removed from the stack");
 	_operands.pop_back();
-	op_ptr op(const_cast<IOperand *>(*a * *b));
+	op_ptr op(const_cast<IOperand *>(*b * *a));
 	_operands.push_back(op);
 	Log(L_INFO, "The result (" + _operands.back()->toString() + ") is push on the stack");
 //	delete a;
