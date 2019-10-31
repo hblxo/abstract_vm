@@ -1,0 +1,18 @@
+;05_div.avm
+
+push int8(85)
+push int16(132)
+div
+
+push int32(-2512)
+div
+
+push float(13.355)
+div
+
+push double(87.687163)
+div
+
+dump
+
+exit
