@@ -1,0 +1,18 @@
+;03_sub.avm
+
+push int8(85)
+push int16(132)
+sub
+
+push int32(-2512)
+sub
+
+push float(13.355)
+sub
+
+push double(87.687163)
+sub
+
+dump
+
+exit

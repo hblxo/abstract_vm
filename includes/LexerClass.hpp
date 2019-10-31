@@ -15,45 +15,41 @@
 
 # include <iostream>
 # include <list>
-# include "MatcherClass.hpp"
+# include "TokenizerClass.hpp"
+#include "IOperand.hpp"
+#include "CalculatorClass.hpp"
+#include "ValueClass.hpp"
 
 
 class Lexer {
-    public: 
+   public:
+	Lexer();
+	Lexer(const std::string& str, int lineNb, const std::list<Tokenizer*> *pList);
+	Lexer(Lexer const & src);
+	~Lexer();
 
-        Lexer(void); 
-        Lexer(int argc, char **argv);
-        Lexer(Lexer const & src); 
-        ~Lexer(void); 
+    Lexer &				operator=(Lexer const & rhs);
 
-        Lexer &		operator=(Lexer const & rhs);
+    std::string 		toString() const;
+	verbs 				getVerb() const;
+	int 				getLineNb() const;
+	const std::string	&getValue() const;
 
-        std::string const	toString(void) const;
 
-        enum instructions {
-            COMMENT,
-            PUSH,
-            POP,
-            DUMP,
-            ASSERT,
-            ADD,
-            SUB,
-            MUL,
-            DIV,
-            MOD,
-            PRINT,
-            EXIT
-        };
+private:
+	static std::string	ignoreComment(const std::string& line);
+	void 				defineLexerInstruct(const std::string& string,
+							 const std::list<Tokenizer*>*tokenList);
 
-        void    defineLexerInstruct(std::string string);
+	static int 			findInstructType(const std::string& value);
+	static std::string	formatSpace(std::string str);
 
-    private:
-		static std::string parseLine(std::string line);
+	int 				_lineNb;
+	std::string			_value;
 
-		void	run(std::istream &file);
+private:
+	verbs 				_verb;
 
-        std::list<Matcher*>  *_matchList{};
-        static std::list<Matcher*> *InitializeMatchList();
 };
 
 std::ostream &	operator<< (std::ostream & o, Lexer const & rhs);

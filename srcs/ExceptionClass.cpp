@@ -10,34 +10,82 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/LexerClass.hpp"
-#include "../includes/ExceptionClass.hpp"
+#include "ExceptionClass.hpp"
 #include <iostream>
 
-Exception::Exception(const std::string& msg) : _msg(msg)
+DivideByZeroException::DivideByZeroException(const std::string &what_arg) : runtime_error(
+		what_arg)
 {
+
 }
 
-Exception::Exception(Exception const & src) 
+OverflowException::OverflowException(const std::string &what_arg) : overflow_error(what_arg)
 {
-    //Do whatever needs to be done
-    *this = src;
+
 }
 
-Exception::~Exception(void) throw()
+FileOpeningException::FileOpeningException(const std::string &what_arg)
+		: runtime_error(what_arg)
 {
+
 }
 
-const char* Exception::what() const throw()
+UnderflowException::UnderflowException(const std::string &what_arg)
+		: overflow_error(what_arg)
 {
-    return _msg.c_str();
+
 }
 
-Exception &	Exception::operator=(Exception const & rhs)
+InvalidArgumentsException::InvalidArgumentsException(
+		const std::string &what_arg) : runtime_error(what_arg)
 {
-    if (this != &rhs)
-        *this = rhs;
-    return *this;
+
 }
 
-//Todo : gestion des erreurs
+InvalidInstructionException::InvalidInstructionException(
+		const std::string &what_arg) : runtime_error(what_arg)
+{
+
+}
+
+EmptyStackException::EmptyStackException(const std::string &what_arg)
+		: runtime_error(what_arg)
+{
+
+}
+
+NotEnoughOnStackException::NotEnoughOnStackException(
+		const std::string &what_arg) : runtime_error(what_arg)
+{
+
+}
+
+NoExitInstructionException::NoExitInstructionException(
+		const std::string &what_arg) : runtime_error(what_arg)
+{
+
+}
+
+NotACharException::NotACharException(const std::string &what_arg)
+		: runtime_error(what_arg)
+{
+
+}
+
+BadAssertionException::BadAssertionException(const std::string &what_arg)
+		: runtime_error(what_arg)
+{
+
+}
+
+ParsingException::ParsingException(const std::string &what_arg) : runtime_error(
+		what_arg)
+{
+
+}
+
+OutLimitException::OutLimitException(const std::string &what_arg)
+		: runtime_error(what_arg)
+{
+
+}

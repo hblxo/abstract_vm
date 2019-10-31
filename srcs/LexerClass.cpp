@@ -10,140 +10,137 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/LexerClass.hpp"
-#include "../includes/ExceptionClass.hpp"
-#include "../includes/CalculatorClass.hpp"
+#include "LexerClass.hpp"
 #include <iostream>
 #include <list>
 #include <cstring>
 #include <algorithm>
-#include <fstream>
+#include <regex>
+#include <GlobalVariables.hpp>
 
-Lexer::Lexer(int argc, char **argv)
+Lexer::Lexer(const std::string& str, int lineNb,
+			 const std::list<Tokenizer*>*pList) :  _lineNb(lineNb), _value(""), _verb(COMMENT)
 {
-//TODO : check EOF
-    std::ifstream file;
-    std::string filename;
+//	std::cout << "LEXER - line : " << line << std::endl;
+	std::string fline = formatSpace(str);
+	std::string line = Lexer::ignoreComment(fline);
 
-    if (argc > 2)
-        throw Exception("usage : ./avm");
-    else if (argc == 2)
-    {
-        filename = argv[1];
-        file.open(filename);
-        if (file.fail())
-        	throw Exception("Fail to open file");
-         Lexer::run(file);
-    }
-    else
+	if (line.empty() || line[0] == ';' || line[0] == '\n')
+		return ;
+	defineLexerInstruct(line, pList);
+}
+
+void Lexer::defineLexerInstruct(const std::string& string,
+								const std::list<Tokenizer*>* tokenList)
+{
+    std::size_t pos;
+
+    char c = ' ';
+    pos = string.find_first_of(c);
+	std::string value = string.substr(0, pos);
+
+    for (Tokenizer* tok : *tokenList)
 	{
-		Lexer::run(std::cin);
-	}
-    return;
-}
-
-void    Lexer::run(std::istream &file)
-{
-    std::string     cmd;
-
-    getline(file, cmd);
-    this->_matchList = InitializeMatchList();
-    while (cmd != ";;" && cmd != "exit")
-    {
-    	if (cmd[0] == ';')
-    		;//TODO : traiter commentaire debut de ligne
-        else if (cmd.size() != 0 && cmd[0] != '\n')
-            defineLexerInstruct(cmd);
-        cmd.clear();
-        getline(file, cmd);
+		if (tok->matchSearch(value))
+		{
+   			this->_value = std::string();
+    		if (findInstructType(value) == 1)
+			{
+    			this->_verb = tok->getType();
+			}
+    		else if (findInstructType(value) == 2)
+			{
+    			this->_verb = tok->getType();
+    			this->_value = string.substr((std::string::size_type)pos + 1);
+			}
+    		else
+			{
+    			global_errorHandler->handler("Invalid Instruction", _lineNb);
+			}
+//			std::cout << this->_verb << std::endl;
+    		return;
+		}
     }
+	global_errorHandler->handler("Invalid Instruction", _lineNb);
 }
 
-std::string	Lexer::parseLine(std::string line)
+int	Lexer::findInstructType(const std::string& value){
+	std::regex regS, regC;
+	regS = R"(^(\s*)(add|dump|pop|sub|mul|div|mod|print|exit|max|min|pow|sin|cos|tan|sqrt|and|xor|or)(\s*)$)";
+	regC = R"(^(\s*)(push|assert)*$)";
+	if (std::regex_match(value, regS))
+		return 1;
+	else if (std::regex_match(value, regC))
+		return 2;
+	return 0;
+}
+
+std::string	Lexer::ignoreComment(const std::string& line)
 {
 	std::size_t commentPos;
 
-	commentPos = line.find(";");
-
-//	std::string comment = line.substr(commentPos + 1);
-	//TODO : traiter commentaire en fin de ligne
-	std::string value = line.substr(0, commentPos);
+	char c = ';';
+	commentPos = line.rfind(c);
+	std::string value = line.substr((std::string::size_type )0, (std::string::size_type )commentPos);
 	return value;
 }
 
-void    Lexer::defineLexerInstruct(std::string string)
+std::string Lexer::formatSpace(std::string str)
 {
-    std::list<Matcher*>::iterator ite;
-    std::size_t pos;
-
-    std::string line = Lexer::parseLine(string);
-    pos = line.find(" ");
-	std::string value = line.substr(0, pos);
-      //TODO : parser commentaire en fin d'instruction
-
-    for(ite = _matchList->begin(); ite != _matchList->end(); ite++)
-    {
-        if ((*ite)->matchSearch(value))
-        {
-            if (pos != std::string::npos)
-                Calculator::doOperation((*ite)->getType(), line.substr(pos + 1));
-            else
-                Calculator::doOperation((*ite)->getType());
-            return ;
-        }
-    }
-    throw Exception("\"" + string + "\" does not contain a valid operation");
+	std::regex reg(R"([\t])");
+	return std::regex_replace(str, reg, " ");
 }
 
-//cf : http://onoffswitch.net/building-a-custom-lexer/
-std::list<Matcher*> *Lexer::InitializeMatchList()
-{
-    std::list<Matcher*> *keywordMatchers = new std::list<Matcher*>;
-    keywordMatchers->push_back(new Matcher(PUSH, "push"));
-    keywordMatchers->push_back(new Matcher(POP, "pop"));
-    keywordMatchers->push_back(new Matcher(DUMP, "dump"));
-    keywordMatchers->push_back(new Matcher(ASSERT, "assert"));
-    keywordMatchers->push_back(new Matcher(ADD, "add"));
-    keywordMatchers->push_back(new Matcher(SUB, "sub"));
-    keywordMatchers->push_back(new Matcher(MUL, "mul"));
-    keywordMatchers->push_back(new Matcher(DIV, "div"));
-    keywordMatchers->push_back(new Matcher(MOD, "mod"));
-    keywordMatchers->push_back(new Matcher(PRINT, "print"));
-//    keywordMatchers->push_back(new Matcher(EXIT, "exit"));
-     keywordMatchers->push_back(new Matcher(COMMENT, ";"));
-    return keywordMatchers;
-}
-
-Lexer::Lexer(void)
-{
-    return;
-}
+Lexer::Lexer() : _lineNb(-1), _value(""),_verb(COMMENT)
+{}
 
 Lexer::Lexer(Lexer const & src) 
 {
-    //Do whatever needs to be done
+	this->_verb = src.getVerb();
+	this->_lineNb = src.getLineNb();
+	this->_value = src.getValue();
     *this = src;
-    return;
 }
 
-Lexer::~Lexer(void)
+Lexer::~Lexer()
 {
-    delete _matchList;
-    return;
+	_value.erase();
+	//	std::cout << "destructor Lexer" << std::endl;
 }
 
 Lexer &	Lexer::operator=(Lexer const & rhs)
 {
-    //Do whatever needs to be done
     if (this != &rhs)
         *this = rhs;
     return *this;
 }
 
-std::string const Lexer::toString(void) const
+std::string Lexer::toString() const
 {
-    return "OK";
-    // Return whatever needs to be returned
+	std::string ret;
+	ret = std::to_string(getVerb());
+	ret += " " + getValue();
+    return ret;
+}
+
+//std::string Lexer::getValue() const
+//{
+//	return _value;
+//}
+
+verbs Lexer::getVerb() const
+{
+	return _verb;
+}
+
+int Lexer::getLineNb() const
+{
+	return _lineNb;
+}
+
+const std::string &Lexer::getValue() const
+{
+	return _value;
 }
 
 std::ostream &	operator<< (std::ostream & o, Lexer const & rhs)

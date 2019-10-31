@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/12/19 22:14:00 by lgiacalo          #+#    #+#              #
-#    Updated: 2019/03/03 14:13:46 by hbouchet         ###   ########.fr        #
+#    Created: 2016/12/19 22:14:00 by hbouchet          #+#    #+#              #
+#    Updated: 2019/10/29 16:50:55 by hbouchet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,9 @@ NAME		= avm
 ################################################################################
 
 
-CC			= clang++  
-CFLAGS		= -Wall -Wextra -Werror -std=c++98
+CC			= g++
+#-O0 -g3 -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror -std=c++11
 CPPFLAGS	= -Iincludes
 OPT			=
 
@@ -37,10 +38,16 @@ INC_PATH	=	includes
 
 OBJ_PATH	=	obj
 
+SRC_NAME	=   main.cpp LexerClass.cpp ExceptionClass.cpp TokenizerClass.cpp \
+ 				CalculatorClass.cpp Factory.cpp ValueClass.cpp \
+ 				AnalyzerClass.cpp ParserClass.cpp LogClass.cpp ErrorHandlerClass.cpp \
+ 				InputParserClass.cpp
 
-SRC_NAME	=   main.cpp LexerClass.cpp ExceptionClass.cpp MatcherClass.cpp CalculatorClass.cpp
-
-INC_NAME	=	LexerClass.hpp
+INC_NAME	=	LexerClass.hpp ExceptionClass.hpp TokenizerClass.hpp \
+				CalculatorClass.hpp Factory.hpp ValueClass.hpp\
+				AnalyzerClass.hpp ParserClass.hpp LogClass.hpp ErrorHandlerClass.hpp \
+				IOperand.hpp GlobalVariables.hpp Operand.hpp eVerb.hpp \
+				eOperandType.hpp eVerboseLevel.hpp InputParserClass.hpp
 
 OBJ_NAME	=	$(SRC_NAME:.cpp=.o)
 
@@ -56,14 +63,14 @@ INC	= $(addprefix $(INC_PATH)/,$(INC_NAME))
 ################################################################################
 
 ifeq ($(DEBUG), dev)
-	CFLAGS = -std=c++98
+	CFLAGS = -std=c++11
 endif
 ifeq ($(DEBUG), info)
 	CFLAGS += -g
 endif
 
 ifeq ($(DEBUG), dev)
-	$(SPY)echo "================ Sans -W x3 + -std=c++98 ! ================"
+	$(SPY)echo "================ Sans -W x3 + -std=c++11 ! ================"
 else ifeq ($(ALLOC), info)
 	$(SPY)echo "=========== Debug avec -g ! =========="
 endif
@@ -88,7 +95,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.cpp $(INC)
 	$(SPY)$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@ 
 
 $(NAME): $(OBJ_PATH) $(OBJ)
-	$(SPY)$(CC) -lncurses -o $(NAME) $(OBJ)
+	$(SPY)$(CC) -o $(NAME) $(OBJ)
 
 
 clean:

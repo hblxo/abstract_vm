@@ -1,30 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   eVerb.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/19 14:58:48 by hbouchet          #+#    #+#             */
-/*   Updated: 2019/02/23 14:46:01 by hbouchet         ###   ########.fr       */
+/*   Created: 2019/10/14 15:03:29 by hbouchet          #+#    #+#             */
+/*   Updated: 2019/10/14 15:03:29 by hbouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include "AnalyzerClass.hpp"
+#ifndef AVM_EVERB_HPP
+#define AVM_EVERB_HPP
 
-int     main(int argc, char **argv)
-{
-    try {
-		std::shared_ptr<Analyzer> an(new Analyzer(argc, argv));
-    }
-    catch (std::runtime_error& e)
-    {
-        std::cout << "Error : " << e.what() << std::endl;
-    }
-    catch (...)
-	{
-    	std::cout << "Undefined error" << std::endl;
-	}
-    return 0;
-}
+enum verbs {
+	POP,
+	DUMP,
+	ADD,
+	SUB,
+	MUL,
+	DIV,
+	MOD,
+	PRINT,
+	MAX,
+	MIN,
+	POW,
+	SIN,
+	COS,
+	TAN,
+	SQRT,
+	AND,
+	XOR,
+	OR,
+	EXIT,
+	COMMENT,
+	PUSH,
+	ASSERT,
+	ERROR,
+};
+
+#endif //AVM_EVERB_HPP

@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   GlobalVariables.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/19 14:58:48 by hbouchet          #+#    #+#             */
-/*   Updated: 2019/02/23 14:46:01 by hbouchet         ###   ########.fr       */
+/*   Created: 2019/10/21 18:13:01 by hbouchet          #+#    #+#             */
+/*   Updated: 2019/10/21 18:13:01 by hbouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include "AnalyzerClass.hpp"
+#ifndef AVM_GLOBALVARIABLES_HPP
+#define AVM_GLOBALVARIABLES_HPP
 
-int     main(int argc, char **argv)
-{
-    try {
-		std::shared_ptr<Analyzer> an(new Analyzer(argc, argv));
-    }
-    catch (std::runtime_error& e)
-    {
-        std::cout << "Error : " << e.what() << std::endl;
-    }
-    catch (...)
-	{
-    	std::cout << "Undefined error" << std::endl;
-	}
-    return 0;
-}
+# include "eVerboseLevel.hpp"
+# include "ErrorHandlerClass.hpp"
+#include "TokenizerClass.hpp"
+
+
+extern verbosity				global_verbosity;
+extern bool 					global_diag;
+extern bool						global_hasError;
+extern ErrorHandler				*global_errorHandler;
+extern std::list<Tokenizer *> 	*global_tokenList;
+
+#endif //AVM_GLOBALVARIABLES_HPP

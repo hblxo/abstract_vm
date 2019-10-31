@@ -1,0 +1,14 @@
+;07_assert.avm
+
+push int8(98)
+assert int8(98)
+push int16(254)
+assert int16(254)
+push int32(6532)
+assert int32(6532)
+push float(24.42)
+assert float(24.42)
+push double(424242.424242)
+assert double(424242.424242)
+
+exit

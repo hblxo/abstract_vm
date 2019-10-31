@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   eVerboseLevel.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbouchet <hbouchet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/19 14:58:48 by hbouchet          #+#    #+#             */
-/*   Updated: 2019/02/23 14:46:01 by hbouchet         ###   ########.fr       */
+/*   Created: 2019/10/20 17:43:26 by hbouchet          #+#    #+#             */
+/*   Updated: 2019/10/20 17:43:26 by hbouchet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include "AnalyzerClass.hpp"
+#ifndef AVM_EVERBOSELEVEL_HPP
+#define AVM_EVERBOSELEVEL_HPP
 
-int     main(int argc, char **argv)
-{
-    try {
-		std::shared_ptr<Analyzer> an(new Analyzer(argc, argv));
-    }
-    catch (std::runtime_error& e)
-    {
-        std::cout << "Error : " << e.what() << std::endl;
-    }
-    catch (...)
-	{
-    	std::cout << "Undefined error" << std::endl;
-	}
-    return 0;
-}
+enum verbosity {
+	L_COMMENT,
+	L_INFO,
+	L_ERROR,
+	L_OFF
+};
+
+#endif //AVM_EVERBOSELEVEL_HPP
