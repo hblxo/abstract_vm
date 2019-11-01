@@ -282,7 +282,7 @@ void Calculator::print()
 	if (a->getType() != eOperandType::Int8)
 		throw NotACharException("The Value on top isn't a char");
 	Log(L_INFO, "The value on the top of the stack type is 'int8'");
-	std::cout << static_cast<char>(std::stod(a->toString())) << std::endl;
+	std::cout << static_cast<char>(std::stod(a->toString()));// << std::endl;
 }
 
 void Calculator::max()
